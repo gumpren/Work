@@ -1,0 +1,258 @@
+pro cluster_energy_flux_density_pressure_velocity_plot
+  
+  Re=6371.0
+  reverse_gap=5.0/5.0
+  save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
+  root_dir='C:\__Data\Datasave\2001_2009_median_new_3\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_median_new_3\'
+  
+  restore,filepath('event_data'+save_str+'_list_median.sav',root_dir=root_dir)
+  factor_to_kev=1.0;1.0e6/(1000.0*11600)
+
+  bar_title1='Density (cm!u-3!n!x)'
+  bar_title2='Temperature (keV)'
+  bar_title3='Pressure (nPa)'
+  bar_title4='Velocity_x(km/s)'
+  bar_title5='H!dX!N!X (10!u16!n!xergs!u-1!n!xRe!u2!n!x)'
+  bar_title6='K!dX!N!X (10!u16!n!xergs!u-1!n!xRe!u2!n!x)'
+  
+  zrange1=[0.05,0.5];N
+  zrange2=[0.15,6.0];T
+  zrange3=[0.01,0.2];P
+  zrange4=[-60,60];V
+  zrange5=[-0.5,0.5];H
+  zrange6=[-0.03,0.03];K
+  
+  
+  bar_title=[bar_title4,bar_title6,bar_title5]
+  zrange=[[zrange4],[zrange6],[zrange5]]
+  
+  for i=0,5 do begin
+    event_n[i]=reform(event_n[i],10*30*reverse_gap^2)
+    event_t[i]=reform(event_t[i],10*30*reverse_gap^2*factor_to_kev)
+    event_p[i]=reform(event_p[i],10*30*reverse_gap^2)
+    event_vx[i]=reform(event_vx[i],10*30*reverse_gap^2)
+    event_hx[i]=reform(event_hx[i],10*30*reverse_gap^2)
+    event_kx[i]=reform(event_kx[i],10*30*reverse_gap^2)
+    event_h_k_x[i]=reform(event_h_k_x[i],10*30*reverse_gap^2)
+  endfor
+  
+  data=[[[event_vx[0]],[event_vx[1]],[event_vx[2]],[event_vx[3]],[event_vx[4]],[event_vx[5]]], $
+        [[event_kx[0]],[event_kx[1]],[event_kx[2]],[event_kx[3]],[event_kx[4]],[event_kx[5]]], $
+        [[event_hx[0]],[event_hx[1]],[event_hx[2]],[event_hx[3]],[event_hx[4]],[event_hx[5]]]] 
+  
+  title_char='V_K_H_x_median4'
+  cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
+  x=linspace(-20,-10,10*reverse_gap+1)
+  v=linspace(-15,15,30*reverse_gap+1)  ; connect to the return_vari function. follow the same start point
+  xrange=[-20,-10]
+  yrange=[15,-15]
+  
+;  title0=[['B!dz!n!x>0 10min<d!dt!n!x<30min','B!dz!n!x>0 30min<d!dt!n!x<90min','B!dz!n!x>0 d!dt!n!x>90min',$
+;           'B!dz!n!x<0 10min<d!dt!n!x<30min','B!dz!n!x<0 30min<d!dt!n!x<90min','B!dz!n!x<0 d!dt!n!x>90min'],$
+;           ['','','','','',''],['','','','','','']]
+  title0=[['B!dz!n!x>0 [10,30]','B!dz!n!x>0 [30,90]','B!dz!n!x>0 [90,]',$
+  'B!dz!n!x<0 [10,30]','B!dz!n!x<0 [30,90]','B!dz!n!x<0 [90,]'],$
+  ['','','','','',''],['','','','','','']]
+
+  ;  ;v      change : title,not change; image, change
+  ;yrange change : title, change  ;  image, change
+  idx=where(data eq 0)
+  data[idx]=!values.f_nan
+  pos=set_plot_position(3,6,left=0.01,right=0.94,xgap=0.03,ygap=0.03,low=0.01,high=0.96)
+  ;cgloadct,38;,/reverse
+  ;cgloadct,72,/reverse
+;  restore,'E:\OneDrive\IDLworks\Other\blue_white_red_256.ctl'
+;  tvlct,r,g,b
+
+
+  ;str_element,extra,'title','test',/add
+  str_element,opt_plot,'charsize',0.7,/add
+  str_element,opt_plot,'yticklen',0.05,/add
+  str_element,opt_plot,'xticks',2,/add
+  str_element,opt_plot,'xrange',xrange,/add
+  str_element,opt_plot,'yrange',yrange,/add
+
+  ;str_element,opt_bar,'position',[],/add
+  str_element,opt_bar,'no_color_scale',0,/add
+  str_element,opt_bar,'charsize',0.8,/add
+  ;str_element,opt_bar,'title',bar_title,/add
+  restore,'E:\OneDrive\IDLworks\Other\blue_white_red_256.ctl'
+  tvlct,r,g,b
+  
+  for i=0,2 do begin
+    str_element,opt_bar,'title',bar_title[i],/add
+    for j=0,5 do begin
+      ;str_element,opt_plot,'title',title0[j,i],/add
+      
+;      if i eq 0 then begin
+;        bottom=0
+;        ncolors=253
+;        cgloadct,34,ncolors=ncolors,bottom=bottom
+;      endif else begin
+;        restore,'E:\OneDrive\IDLworks\Other\blue_white_red_256.ctl'
+;        tvlct,r,g,b
+;      endelse
+      if j ne 0 then begin
+        str_element,opt_plot,'ytickformat','(a1)',/add
+        str_element,opt_plot,'ytitle',/delete
+      endif else begin
+        str_element,opt_plot,'ytickformat',/delete
+        str_element,opt_plot,'ytitle',bar_title[i],/add
+      endelse
+
+      if i ne 2 then begin
+        str_element,opt_plot,'xtickformat','(a1)',/add
+        str_element,opt_plot,'xtitle',/delete
+      endif else begin
+        str_element,opt_plot,'xtickformat',/delete
+        str_element,opt_plot,'xtitle','X(Re)',/add
+      endelse
+
+      if j eq 5 then str_element,opt_bar,'no_color_scale',0,/add else str_element,opt_bar,'no_color_scale',1,/add
+      str_element,opt_bar,'position',[pos[i,j,2]+0.02,pos[i,j,1],pos[i,j,2]+0.05,pos[i,j,3]],/add
+      d={x:x,y:reform(data[*,j,i],10*reverse_gap,30*reverse_gap),v:v}
+      color_fill,pos[i,j,*],d,xrange=xrange,yrange=yrange,zrange=zrange[*,i],top=255,bottom=0,backcolor='grey',opt_plot=opt_plot,opt_bar=opt_bar
+      labels_stamp,pos[i,j,*],title0[j,i],charsize=0.8,/left_right_center,/up_out
+    endfor                                                      ;[-0.3,0.3] thermal EFD range
+  endfor
+
+  ;labels_stamp,pos[*,*,*],'  '+['(a)','(e)','(b)','(f)','(c)','(g)','(d)','(h)'],charsize=1.5,/left_in,/up_in
+  ;labels_stamp,pos[1,*,*],'  '+['(e)','(f)','(g)','(h)'],charsize=1.5,/left_in,/up_in
+
+  cgps_close
+  
+  stop
+  
+  
+;;________________________________former_plot__________________________________________    
+;  
+;  data1=[[[event_n1],[event_n2],[event_n3]],[[event_n4],[event_n5],[event_n6]]]
+;  data2=[[[event_t1],[event_t2],[event_t3]],[[event_t4],[event_t5],[event_t6]]]
+;  data3=[[[event_p1],[event_p2],[event_p3]],[[event_p4],[event_p5],[event_p6]]]
+;  
+;  zrange1=[0.05,0.5];N
+;  zrange2=[0.15,6.0];T
+;  zrange3=[0.02,0.25];P
+;  
+;  title_char1='n'
+;  title_char2='t'
+;  title_char3='p'
+;
+;  case ee of
+;    1:begin
+;       zrange=zrange1
+;       data=data1
+;       title_char=title_char1
+;      end
+;    2:begin
+;       zrange=zrange2
+;       data=data2
+;       title_char=title_char2
+;      end
+;    3:begin
+;       zrange=zrange3
+;       data=data3
+;       title_char=title_char3
+;      end
+;  endcase
+;
+;  
+;  cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
+;  pos=set_plot_position(2,3,left=0.05,right=0.63,xgap=0.03,ygap=0.05,low=0.01,high=0.8)
+;  x=linspace(-20,-10,10*reverse_gap+1)
+;  v=linspace(-15,15,30*reverse_gap+1)
+;  xrange=[-20,-10]
+;  yrange=[15,-15]
+;
+;  
+;  bottom=0
+;  ncolors=253
+;  cgloadct,34,ncolors=ncolors,bottom=bottom
+;  ;  tvlct,r,g,b,/get
+;  ;  for ii=bottom,bottom+ncolors do begin
+;  ;    tvlct,[[r[ii]],[g[ii]],[b[ii]]],ii-bottom
+;  ;  endfor
+;
+;  ;   TVLCT,cgColor('gray',/Triple),0
+;  ;   TVLCT,cgColor('Purple',/Triple),253
+;  ;  color_table=rainbow_palette()
+;  ;  r=byte(reform(color_table[0,*]))
+;  ;  g=byte(reform(color_table[1,*]))
+;  ;  b=byte(reform(color_table[2,*]))
+;  ;
+;  ;  tvlct,r,g,b
+;  ;
+;   title0=[['B!dz!n!x>0 10min<d!dt!n!x<30min','B!dz!n!x>0 30min<d!dt!n!x<90min','B!dz!n!x>0 d!dt!n!x>90min'],$
+;           ['B!dz!n!x<0 10min<d!dt!n!x<30min','B!dz!n!x<0 30min<d!dt!n!x<90min','B!dz!n!x<0 d!dt!n!x>90min']]
+;
+;  ;  zrange1=[0.05,0.5];N
+;  ;  zrange2=[0.15,6.0];T
+;  ;  zrange3=[0.02,0.25];P
+;  ;  1/reverse_gapzrange=[[zrange1],[zrange2],[zrange3]]
+;
+;  str_element,opt_plot,'charsize',0.6,/add
+;  str_element,opt_plot,'yticklen',0.05,/add
+;  str_element,opt_plot,'XMINOR',2,/add
+;  str_element,opt_plot,'xticks',2,/add
+;  str_element,opt_plot,'xrange',xrange,/add
+;  str_element,opt_plot,'yrange',yrange,/add
+;
+;  ;str_element,opt_bar,'position',[],/add
+;  str_element,opt_bar,'no_color_scale',0,/add
+;  str_element,opt_bar,'charsize',0.7,/add
+;  str_element,opt_bar,'title',bar_title[ee-1],/add
+;  ;  str_element,opt_bar,'ylog',1,/add
+;  ;  str_element,opt_bar,'yminor',9,/add
+;
+;  ;  str_element,opt_bar,'OOB_Low',0,/add
+;  ;  str_element,opt_bar,'OOB_High',254,/add
+;
+;  ;  cgColorbar, Divisions=16, NColors=15, Bottom=1, Range=[-10, 5], $
+;  ;    Title='Zonal Winds (m/s) Cocos Island', $
+;  ;    TLocation='top', /Discrete, Format='(i0)', Position=[0.125, 0.86, 0.9, 0.90], $
+;  ;    OOB_Low='0', OOB_High='17', TCharsize=cgDefCharsize()*1.25
+;  
+;
+;  
+;  idx=where(data eq 0)
+;  data[idx]=!values.f_nan
+;
+;  
+;  for i=0,1 do begin
+;    for j=0,2 do begin
+;      ;str_element,opt_plot,'title',title0[j,i],/add
+;      if j ne 0 then begin
+;        str_element,opt_plot,'ytickformat','(a1)',/add
+;        str_element,opt_plot,'ytitle',/delete
+;      endif else begin
+;        str_element,opt_plot,'ytickformat',/delete
+;        str_element,opt_plot,'ytitle','Y(Re)',/add
+;      endelse
+;
+;      if i ne 1 then begin
+;        str_element,opt_plot,'xtickformat','(a1)',/add
+;        str_element,opt_plot,'xtitle',/delete
+;      endif else begin
+;        str_element,opt_plot,'xtickformat',/delete
+;        str_element,opt_plot,'xtitle','X(Re)',/add
+;      endelse
+;      
+;      if j eq 2 then str_element,opt_bar,'no_color_scale',0,/add else str_element,opt_bar,'no_color_scale',1,/add
+;      str_element,opt_bar,'position',[pos[i,j,2]+0.03,pos[i,j,1],pos[i,j,2]+0.05,pos[i,j,3]],/add
+;      d={x:x,y:reform(data[*,j,i],10*reverse_gap,30*reverse_gap),v:v}
+;      color_fill,pos[i,j,*],d,xrange=xrange,yrange=yrange,zrange=zrange,top=bottom+ncolors,bottom=bottom,backcolor='white',zlog=1,opt_plot=opt_plot,opt_bar=opt_bar
+;      labels_stamp,pos[i,j,*],title0[j,i],charsize=0.8,/left_right_center,/up_out
+;    endfor
+;  endfor
+;  ;labels_stamp,pos[0,*,*],title0[*,0],charsize=0.8,/left_right_center,/up_out
+;  ;labels_stamp,pos[*,*,*],'  '+['(a)','(e)','(b)','(f)','(c)','(g)','(d)','(h)'],charsize=1.5,/left_in,/up_in
+;  ;labels_stamp,pos[1,*,*],'  '+['(e)','(f)','(g)','(h)'],charsize=1.5,/left_in,/up_in
+;  
+;  
+;  cgps_close
+;  
+  
+  
+
+end
