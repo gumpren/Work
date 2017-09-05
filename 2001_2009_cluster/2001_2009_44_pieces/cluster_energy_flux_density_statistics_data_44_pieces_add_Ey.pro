@@ -2,71 +2,76 @@
     Re=6371.0
     root_dir='C:\__Data\Datasave\2001_2009_44_pieces\'
     start=systime(1)
-;;;  ________________________________part1_______________________
-;    compile_opt idl2
-;    a=findgen(42)
-;    t_beg=list(a,/ex)
-;    t_end=list(a,/ex)
-;    
-;    filename0=file_search('C:\__Data\OMNI\*.cdf')
-;      
-;    for jj=0,41 do begin
-;      if (jj le 20) then begin
-;        maxvalue=1000
-;        minvalue=0
-;      endif else begin
-;        maxvalue=0
-;        minvalue=-1000
-;      endelse
-;;      if (jj eq 0) or (jj eq 15)  then duration=[5*60.,15*60.]
-;;      if (jj eq 14) or (jj eq 29)  then duration=[(10*14+10)*60.,666666.66*60.]
-;;      if (jj ge 1) and (jj le 13)  then duration=[10*jj*60.,(10*jj+20)*60.]
-;;      if (jj ge 16) and (jj le 28)  then duration=[10*(jj-15)*60.,(10*(jj-15)+20)*60.]
-;     ;
-;     
-;      dura=60*[[05,10],[10,15],[15,20],[20,25],[25,30],[30,35],[35,40],[40,45],[45,50],[50,55],[55,60], $
-;              [60,70],[70,80],[80,90],[90,100],[100,110],[110,120],[120,150],[150,180],[180,210],[210,66666666.66],$
-;              [05,10],[10,15],[15,20],[20,25],[25,30],[30,35],[35,40],[40,45],[45,50],[50,55],[55,60], $
-;              [60,70],[70,80],[80,90],[90,100],[100,110],[110,120],[120,150],[150,180],[180,210],[210,66666666.66]]
-;     
-;     ;error gap
-;     if (jj le 10) then begin
-;        margin=1*60
-;     endif else begin
-;        margin=2*60
-;     endelse
-;
-;      for ii=0,106 do begin             ;divided by year
-;       cdf2tplot,filename0[ii],varformat='BZ_GSM'
-;       get_data,'BZ_GSM',time0,BZ_GSM0
-;       append_array,time,time0
-;       append_array,BZ_GSM,BZ_GSM0
-;      
-;       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
-;        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
-;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=margin,duration=dura[*,jj],nint=nint,tbeg=tbeg0,tend=tend0
-;        append_Array,tbeg1,tbeg0
-;        append_Array,tend1,tend0
-;        undefine,time,BZ_GSM
-;       endif
-;      endfor
-;      t_beg[jj]=tbeg1
-;      t_end[jj]=tend1
-;      undefine,tbeg1,tend1
-;    endfor
-;
-;   
-;
-;  save,t_beg,t_end,$
-;    filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_42_pieces.sav'
-;  print,(systime(1)-start)/60.
-;   stop
-;  
-;  
+;  ________________________________part1_______________________
+    compile_opt idl2
+    a=findgen(42)
+    t_beg=list(a,/ex)
+    t_end=list(a,/ex)
+    
+    filename0=file_search('C:\__Data\OMNI\*.cdf')
+      
+    for jj=0,41 do begin
+      if (jj le 20) then begin
+        maxvalue=1000
+        minvalue=0
+      endif else begin
+        maxvalue=0
+        minvalue=-1000
+      endelse
+;      if (jj eq 0) or (jj eq 15)  then duration=[5*60.,15*60.]
+;      if (jj eq 14) or (jj eq 29)  then duration=[(10*14+10)*60.,666666.66*60.]
+;      if (jj ge 1) and (jj le 13)  then duration=[10*jj*60.,(10*jj+20)*60.]
+;      if (jj ge 16) and (jj le 28)  then duration=[10*(jj-15)*60.,(10*(jj-15)+20)*60.]
+     ;
+     
+     dura=60*[[05,10],[10,15],[15,20],[20,25],[25,30],[30,35],[35,40],[40,45],[45,50],[50,55],[55,60], $
+              [60,70],[70,80],[80,90],[90,100],[100,110],[110,120],[120,150],[150,180],[180,210],[210,66666666.66],$
+              [05,10],[10,15],[15,20],[20,25],[25,30],[30,35],[35,40],[40,45],[45,50],[50,55],[55,60], $
+              [60,70],[70,80],[80,90],[90,100],[100,110],[110,120],[120,150],[150,180],[180,210],[210,66666666.66]]
+     
+     ;error gap
+     if (jj le 10 or (jj ge 21 and jj le 31)) then begin
+        marg=1*60
+     endif else begin
+        marg=2*60
+     endelse
+
+      for ii=0,106 do begin             ;divided by year
+       cdf2tplot,filename0[ii],varformat='BZ_GSM'
+       get_data,'BZ_GSM',time0,BZ_GSM0
+       append_array,time,time0
+       append_array,BZ_GSM,BZ_GSM0
+      
+       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
+        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
+        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=marg,duration=dura[*,jj],nint=nint,tbeg=tbeg0,tend=tend0
+        append_Array,tbeg1,tbeg0
+        append_Array,tend1,tend0
+        undefine,time,BZ_GSM
+       endif
+      endfor
+      t_beg[jj]=tbeg1
+      t_end[jj]=tend1
+      undefine,tbeg1,tend1
+    endfor
+
+   
+
+  save,t_beg,t_end,$
+    filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_42_pieces_1.sav'
+  print,(systime(1)-start)/60.
+   stop
+  
+  
   ;part_1_later
-  restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_42_pieces.sav'
+  restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_42_pieces_1.sav'
   t_b=t_beg
   t_e=t_end
+  
+  aa=fltarr(42)
+  for i=0,41 do begin
+    aa[i]=N_ELEMENTS(t_end[i])
+  endfor
   
   time_array=[10,15,20,25,30,35,40,45,50,55,60,70,80,90,100,110,120,150,180,210]*60.
   for i=20,1,-1 do begin
