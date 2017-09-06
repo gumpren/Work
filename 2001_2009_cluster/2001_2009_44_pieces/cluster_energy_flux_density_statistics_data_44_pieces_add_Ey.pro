@@ -2,125 +2,125 @@
     Re=6371.0
     root_dir='C:\__Data\Datasave\2001_2009_44_pieces\'
     start=systime(1)
-;  ________________________________part1_______________________
-    compile_opt idl2
-    a=findgen(42)
-    t_beg=list(a,/ex)
-    t_end=list(a,/ex)
-    
-    filename0=file_search('C:\__Data\OMNI\*.cdf')
-      
-    for jj=0,41 do begin
-      if (jj le 20) then begin
-        maxvalue=1000
-        minvalue=0
-      endif else begin
-        maxvalue=0
-        minvalue=-1000
-      endelse
-;      if (jj eq 0) or (jj eq 15)  then duration=[5*60.,15*60.]
-;      if (jj eq 14) or (jj eq 29)  then duration=[(10*14+10)*60.,666666.66*60.]
-;      if (jj ge 1) and (jj le 13)  then duration=[10*jj*60.,(10*jj+20)*60.]
-;      if (jj ge 16) and (jj le 28)  then duration=[10*(jj-15)*60.,(10*(jj-15)+20)*60.]
-     ;
-     
-     dura=60*[[05,10],[10,15],[15,20],[20,25],[25,30],[30,35],[35,40],[40,45],[45,50],[50,55],[55,60], $
-              [60,70],[70,80],[80,90],[90,100],[100,110],[110,120],[120,150],[150,180],[180,210],[210,66666666.66],$
-              [05,10],[10,15],[15,20],[20,25],[25,30],[30,35],[35,40],[40,45],[45,50],[50,55],[55,60], $
-              [60,70],[70,80],[80,90],[90,100],[100,110],[110,120],[120,150],[150,180],[180,210],[210,66666666.66]]
-     
-     ;error gap
-     if (jj le 10 or (jj ge 21 and jj le 31)) then begin
-        marg=1*60
-     endif else begin
-        marg=2*60
-     endelse
-
-      for ii=0,106 do begin             ;divided by year
-       cdf2tplot,filename0[ii],varformat='BZ_GSM'
-       get_data,'BZ_GSM',time0,BZ_GSM0
-       append_array,time,time0
-       append_array,BZ_GSM,BZ_GSM0
-      
-       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
-        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
-        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=marg,duration=dura[*,jj],nint=nint,tbeg=tbeg0,tend=tend0
-        append_Array,tbeg1,tbeg0
-        append_Array,tend1,tend0
-        undefine,time,BZ_GSM
-       endif
-      endfor
-      t_beg[jj]=tbeg1
-      t_end[jj]=tend1
-      undefine,tbeg1,tend1
-    endfor
-
-   
-
-  save,t_beg,t_end,$
-    filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_42_pieces_1.sav'
-  print,(systime(1)-start)/60.
-   stop
-  
-  
-  ;part_1_later
-  restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_42_pieces_1.sav'
-  t_b=t_beg
-  t_e=t_end
-  
-  aa=fltarr(42)
-  for i=0,41 do begin
-    aa[i]=N_ELEMENTS(t_end[i])
-  endfor
-  
-  time_array=[10,15,20,25,30,35,40,45,50,55,60,70,80,90,100,110,120,150,180,210]*60.
-  for i=20,1,-1 do begin
-    tb1=t_b[i]
-    te1=t_e[i]
-    tb2=t_b[i-1]
-    te2=t_e[i-1]
-    append_array,tb2,tb1
-    append_array,te2,tb1+time_array[i-1]
-    
-    t_beg[i-1]=tb2
-    t_end[i-1]=te2
-    
-    tb11=t_b[i+21]
-    te11=t_e[i+21]
-    tb22=t_b[i+20]
-    te22=t_e[i+20]
-    append_array,tb22,tb11
-    append_array,te22,tb11+time_array[i-1]
-
-    t_beg[i+20]=tb22
-    t_end[i+20]=te22
-    
-
-    print,i 
-  endfor
-    t_beg.add,t_beg[21],21
-    t_end.add,t_beg[21]+5*60.0,21
-    
-    t_beg.add,t_beg[0],0
-    t_end.add,t_beg[0]+5*60.0,0
-    
-    
-    
-  bb=fltarr(44)
-  for i=0,43 do begin
-    bb[i]=N_ELEMENTS(t_end[i])
-  endfor  
-   
-  save,t_beg,t_end,$
-        filename=root_dir+'time_interval_divided_by_Bz_yearly_add_former_time_44_pieces.sav'
-  
-
-  stop
-
+;;  ________________________________part1_______________________
+;    compile_opt idl2
+;    a=findgen(42)
+;    t_beg=list(a,/ex)
+;    t_end=list(a,/ex)
+;    
+;    filename0=file_search('C:\__Data\OMNI\*.cdf')
+;      
+;    for jj=0,41 do begin
+;      if (jj le 20) then begin
+;        maxvalue=1000
+;        minvalue=0
+;      endif else begin
+;        maxvalue=0
+;        minvalue=-1000
+;      endelse
+;;      if (jj eq 0) or (jj eq 15)  then duration=[5*60.,15*60.]
+;;      if (jj eq 14) or (jj eq 29)  then duration=[(10*14+10)*60.,666666.66*60.]
+;;      if (jj ge 1) and (jj le 13)  then duration=[10*jj*60.,(10*jj+20)*60.]
+;;      if (jj ge 16) and (jj le 28)  then duration=[10*(jj-15)*60.,(10*(jj-15)+20)*60.]
+;     ;
+;     
+;     dura=60*[[05,10],[10,15],[15,20],[20,25],[25,30],[30,35],[35,40],[40,45],[45,50],[50,55],[55,60], $
+;              [60,70],[70,80],[80,90],[90,100],[100,110],[110,120],[120,150],[150,180],[180,210],[210,66666666.66],$
+;              [05,10],[10,15],[15,20],[20,25],[25,30],[30,35],[35,40],[40,45],[45,50],[50,55],[55,60], $
+;              [60,70],[70,80],[80,90],[90,100],[100,110],[110,120],[120,150],[150,180],[180,210],[210,66666666.66]]
+;     
+;     ;error gap
+;     if (jj le 10 or (jj ge 21 and jj le 31)) then begin
+;        marg=1*60
+;     endif else begin
+;        marg=2*60
+;     endelse
+;
+;      for ii=0,106 do begin             ;divided by year
+;       cdf2tplot,filename0[ii],varformat='BZ_GSM'
+;       get_data,'BZ_GSM',time0,BZ_GSM0
+;       append_array,time,time0
+;       append_array,BZ_GSM,BZ_GSM0
+;      
+;       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
+;        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
+;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=marg,duration=dura[*,jj],nint=nint,tbeg=tbeg0,tend=tend0
+;        append_Array,tbeg1,tbeg0
+;        append_Array,tend1,tend0
+;        undefine,time,BZ_GSM
+;       endif
+;      endfor
+;      t_beg[jj]=tbeg1
+;      t_end[jj]=tend1
+;      undefine,tbeg1,tend1
+;    endfor
+;
+;   
+;
+;  save,t_beg,t_end,$
+;    filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_42_pieces_1.sav'
+;  print,(systime(1)-start)/60.
+;   stop
+;  
+;  
+;  ;part_1_later
+;  restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_42_pieces_1.sav'
+;  t_b=t_beg
+;  t_e=t_end
+;  
+;  aa=fltarr(42)
+;  for i=0,41 do begin
+;    aa[i]=N_ELEMENTS(t_end[i])
+;  endfor
+;  
+;  time_array=[10,15,20,25,30,35,40,45,50,55,60,70,80,90,100,110,120,150,180,210]*60.
+;  for i=20,1,-1 do begin
+;    tb1=t_b[i]
+;    te1=t_e[i]
+;    tb2=t_b[i-1]
+;    te2=t_e[i-1]
+;    append_array,tb2,tb1
+;    append_array,te2,tb1+time_array[i-1]
+;    
+;    t_beg[i-1]=tb2
+;    t_end[i-1]=te2
+;    
+;    tb11=t_b[i+21]
+;    te11=t_e[i+21]
+;    tb22=t_b[i+20]
+;    te22=t_e[i+20]
+;    append_array,tb22,tb11
+;    append_array,te22,tb11+time_array[i-1]
+;
+;    t_beg[i+20]=tb22
+;    t_end[i+20]=te22
+;    
+;
+;    print,i 
+;  endfor
+;    t_beg.add,t_beg[21],21
+;    t_end.add,t_beg[21]+5*60.0,21
+;    
+;    t_beg.add,t_beg[0],0
+;    t_end.add,t_beg[0]+5*60.0,0
+;    
+;    
+;    
+;  bb=fltarr(44)
+;  for i=0,43 do begin
+;    bb[i]=N_ELEMENTS(t_end[i])
+;  endfor  
+;   
+;  save,t_beg,t_end,$
+;        filename=root_dir+'time_interval_divided_by_Bz_yearly_add_former_time_44_pieces.sav'
+;  
+;
+;  stop
+;
 
 
  ;  ________________________________part2_______________________
-     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_time_32_pieces.sav'
+     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_time_44_pieces.sav'
 
      
      for kk=0,43 do begin
@@ -130,7 +130,7 @@
      names=['_BZgt0_000_05','_BZgt0_005_10','_BZgt0_010_15','_BZgt0_015_20','_BZgt0_020_25','_BZgt0_025_30','_BZgt0_030_35',$
             '_BZgt0_035_40','_BZgt0_040_45','_BZgt0_045_50','_BZgt0_050_55','_BZgt0_055_60','_BZgt0_060_70','_BZgt0_070_80',$
             '_BZgt0_080_90','_BZgt0_090_100','_BZgt0_100_110','_BZgt0_110_120','_BZgt0_120_150','_BZgt0_150_180','_BZgt0_180_210','_BZgt0_gt_210', $
-           '_BZle0_000_05','_BZle0_005_10','_BZle0_010_15','_BZle0_015_20','_BZle0_020_25','_BZle0_025_30','_BZle0_030_35',$
+            '_BZle0_000_05','_BZle0_005_10','_BZle0_010_15','_BZle0_015_20','_BZle0_020_25','_BZle0_025_30','_BZle0_030_35',$
             '_BZle0_035_40','_BZle0_040_45','_BZle0_045_50','_BZle0_050_55','_BZle0_055_60','_BZle0_060_70','_BZle0_070_80',$
             '_BZle0_080_90','_BZle0_090_100','_BZle0_100_110','_BZle0_110_120','_BZle0_120_150','_BZle0_150_180','_BZle0_180_210','_BZle0_gt_210']
   
