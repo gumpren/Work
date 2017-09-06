@@ -3,51 +3,51 @@
     root_dir='C:\__Data\Datasave\2001_2009_median_30_pieces\'
     start=systime(1)
 ;;;;  ________________________________part1_______________________
-;;    compile_opt idl2
-;;    a=findgen(30)
-;;    t_beg=list(a,/ex)
-;;    t_end=list(a,/ex)
-;;    
-;;    filename0=file_search('C:\__Data\OMNI\*.cdf')
-;;      
-;;    for jj=0,29 do begin
-;;      if (jj le 14) then begin
-;;        maxvalue=1000
-;;        minvalue=0
-;;      endif else begin
-;;        maxvalue=0
-;;        minvalue=-1000
-;;      endelse
-;;;      if (jj eq 0) or (jj eq 15)  then duration=[5*60.,15*60.]
-;;;      if (jj eq 14) or (jj eq 29)  then duration=[(10*14+10)*60.,666666.66*60.]
-;;;      if (jj ge 1) and (jj le 13)  then duration=[10*jj*60.,(10*jj+20)*60.]
-;;;      if (jj ge 16) and (jj le 28)  then duration=[10*(jj-15)*60.,(10*(jj-15)+20)*60.]
-;;     ;
-;;     
-;;     if (jj eq 14) or (jj eq 29)  then duration=[(10*14+5)*60.,666666.66*60.]
-;;     if (jj ge 0) and (jj le 13)  then duration=[(10*jj+5)*60.,(10*jj+15)*60.]
-;;     if (jj ge 15) and (jj le 28)  then duration=[(10*(jj-15)+5)*60.,(10*(jj-15)+15)*60.]  
-;;     
-;;     
-;;      for ii=0,106 do begin             ;divided by year
-;;       cdf2tplot,filename0[ii],varformat='BZ_GSM'
-;;       get_data,'BZ_GSM',time0,BZ_GSM0
-;;       append_array,time,time0
-;;       append_array,BZ_GSM,BZ_GSM0
-;;      
-;;       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
-;;        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
-;;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=2*60,duration=duration,nint=nint,tbeg=tbeg0,tend=tend0
-;;        append_Array,tbeg1,tbeg0
-;;        append_Array,tend1,tend0
-;;        undefine,time,BZ_GSM
-;;       endif
-;;      endfor
-;;      t_beg[jj]=tbeg1
-;;      t_end[jj]=tend1
-;;      undefine,tbeg1,tend1
-;;    endfor
-;;    
+;    compile_opt idl2
+;    a=findgen(30)
+;    t_beg=list(a,/ex)
+;    t_end=list(a,/ex)
+;    
+;    filename0=file_search('C:\__Data\OMNI\*.cdf')
+;      
+;    for jj=0,29 do begin
+;      if (jj le 14) then begin
+;        maxvalue=1000
+;        minvalue=0
+;      endif else begin
+;        maxvalue=0
+;        minvalue=-1000
+;      endelse
+;;      if (jj eq 0) or (jj eq 15)  then duration=[5*60.,15*60.]
+;;      if (jj eq 14) or (jj eq 29)  then duration=[(10*14+10)*60.,666666.66*60.]
+;;      if (jj ge 1) and (jj le 13)  then duration=[10*jj*60.,(10*jj+20)*60.]
+;;      if (jj ge 16) and (jj le 28)  then duration=[10*(jj-15)*60.,(10*(jj-15)+20)*60.]
+;     ;
+;    
+;     if (jj eq 14) or (jj eq 29)  then duration=[(10*14+5)*60.,666666.66*60.]
+;     if (jj ge 0) and (jj le 13)  then duration=[(10*jj+5)*60.,(10*jj+15)*60.]
+;     if (jj ge 15) and (jj le 28)  then duration=[(10*(jj-15)+5)*60.,(10*(jj-15)+15)*60.]  
+;     
+;     
+;      for ii=0,106 do begin             ;divided by year
+;       cdf2tplot,filename0[ii],varformat='BZ_GSM'
+;       get_data,'BZ_GSM',time0,BZ_GSM0
+;       append_array,time,time0
+;       append_array,BZ_GSM,BZ_GSM0
+;      
+;       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
+;        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
+;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=2*60,duration=duration,nint=nint,tbeg=tbeg0,tend=tend0
+;        append_Array,tbeg1,tbeg0
+;        append_Array,tend1,tend0
+;        undefine,time,BZ_GSM
+;       endif
+;      endfor
+;      t_beg[jj]=tbeg1
+;      t_end[jj]=tend1
+;      undefine,tbeg1,tend1
+;    endfor
+;    
 ;;    print,'a'
 ;;   
 ;;
@@ -114,168 +114,168 @@
 ;  
 ;
 ;  stop
+;
 
 
-
- ;  ________________________________part2_______________________
-     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_time_32_pieces.sav'
-
-     
-     for kk=28,31 do begin
-     tbeg=t_beg[kk]
-     tend=t_end[kk]
-    
-     names=['_BZgt0_000_05','_BZgt0_005_15','_BZgt0_015_25','_BZgt0_025_35','_BZgt0_035_45','_BZgt0_045_55','_BZgt0_055_65',$
-            '_BZgt0_065_75','_BZgt0_075_85','_BZgt0_085_95','_BZgt0_095_105','_BZgt0_105_115','_BZgt0_115_125',$
-            '_BZgt0_125_135','_BZgt0_135_145','_BZgt0_gt_145', $
-            '_BZle0_000_05','_BZle0_005_15','_BZle0_015_25','_BZle0_025_35','_BZle0_035_45','_BZle0_045_55','_BZle0_055_65',$
-            '_BZle0_065_75','_BZle0_075_85','_BZle0_085_95','_BZle0_095_105','_BZle0_105_115','_BZle0_115_125',$
-            '_BZle0_125_135','_BZle0_135_145','_BZle0_gt_145']
-  
-;     names=['_BZgt0_5_15','_BZgt0_10_30','_BZgt0_20_40','_BZgt0_30_50','_BZgt0_40_60','_BZgt0_50_70',$
-;            '_BZgt0_60_80','_BZgt0_70_90','_BZgt0_80_100','_BZgt0_90_110','_BZgt0_100_120','_BZgt0_110_130',$
-;            '_BZgt0_120_140','_BZgt0_130_150','_BZgt0_gt_150', $
-;            '_BZle0_5_15','_BZle0_10_30','_BZle0_20_40','_BZle0_30_50','_BZle0_40_60','_BZle0_50_70',$
-;            '_BZle0_60_80','_BZle0_70_90','_BZle0_80_100','_BZle0_90_110','_BZle0_100_120','_BZle0_110_130',$
-;            '_BZle0_120_140','_BZle0_130_150','_BZle0_gt_150']
-      for ii=0,8 do begin   ;0-8
-        year='200'+strcompress(ii+1,/remove)
-  
-        filename1=file_search('C:\__Data\Cluster\CP_FGM_SPIN\*__'+year+'*.cdf')
-        cdf2tplot,filename1,varformat=['B_mag__C3_CP_FGM_SPIN','B_vec_xyz_gse__C3_CP_FGM_SPIN','sc_pos_xyz_gse__C3_CP_FGM_SPIN']
-        ; newname=['B_mag','B_gse','pos_gse']
-  
-  
-        filename2=file_search('C:\__Data\Cluster\CIS\CSA_Download_20161216_0640\C3_CP_CIS-HIA_ONBOARD_MOMENTS\*__'+year+'*.cdf')
-        cdf2tplot,filename2,varformat=['density__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS',$
-          'temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS','pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS']
-        
-        filename3=file_search('C:\__Data\Cluster\EFW\C3_CP_EFW_L3_E3D_GSE\*__'+year+'*.cdf')
-        cdf2tplot,filename3,varformat=['E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE']
-        
-        factor_to_kev=1.0e6/(1000.0*11600)
-        calc,'"temperature"="temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS"*factor_to_kev'
-        calc,'"pos_gse"="sc_pos_xyz_gse__C3_CP_FGM_SPIN"/Re'
-        calc,'"B_total"="B_mag__C3_CP_FGM_SPIN"/1.0'
-        
-        cotrans,'B_vec_xyz_gse__C3_CP_FGM_SPIN','B_gsm',/gse2gsm
-        cotrans,'pos_gse','pos_gsm',/gse2gsm
-        cotrans,'velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gsm',/gse2gsm
-        cotrans,'E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE','E_gsm',/gse2gsm
-        
-        calc,'"density"="density__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
-        calc,'"pressure"="pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
-  
-        ;clean_spikes,'pressure',nsmooth=10
-  
-        tinterpol_mxn,'B_gsm','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'pos_gsm','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'B_total','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
-  
-        beta_fac=1.0e-9/(1.0e-9)^2
-        miu0=!pi*4e-7
-        calc,'"Beta"=2*(beta_fac)*(miu0)*"pressure"/"B_total_interp"^2'
-        tclip,'Beta',0.3,10000
-        tdeflag,'Beta_clip','remove_nan'                 ; beta identified
-  
-        tinterpol_mxn,'pos_gsm','Beta_clip_deflag',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        get_data,'pos_gsm_interp',time,pos_gsm_interp
-  
-        index_ps=identify_plasma_sheet(pos_gsm_interp[*,0],pos_gsm_interp[*,1],pos_gsm_interp[*,2])
-        time1=time[index_ps]
-        pos_gsm_interp=pos_gsm_interp[index_ps,*]          ;  plasma sheet identified
-  
-        store_Data,'pos_gsm_interp',data={x:time1,y:pos_gsm_interp}
-  
-        tinterpol_mxn,'velocity_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'B_total','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'B_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'density','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'temperature','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'pressure','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'Beta_clip_deflag','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-        tinterpol_mxn,'E_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-  
-
-        index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
-  
-        for jj=0,count-1 do begin
-          tic
-         
-          B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-          B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-          pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-                                     ;attention!!!selcet bbf  change this tplot variable  
-          if is_array(B_gsm_temp) then begin
-            append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
-            append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
-            append_Array,B_gsm,TEMPORARY(B_gsm_temp)
-            append_Array,B_total,TEMPORARY(B_total_temp)
-          endif
-  
-  
-          density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-          velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-          temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-          pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-          Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-          
-          if is_array(density_temp) then begin
-            append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
-            append_Array,density,TEMPORARY(density_temp)
-            append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
-            append_Array,temperature,TEMPORARY(temperature_temp)
-            append_Array,pressure,TEMPORARY(pressure_temp)
-            append_Array,Beta,TEMPORARY(Beta_temp)
-          endif
-          
-          E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
-          if is_array(E_gsm_temp) then begin
-            append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
-            append_Array,E_gsm,TEMPORARY(E_gsm_temp)
-          endif
-          
-          print,jj
-          toc
-  
-        endfor
-        print,'break1'
-        append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
-        append_Array,pos_gsm1,TEMPORARY(pos_gsm)
-        append_Array,B_gsm1,TEMPORARY(B_gsm)
-        append_Array,B_total1,TEMPORARY(B_total)
-  
-        append_Array,t_c3cis1,TEMPORARY(t_c3cis)
-        append_Array,density1,TEMPORARY(density)
-        append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
-        append_Array,temperature1,TEMPORARY(temperature)
-        append_Array,pressure1,TEMPORARY(pressure)
-        append_Array,Beta1,TEMPORARY(Beta)
-        
-        append_Array,t_c3efw1,TEMPORARY(t_c3efw)
-        append_Array,E_gsm1,TEMPORARY(E_gsm)
-        
-        del_data,'*'
-        print,ii
-  
-      endfor
-  
-  
-      save,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-            filename=root_dir+'c3_fgmcisefw_data_selected_'+names[kk]+'.sav'
-
-  
-      undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
-      undefine,E_gsm1;,tt_bbf_save
-      
-    endfor
-    
-    save_time_c3fgmcis=(systime(1)-start)/3600.0
-    print,'save_time ',save_time_c3fgmcis,' hour'
-  
-   stop
-
-   
+; ;  ________________________________part2_______________________
+;     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_time_32_pieces.sav'
+;
+;     
+;     for kk=28,31 do begin
+;     tbeg=t_beg[kk]
+;     tend=t_end[kk]
+;    
+;     names=['_BZgt0_000_05','_BZgt0_005_15','_BZgt0_015_25','_BZgt0_025_35','_BZgt0_035_45','_BZgt0_045_55','_BZgt0_055_65',$
+;            '_BZgt0_065_75','_BZgt0_075_85','_BZgt0_085_95','_BZgt0_095_105','_BZgt0_105_115','_BZgt0_115_125',$
+;            '_BZgt0_125_135','_BZgt0_135_145','_BZgt0_gt_145', $
+;            '_BZle0_000_05','_BZle0_005_15','_BZle0_015_25','_BZle0_025_35','_BZle0_035_45','_BZle0_045_55','_BZle0_055_65',$
+;            '_BZle0_065_75','_BZle0_075_85','_BZle0_085_95','_BZle0_095_105','_BZle0_105_115','_BZle0_115_125',$
+;            '_BZle0_125_135','_BZle0_135_145','_BZle0_gt_145']
+;  
+;;     names=['_BZgt0_5_15','_BZgt0_10_30','_BZgt0_20_40','_BZgt0_30_50','_BZgt0_40_60','_BZgt0_50_70',$
+;;            '_BZgt0_60_80','_BZgt0_70_90','_BZgt0_80_100','_BZgt0_90_110','_BZgt0_100_120','_BZgt0_110_130',$
+;;            '_BZgt0_120_140','_BZgt0_130_150','_BZgt0_gt_150', $
+;;            '_BZle0_5_15','_BZle0_10_30','_BZle0_20_40','_BZle0_30_50','_BZle0_40_60','_BZle0_50_70',$
+;;            '_BZle0_60_80','_BZle0_70_90','_BZle0_80_100','_BZle0_90_110','_BZle0_100_120','_BZle0_110_130',$
+;;            '_BZle0_120_140','_BZle0_130_150','_BZle0_gt_150']
+;      for ii=0,8 do begin   ;0-8
+;        year='200'+strcompress(ii+1,/remove)
+;  
+;        filename1=file_search('C:\__Data\Cluster\CP_FGM_SPIN\*__'+year+'*.cdf')
+;        cdf2tplot,filename1,varformat=['B_mag__C3_CP_FGM_SPIN','B_vec_xyz_gse__C3_CP_FGM_SPIN','sc_pos_xyz_gse__C3_CP_FGM_SPIN']
+;        ; newname=['B_mag','B_gse','pos_gse']
+;  
+;  
+;        filename2=file_search('C:\__Data\Cluster\CIS\CSA_Download_20161216_0640\C3_CP_CIS-HIA_ONBOARD_MOMENTS\*__'+year+'*.cdf')
+;        cdf2tplot,filename2,varformat=['density__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS',$
+;          'temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS','pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS']
+;        
+;        filename3=file_search('C:\__Data\Cluster\EFW\C3_CP_EFW_L3_E3D_GSE\*__'+year+'*.cdf')
+;        cdf2tplot,filename3,varformat=['E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE']
+;        
+;        factor_to_kev=1.0e6/(1000.0*11600)
+;        calc,'"temperature"="temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS"*factor_to_kev'
+;        calc,'"pos_gse"="sc_pos_xyz_gse__C3_CP_FGM_SPIN"/Re'
+;        calc,'"B_total"="B_mag__C3_CP_FGM_SPIN"/1.0'
+;        
+;        cotrans,'B_vec_xyz_gse__C3_CP_FGM_SPIN','B_gsm',/gse2gsm
+;        cotrans,'pos_gse','pos_gsm',/gse2gsm
+;        cotrans,'velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gsm',/gse2gsm
+;        cotrans,'E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE','E_gsm',/gse2gsm
+;        
+;        calc,'"density"="density__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
+;        calc,'"pressure"="pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
+;  
+;        ;clean_spikes,'pressure',nsmooth=10
+;  
+;        tinterpol_mxn,'B_gsm','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'pos_gsm','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'B_total','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;  
+;        beta_fac=1.0e-9/(1.0e-9)^2
+;        miu0=!pi*4e-7
+;        calc,'"Beta"=2*(beta_fac)*(miu0)*"pressure"/"B_total_interp"^2'
+;        tclip,'Beta',0.3,10000
+;        tdeflag,'Beta_clip','remove_nan'                 ; beta identified
+;  
+;        tinterpol_mxn,'pos_gsm','Beta_clip_deflag',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        get_data,'pos_gsm_interp',time,pos_gsm_interp
+;  
+;        index_ps=identify_plasma_sheet(pos_gsm_interp[*,0],pos_gsm_interp[*,1],pos_gsm_interp[*,2])
+;        time1=time[index_ps]
+;        pos_gsm_interp=pos_gsm_interp[index_ps,*]          ;  plasma sheet identified
+;  
+;        store_Data,'pos_gsm_interp',data={x:time1,y:pos_gsm_interp}
+;  
+;        tinterpol_mxn,'velocity_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'B_total','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'B_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'density','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'temperature','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'pressure','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'Beta_clip_deflag','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;        tinterpol_mxn,'E_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+;  
+;
+;        index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
+;  
+;        for jj=0,count-1 do begin
+;          tic
+;         
+;          B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;          B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;          pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;                                     ;attention!!!selcet bbf  change this tplot variable  
+;          if is_array(B_gsm_temp) then begin
+;            append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
+;            append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
+;            append_Array,B_gsm,TEMPORARY(B_gsm_temp)
+;            append_Array,B_total,TEMPORARY(B_total_temp)
+;          endif
+;  
+;  
+;          density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;          velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;          temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;          pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;          Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;          
+;          if is_array(density_temp) then begin
+;            append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
+;            append_Array,density,TEMPORARY(density_temp)
+;            append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
+;            append_Array,temperature,TEMPORARY(temperature_temp)
+;            append_Array,pressure,TEMPORARY(pressure_temp)
+;            append_Array,Beta,TEMPORARY(Beta_temp)
+;          endif
+;          
+;          E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
+;          if is_array(E_gsm_temp) then begin
+;            append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
+;            append_Array,E_gsm,TEMPORARY(E_gsm_temp)
+;          endif
+;          
+;          print,jj
+;          toc
+;  
+;        endfor
+;        print,'break1'
+;        append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
+;        append_Array,pos_gsm1,TEMPORARY(pos_gsm)
+;        append_Array,B_gsm1,TEMPORARY(B_gsm)
+;        append_Array,B_total1,TEMPORARY(B_total)
+;  
+;        append_Array,t_c3cis1,TEMPORARY(t_c3cis)
+;        append_Array,density1,TEMPORARY(density)
+;        append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
+;        append_Array,temperature1,TEMPORARY(temperature)
+;        append_Array,pressure1,TEMPORARY(pressure)
+;        append_Array,Beta1,TEMPORARY(Beta)
+;        
+;        append_Array,t_c3efw1,TEMPORARY(t_c3efw)
+;        append_Array,E_gsm1,TEMPORARY(E_gsm)
+;        
+;        del_data,'*'
+;        print,ii
+;  
+;      endfor
+;  
+;  
+;      save,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
+;            filename=root_dir+'c3_fgmcisefw_data_selected_'+names[kk]+'.sav'
+;
+;  
+;      undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
+;      undefine,E_gsm1;,tt_bbf_save
+;      
+;    endfor
+;    
+;    save_time_c3fgmcis=(systime(1)-start)/3600.0
+;    print,'save_time ',save_time_c3fgmcis,' hour'
+;  
+;   stop
+;
+;   
   
   ;________________________________part3________________________
   
