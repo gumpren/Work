@@ -123,7 +123,7 @@
      restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_time_44_pieces.sav'
 
      
-     for kk=0,43 do begin
+     for kk=30,43 do begin
      tbeg=t_beg[kk]
      tend=t_end[kk]
     
