@@ -2,7 +2,7 @@ function return_vari_event_5_30_far,x_pos,y_pos,variable,reverse_gap,type
   if n_elements(type) eq 0 then type=1
   event_vari=fltarr(150*reverse_gap^2)
   ; eventimes=reform(eventimes,300,1)
-  ii=-20 & jj=0
+  ii=-20 & jj=-15
   for kk=0,150*reverse_gap^2-1 do begin
     index_ps=where((x_pos ge ii) and (x_pos lt ii+1/reverse_gap) and (y_pos ge jj) and (y_pos lt jj+1/reverse_gap))
     if((index_ps[0] ne -1)) then begin
