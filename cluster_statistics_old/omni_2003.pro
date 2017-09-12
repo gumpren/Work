@@ -1,8 +1,4 @@
 
-pro EX_BOX, X0, Y0, X1, Y1, color
-  POLYFILL, [X0, X0, X1, X1], [Y0, Y1, Y1, Y0], COL = color
-END
-
 pro omni_2003
 
   a=dblarr(6,4)
@@ -99,7 +95,7 @@ pro omni_2003
   eventimes=dblarr(20,20)
   Re=6371
 
-  ;-----------status_of_Bz----------------------啊啊啊-------------------------------------------------------------------
+  ;-----------status_of_Bz----------------------�����------------------------------------------------------------------
 
   filename2=file_search('D:\__Data\Cluster\CLuster\CP_FGM_SPIN\*.cdf')
   for j=0,0 do begin

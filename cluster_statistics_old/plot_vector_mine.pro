@@ -1,4 +1,4 @@
-pro plot_vector
+pro plot_vector_mine
    root_dir='\2001_2009_median'
    restore,filepath('event_vxy_2001_2009_median.sav',root_dir='C:\__Data\Datasave'+root_dir)
    restore,filepath('event_qk_2001_2009_median.sav',root_dir='C:\__Data\Datasave'+root_dir)
