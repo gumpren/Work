@@ -83,7 +83,8 @@ pro plot_line_hx_lasttime_44_pieces
       ;      endif else begin
       ;        str_element,opt_plot,'ytitle',ytitle[1],/add
       ;      endelse
-
+      str_element,opt_plot,'SYM_INCREMENT',3
+      
       cgplot,x,get_Data[*,0,i],position=pos[i,0,*],xrange=[1,22],yrange=[0,0.5],_extra=opt_plot,/normal,/noerase
       cgoplot,x,get_Data[*,1,i],color='red',position=pos[i,0,*],xrange=[1,22],_extra=opt_plot,/normal,/noerase
       labels_stamp,pos[i,0,*],title0[i],charsize=0.8,/left_right_center,/down_out

@@ -299,7 +299,10 @@
   H_K_Re=list(a,/ex)
   event_h_k_x=list(a,/ex)
   event_h_k_y=list(a,/ex)
-
+  
+  E_gsm_y=list(a,/ex)
+  event_ey=list(a,/ex)
+  
   t_c3cis=list(a,/ex)
   B_gsm=list(a,/ex)
   pos_gsm=list(a,/ex)
@@ -320,9 +323,9 @@
     indext=where(temperature1 lt 32)    ;T [0.005,32] KeV
     indexv=where(abs((velocity_gsm1[*,0])[indext]) le 2000.0)    ; V [-2000,2000]
     indexn=where((density1[indext])[indexv] le 10.0 and (density1[indext])[indexv] gt 0.001 )  ;n [0.001,100]
-    index_all1=(([indext])[indexv])[indexn]
+    index_all=(([indext])[indexv])[indexn]
     
-    index_all=where( pos_gsm1[index_all1,0] le -15.0 )
+   ; index_all=where( pos_gsm1[index_all1,0] le -15.0 )
 
     t_c3cis[i]=t_c3cis1[index_all]
     density[i]=density1[index_all]
@@ -344,26 +347,30 @@
     pos_gsm_z=pos_gsm1[index_all,2]
     pos_gsm[i]=[[pos_gsm_x],[pos_gsm_y],[pos_gsm_z]]
     
+    E_gsm_y[i]=E_gsm1[index_all,1]
+      
     bb[i]=n_elements(velocity_x)
     
     ;event_data
-    eventimes[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
-    event_n[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
-    event_t[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
-    event_p[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
-    event_vx[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
-    event_vy[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
+    eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
+    event_n[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
+    event_t[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
+    event_p[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
+    event_vx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
+    event_vy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
+    event_ey[i]=return_vari_event_duskflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
+
 
     H_Re[i]=return_thermal_energy_flow_density(pressure[i],(velocity_gsm[i])[*,0],(velocity_gsm[i])[*,1],(velocity_gsm[i])[*,2],2)
     ;    idxh=where(abs(H_Re.(i)) gt 1000.0)
     ;    H_Re.(i)[idxh]=!values.f_nan
-    event_hx[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
-    event_hy[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
+    event_hx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
+    event_hy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
 
 
     K_Re[i]=return_kinetic_energy_flow_density(density[i],(velocity_gsm[i])[*,0],(velocity_gsm[i])[*,1],(velocity_gsm[i])[*,2],2)
-    event_kx[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,0],reverse_gap)
-    event_ky[i]=return_vari_event_5_30_far((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,1],reverse_gap)
+    event_kx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,0],reverse_gap)
+    event_ky[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,1],reverse_gap)
 
     H_K_Re[i]=H_Re[i]+K_Re[i]
     event_h_k_x[i]=event_hx[i]+event_kx[i]
@@ -371,11 +378,11 @@
 
   endfor
 
-  save,counts,eventimes,event_n,event_t,event_p,event_vx,event_vy,H_Re,K_Re,H_K_Re,     $
-    event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_44_pieces_event_5_30_far.sav'
+  save,counts,eventimes,event_n,event_t,event_p,event_vx,event_vy,H_Re,K_Re,H_K_Re,event_ey,     $
+    event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_44_pieces.sav'
 
-;  save,t_c3cis,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,    $
-;                           filename=root_dir+'raw_data'+save_str+'_list_44_pieces_event.sav'
+  save,t_c3cis,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,    $
+                           filename=root_dir+'raw_data'+save_str+'_list_44_pieces.sav'
   stop
   
  
