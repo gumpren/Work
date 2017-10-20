@@ -51,11 +51,14 @@ pro find_conti_intervals,tvar_name,min,max,dt=dt,margin=margin,$
   if keyword_set(duration) then begin
     dura=tend-tbeg
     ss=where(dura ge duration[0] and dura lt duration[1],nss)
-    if nss gt 1 then begin
+    if nss ge 1 then begin
       nint=nss
       tbeg=tbeg[ss]
       tend=tend[ss]
-    endif
+    endif else begin
+      tbeg=[]
+      tend=[]   ; if there're no suitable results, the return value is null (by G.M. Ren)
+    endelse
   endif
 end
 
