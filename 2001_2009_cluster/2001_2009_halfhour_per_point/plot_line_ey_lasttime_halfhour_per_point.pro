@@ -6,7 +6,7 @@ pro plot_line_ey_lasttime_halfhour_per_point
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_halfhour_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_halfhour_per_point\'
-  title_char='line_ey_lasttime_halfhour_per_point';
+  title_char='line_ey_dawnflank_lasttime_halfhour_per_point';
 
   ee=1
   tt=300
@@ -14,7 +14,7 @@ pro plot_line_ey_lasttime_halfhour_per_point
   title0=['median_ey_Bz','average_ey_Bz']
   ytitle='E'+cgsymbol('sub')+'y'       
   
-  restore,filepath('raw_data'+save_str+'_list_halfhour_per_point.sav',root_dir=root_dir)
+  restore,filepath('raw_data_dawnflank'+save_str+'_list_halfhour_per_point.sav',root_dir=root_dir)
 
   x=indgen(16)+1
 
@@ -64,8 +64,7 @@ pro plot_line_ey_lasttime_halfhour_per_point
   str_element,opt_plot,'XMINOR',2,/add
   str_element,opt_plot,'xticks',2,/add
 
-  
-
+ 
 
   for i=0,1 do begin
 ;    for j=0,1 do begin
