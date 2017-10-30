@@ -12,9 +12,23 @@ pro plot_line_ey_lasttime_32_pieces
   tt=300
 
   title0=['median_ey_Bz','average_ey_Bz']
-
+  ytitle='E'+cgsymbol('sub')+'y'       
+  
+ 
+  restore,filepath('raw_data_ey_gt_0'+save_str+'_list_32_pieces.sav',root_dir=root_dir)
+  eygt0=E_GSM_Y
 
   restore,filepath('raw_data'+save_str+'_list_32_pieces.sav',root_dir=root_dir)
+  ey=E_GSM_Y
+
+  
+  aa=dblarr(32)
+
+  for jj=0,31 do begin
+    aa[jj]=n_elements(eygt0[jj])/float(n_elements((ey[jj])[where(finite(ey[jj]))]))
+  endfor
+  
+
 
   x=indgen(16)+1
 
@@ -29,93 +43,87 @@ pro plot_line_ey_lasttime_32_pieces
   err_average_ey2=dblarr(16)
   ;  STDDEV()
   
-  ey_minus_per=dblarr(32)
-  for ii=0,31 do begin
-    index=where(E_gsm_y[ii] lt 0,count)
-    index1=where(finite(E_gsm_y[ii]))
-    ey_minus_per[ii]=n_elements(index)/float(n_elements(index1))
-    print,1
-;    ey_minus_per[ii]=count/float(n_elements(E_gsm_y[ii]))
-  endfor
-  
   
   for i=0,15 do begin
+    
+    
     median_ey1[i]=median(E_gsm_y[i])
     average_ey1[i]=average(E_gsm_y[i],/nan)
-
+    
+      
     median_ey2[i]=median(E_gsm_y[i+16])
     average_ey2[i]=average(E_gsm_y[i+16],/nan)
-
+    
+    
+    
     ;event data
-    ;    median_ey1[i]=median(event_ey[i])
-    ;    average_ey1[i]=average(event_ey[i])
-    ;
-    ;    median_ey2[i]=median(event_ey[i+16])
-    ;    average_ey2[i]=average(event_ey[i+16])
-
-
+;    median_ey1[i]=median(event_ey[i])
+;    average_ey1[i]=average(event_ey[i])
+;
+;    median_ey2[i]=median(event_ey[i+16])
+;    average_ey2[i]=average(event_ey[i+16])
+ 
+    
     ;      err_median_ey1[i]=STDDEV(H_Re.(i)[*,0],/nan)
     ;      err_median_ey2[i]=STDDEV(H_Re.(i+15)[*,0],/nan)
   endfor
 
   a=[[[1],[2]], $
-    [[3],[4]]]
-
+     [[3],[4]]]
+  
   get_Data=[[[median_ey1],[median_ey2]],  $
-    [[average_ey1],[average_ey2]]]
-  ;  err_bar=[[[err_median_ey1],[err_median_ey2]],  $
-  ;           [[err_average_ey1],[err_average_ey2]] ]
+           [[average_ey1],[average_ey2]]]
+;  err_bar=[[[err_median_ey1],[err_median_ey2]],  $
+;           [[err_average_ey1],[err_average_ey2]] ]
 
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
-  pos=set_plot_position(2,1,left=0.05,right=0.92,xgap=0.1,ygap=0.06,low=0.01,high=0.7)
+  pos=set_plot_position(2,1,left=0.05,right=0.80,xgap=0.1,ygap=0.1,low=0.01,high=0.7)
 
-  ;  str_element,opt_plot,'charsize',0.6,/add
+  str_element,opt_plot,'charsize',0.6,/add
   str_element,opt_plot,'yticklen',0.05,/add
-  str_element,opt_plot,'XMINOR',1,/add
-  ; str_element,opt_plot,'xticks',2,/add
-  ; str_element,opt_plot,'X(Re)',xtitle,/add
-  ;  str_element,opt_plot,'average H along Y',ytitle,/add
+  str_element,opt_plot,'XMINOR',2,/add
+  str_element,opt_plot,'xticks',2,/add
 
-
+ 
 
   for i=0,1 do begin
-    ;    for j=0,1 do begin
-    ;      if i ne 1 then begin
-    ;        str_element,opt_plot,'xtickformat','(a1)',/add
-    ;        str_element,opt_plot,'xtitle',/delete
-    ;      endif else begin
-    ;        str_element,opt_plot,'xtickformat',/delete
-    ;        str_element,opt_plot,'xtitle','Time',/add
-    ;      endelse
+;    for j=0,1 do begin
+;      if i ne 1 then begin
+;        str_element,opt_plot,'xtickformat','(a1)',/add
+;        str_element,opt_plot,'xtitle',/delete
+;      endif else begin
+;        str_element,opt_plot,'xtickformat',/delete
+;        str_element,opt_plot,'xtitle','Time',/add
+;      endelse
 
-    ;      if j eq 0 then begin
-    ;        str_element,opt_plot,'ytitle',ytitle[0],/add
-    ;      endif else begin
-    ;        str_element,opt_plot,'ytitle',ytitle[1],/add
-    ;      endelse
-    if i eq 0 then begin
-      str_element,opt_plot,'yrange',[-0.25,0.25],/add
-    endif else begin
-      str_element,opt_plot,'yrange',[-0.25,0.25],/add
-    endelse
-    str_element,opt_plot,'xticks',15,/add
-    str_element,opt_plot,'charsize',0.5,/add
-    ;str_element,opt_plot,'xtitle','last_time',/add
-    str_element,opt_plot,'xtickname',['[0,05]','[05,15]','[15,25]','[25,35]','[35,45]','[45,55]',$
-      '[55,65]','[65,75]','[75,85]','[85,95]','[95,105]', $
-      '[105,115]','[115,125]','[125,135]','[135,145]','[145, ]'],/add
+      ;      if j eq 0 then begin
+      ;        str_element,opt_plot,'ytitle',ytitle[0],/add
+      ;      endif else begin
+      ;        str_element,opt_plot,'ytitle',ytitle[1],/add
+      ;      endelse
+      ;str_element,opt_plot,'SYM_INCREMENT',3
+;      str_element,opt_plot,'xtickname',['[0,0.5]','[0.5,1.0]','[1.0,1.5]','[1.5,2.0]','[2.0,2.5]','[2.5,3.0]',$
+;        '[3.0,3.5]','[3.5,4.0]','[4.0,4.5]','[4.5,5.0]','[5.0,5.5]', $
+;        '[5.5,6.0]','[6.0,6.5]','[6.5,7.0]','[7.0,7.5]','[7.5, 8.0]'],/add
+      str_element,opt_plot,'xtickname',['0','5','15','25','35','45','55','65','75','85','95', $
+      '105','115','125','135','145',cgsymbol('infinity')],/add
+      str_element,opt_plot,'xticks',16,/add
+      str_element,opt_plot,'charsize',0.7,/add
+      str_element,opt_plot,'xtitle',cgsymbol('delta')+'t'+' (minutes)',/add
+      str_element,opt_plot,'ytitle',ytitle,/add
 
-    cgplot,x,get_Data[*,0,i],position=pos[i,0,*],_extra=opt_plot,/normal,/noerase
-    cgoplot,x,get_Data[*,1,i],color='red',position=pos[i,0,*],_extra=opt_plot,/normal,/noerase
-    labels_stamp,pos[i,0,*],title0[i],charsize=0.7,/left_right_center,/down_out
-
-    ;      p = ERRORPLOT(x, get_Data[*,i,j], err_bar[*,i,j], XRANGE=[1,15], $
-    ;        XTITLE="Day", YTITLE="Distance (miles)", $
-    ;        TITLE="Average distance bears walk in a day")
-  endfor
-
-  cgText, 0.97, 0.65, 'Northward IMF Bz', ALIGNMENT=0, /NORMAL ,charsize=0.8
-  cgText, 0.97, 0.63, 'Southward IMF Bz', ALIGNMENT=0, /NORMAL ,COLOR='RED',charsize=0.8
+      
+      cgplot,x,get_Data[*,0,i],position=pos[i,0,*],xrange=[0.5,16.5],yrange=[0,0.6],_extra=opt_plot,/normal,/noerase
+      cgoplot,x,get_Data[*,1,i],color='red',position=pos[i,0,*],xrange=[1,16],_extra=opt_plot,/normal,/noerase
+      labels_stamp,pos[i,0,*],title0[i],charsize=0.7,/left_right_center,/up_out
+      
+      ;      p = ERRORPLOT(x, get_Data[*,i,j], err_bar[*,i,j], XRANGE=[1,15], $
+      ;        XTITLE="Day", YTITLE="Distance (miles)", $
+      ;        TITLE="Average distance bears walk in a day")
+    endfor
+      
+      cgText, 0.85, 0.68, 'Northward IMF Bz', ALIGNMENT=0, /NORMAL ,charsize=0.7
+      cgText, 0.85, 0.66, 'Southward IMF Bz', ALIGNMENT=0, /NORMAL ,COLOR='RED',charsize=0.7
 
   ;  cgplot,x,aaa,position=pos[0,0,*],xrange=[-20,-10],_extra=opt_plot
   ;
@@ -126,6 +134,7 @@ pro plot_line_ey_lasttime_32_pieces
 
 
   stop
+
 
 
 end

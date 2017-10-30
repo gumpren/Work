@@ -7,7 +7,7 @@ pro cluster_ey_statistics_plot_32_pieces
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_median_30_pieces\'
 
 
-  restore,filepath('event_data'+save_str+'_list_32_pieces.sav',root_dir=root_dir)
+  restore,filepath('event_data_5_30_near'+save_str+'_list_32_pieces.sav',root_dir=root_dir)
   factor_to_kev=1.0;1.0e6/(1000.0*11600)
 
   bar_title1='Density (cm!u-3!n!x)'
@@ -31,30 +31,30 @@ pro cluster_ey_statistics_plot_32_pieces
    zrange=[[zrange7],[zrange7],[zrange7],[zrange7]]
 
   for i=0,31 do begin
-    event_n[i]=reform(event_n[i],10*30*reverse_gap^2)
-    event_t[i]=reform(event_t[i],10*30*reverse_gap^2*factor_to_kev)
-    event_p[i]=reform(event_p[i],10*30*reverse_gap^2)
-    event_vx[i]=reform(event_vx[i],10*30*reverse_gap^2)
-    event_hx[i]=reform(event_hx[i],10*30*reverse_gap^2)
-    event_kx[i]=reform(event_kx[i],10*30*reverse_gap^2)
-    event_h_k_x[i]=reform(event_h_k_x[i],10*30*reverse_gap^2)
-    event_ey[i]=reform(event_ey[i],10*30*reverse_gap^2)
+    event_n[i]=reform(event_n[i],5*30*reverse_gap^2)
+    event_t[i]=reform(event_t[i],5*30*reverse_gap^2*factor_to_kev)
+    event_p[i]=reform(event_p[i],5*30*reverse_gap^2)
+    event_vx[i]=reform(event_vx[i],5*30*reverse_gap^2)
+    event_hx[i]=reform(event_hx[i],5*30*reverse_gap^2)
+    event_kx[i]=reform(event_kx[i],5*30*reverse_gap^2)
+    event_h_k_x[i]=reform(event_h_k_x[i],5*30*reverse_gap^2)
+    event_ey[i]=reform(event_ey[i],5*30*reverse_gap^2)
   endfor
 
-  data=[[[event_ey[0]],[event_ey[1]],[event_ey[2]],[event_ey[3]]], $
-        [[event_ey[4]],[event_ey[5]],[event_ey[6]],[event_ey[7]]], $
-        [[event_ey[8]],[event_ey[9]],[event_ey[10]],[event_ey[11]]], $
-        [[event_ey[12]],[event_ey[13]],[event_ey[14]],[event_ey[15]]]]
-;    data=[[[event_ey[16]],[event_ey[17]],[event_ey[18]],[event_ey[19]]], $
-;          [[event_ey[20]],[event_ey[21]],[event_ey[22]],[event_ey[23]]], $
-;          [[event_ey[24]],[event_ey[25]],[event_ey[26]],[event_ey[27]]], $
-;          [[event_ey[28]],[event_ey[29]],[event_ey[30]],[event_ey[31]]]]
+;  data=[[[event_ey[0]],[event_ey[1]],[event_ey[2]],[event_ey[3]]], $
+;        [[event_ey[4]],[event_ey[5]],[event_ey[6]],[event_ey[7]]], $
+;        [[event_ey[8]],[event_ey[9]],[event_ey[10]],[event_ey[11]]], $
+;        [[event_ey[12]],[event_ey[13]],[event_ey[14]],[event_ey[15]]]]
+    data=[[[event_ey[16]],[event_ey[17]],[event_ey[18]],[event_ey[19]]], $
+          [[event_ey[20]],[event_ey[21]],[event_ey[22]],[event_ey[23]]], $
+          [[event_ey[24]],[event_ey[25]],[event_ey[26]],[event_ey[27]]], $
+          [[event_ey[28]],[event_ey[29]],[event_ey[30]],[event_ey[31]]]]
 
-  title_char='EY_BZ_GE_0_32_pieces'
+  title_char='ey_5_30_near_Bz_lt_0_32_pieces'
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
-  x=linspace(-20,-10,10*reverse_gap+1)
+  x=linspace(-15,-10,5*reverse_gap+1)
   v=linspace(-15,15,30*reverse_gap+1)  ; connect to the return_vari function. follow the same start point
-  xrange=[-20,-10]
+  xrange=[-15,-10]
   yrange=[15,-15]
 
   ;  title0=[['B!dz!n!x>0 10min<d!dt!n!x<30min','B!dz!n!x>0 30min<d!dt!n!x<90min','B!dz!n!x>0 d!dt!n!x>90min',$
@@ -63,10 +63,10 @@ pro cluster_ey_statistics_plot_32_pieces
   ;  title0=[['B!dz!n!x>0 [05,15]','B!dz!n!x>0 [15,25]','B!dz!n!x>0 [25,35]','B!dz!n!x<0 [35,45]','B!dz!n!x<0 [45,55]'],$
   ;          ['B!dz!n!x>0 [55,65]','B!dz!n!x>0 [65,75]','B!dz!n!x>0 [75,85]','B!dz!n!x>0 [85,95]','B!dz!n!x>0 [95,105]'], $
   ;          ['B!dz!n!x>0 [105,115]','B!dz!n!x>0 [115,125]','B!dz!n!x>0 [125,135]','B!dz!n!x>0 [135,145]','B!dz!n!x>0 [145, ]']]
-  title0=[['B!dz!n!x>0 [00,05]','B!dz!n!x>0 [05,15]','B!dz!n!x>0 [15,25]','B!dz!n!x>0 [25,35]'],$
-          ['B!dz!n!x>0 [35,45]','B!dz!n!x>0 [45,55]','B!dz!n!x>0 [55,65]','B!dz!n!x>0 [65,75]'],$
-          ['B!dz!n!x>0 [75,85]','B!dz!n!x>0 [85,95]','B!dz!n!x>0 [95,105]','B!dz!n!x>0 [105,115]'], $
-          ['B!dz!n!x>0 [115,125]','B!dz!n!x>0 [125,135]','B!dz!n!x>0 [135,145]','B!dz!n!x>0 [145, ]']]
+  title0=[['B!dz!n!x<0 [00,05]','B!dz!n!x<0 [05,15]','B!dz!n!x<0 [15,25]','B!dz!n!x<0 [25,35]'],$
+          ['B!dz!n!x<0 [35,45]','B!dz!n!x<0 [45,55]','B!dz!n!x<0 [55,65]','B!dz!n!x<0 [65,75]'],$
+          ['B!dz!n!x<0 [75,85]','B!dz!n!x<0 [85,95]','B!dz!n!x<0 [95,105]','B!dz!n!x<0 [105,115]'], $
+          ['B!dz!n!x<0 [115,125]','B!dz!n!x<0 [125,135]','B!dz!n!x<0 [135,145]','B!dz!n!x<0 [145, ]']]
 
   ;  ;v      change : title,not change; image, change
   ;yrange change : title, change  ;  image, change
@@ -128,7 +128,7 @@ pro cluster_ey_statistics_plot_32_pieces
       if j eq 3 then str_element,opt_bar,'no_color_scale',0,/add else str_element,opt_bar,'no_color_scale',1,/add
       str_element,opt_bar,'position',[pos[i,j,2]+0.02,pos[i,j,1],pos[i,j,2]+0.05,pos[i,j,3]],/add
 
-      d={x:x,y:reform(data[*,j,i],10*reverse_gap,30*reverse_gap),v:v}
+      d={x:x,y:reform(data[*,j,i],5*reverse_gap,30*reverse_gap),v:v}
       color_fill,pos[i,j,*],d,xrange=xrange,yrange=yrange,zrange=zrange[*,i],top=255,bottom=0,backcolor='grey',opt_plot=opt_plot,opt_bar=opt_bar
       labels_stamp,pos[i,j,*],title0[j,i],charsize=0.8,/left_right_center,/up_out
     endfor                                                      ;[-0.3,0.3] thermal EFD range
