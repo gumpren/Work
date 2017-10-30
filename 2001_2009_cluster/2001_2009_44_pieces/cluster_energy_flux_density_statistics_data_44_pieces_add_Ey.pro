@@ -360,7 +360,7 @@
     event_p[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
     event_vx[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
     event_vy[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
-    event_ey[i]=return_vari_event_dawnflank_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
+    event_ey[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
 
 
     H_Re[i]=return_thermal_energy_flow_density(pressure[i],(velocity_gsm[i])[*,0],(velocity_gsm[i])[*,1],(velocity_gsm[i])[*,2],2)
