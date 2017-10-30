@@ -354,6 +354,7 @@
     bb[i]=n_elements(velocity_x)
     
     ;event_data
+<<<<<<< HEAD
     eventimes[i]=return_vari_event_duskflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
     event_n[i]=return_vari_event_duskflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
     event_t[i]=return_vari_event_duskflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
@@ -361,6 +362,15 @@
     event_vx[i]=return_vari_event_duskflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
     event_vy[i]=return_vari_event_duskflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
     event_ey[i]=return_vari_event_duskflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
+=======
+    eventimes[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
+    event_n[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
+    event_t[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
+    event_p[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
+    event_vx[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
+    event_vy[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
+    event_ey[i]=return_vari_event_dawnflank((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
+>>>>>>> 6c940db2936f9bd38dc563edc4d51b0d77f8742e
 
 
     H_Re[i]=return_thermal_energy_flow_density(pressure[i],(velocity_gsm[i])[*,0],(velocity_gsm[i])[*,1],(velocity_gsm[i])[*,2],2)
