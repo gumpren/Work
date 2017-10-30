@@ -6,27 +6,27 @@ pro Scatter_plot_2d_lasttime_ey
    compile_opt idl2
   ;;;  ________________________________part1_______________________
      
-    a=findgen(30)
+    a=findgen(280)
     t_beg=list(a,/ex)
     t_end=list(a,/ex)
 
     filename0=file_search('C:\__Data\OMNI\*.cdf')
 
-    for jj=0,29 do begin
-      if (jj le 14) then begin
+    for jj=0,279 do begin
+      if (jj le 139) then begin
         maxvalue=1000
         minvalue=0
       endif else begin
-        maxvalue=0
+        maxvalue=0  
         minvalue=-1000
       endelse
 
-
-     if (jj ge 0) and (jj le 13)  then duration=[(10*jj+5)*60.,(10*jj+15)*60.]
-     if (jj ge 15) and (jj le 28)  then duration=[(10*(jj-15)+5)*60.,(10*(jj-15)+15)*60.]
-
-
-      for ii=0,106 do begin             ;divided by year
+     if (jj ge 0) and (jj le 139)  then duration=[(jj+5)*60.,(jj+6)*60.]
+     if (jj ge 140) and (jj le 279)  then duration=[(jj-135)*60.,(jj-134)*60.]
+   
+ 
+   
+     for ii=0,106 do begin             ;divided by year
        cdf2tplot,filename0[ii],varformat='BZ_GSM'
        get_data,'BZ_GSM',time0,BZ_GSM0
        append_array,time,time0
@@ -34,15 +34,16 @@ pro Scatter_plot_2d_lasttime_ey
 
        if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
         store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
-        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=2*60,duration=duration,nint=nint,tbeg=tbeg0,tend=tend0
+        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=0*60,duration=duration,nint=nint,tbeg=tbeg0,tend=tend0
         append_Array,tbeg1,tbeg0
         append_Array,tend1,tend0
         undefine,time,BZ_GSM
        endif
-      endfor
+     endfor
       t_beg[jj]=tbeg1
       t_end[jj]=tend1
       undefine,tbeg1,tend1
+      
     endfor
 
     print,'a'
