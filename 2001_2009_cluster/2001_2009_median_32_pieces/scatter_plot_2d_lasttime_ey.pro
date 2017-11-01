@@ -43,6 +43,9 @@ pro Scatter_plot_2d_lasttime_ey
       t_beg[jj]=tbeg1
       t_end[jj]=tend1
       undefine,tbeg1,tend1
+      save,t_beg,t_end,$
+        filename=root_dir+'scatter_time_interval_divided_by_Bz_yearly_normal.sav'
+      print,(systime(1)-start)/60.
       
     endfor
 
@@ -50,13 +53,13 @@ pro Scatter_plot_2d_lasttime_ey
   
   
     save,t_beg,t_end,$
-      filename=root_dir+'time_interval_divided_by_Bz_yearly_normal.sav'
+      filename=root_dir+'scatter_time_interval_divided_by_Bz_yearly_normal.sav'
     print,(systime(1)-start)/60.
     stop
   
   
   ;part_1_former
-    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal.sav'
+    restore,root_dir+'scatter_time_interval_divided_by_Bz_yearly_normal.sav'
     t_b=t_beg
     t_e=t_end
       aa=fltarr(30)
@@ -104,7 +107,7 @@ pro Scatter_plot_2d_lasttime_ey
     endfor
   
     save,t_beg,t_end,$
-          filename=root_dir+'time_interval_divided_by_Bz_yearly_add_former_time_32_pieces.sav'
+          filename=root_dir+'scatter_time_interval_divided_by_Bz_yearly_add_former_time_32_pieces.sav'
   
   
     stop
