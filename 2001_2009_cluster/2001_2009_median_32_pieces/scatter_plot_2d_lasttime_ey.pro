@@ -52,9 +52,15 @@ pro Scatter_plot_2d_lasttime_ey
     print,'a'
   
   
+<<<<<<< HEAD
     save,t_beg,t_end,$
       filename=root_dir+'scatter_time_interval_divided_by_Bz_yearly_normal.sav'
     print,(systime(1)-start)/60.
+=======
+;    save,t_beg,t_end,$
+;      filename=root_dir+'scatter_time_interval_divided_by_Bz_yearly_normal.sav'
+;    print,(systime(1)-start)/60.
+>>>>>>> 730a765aaa8fb7547cf3f59f69d4b520d4b12741
     stop
   
   
@@ -62,14 +68,14 @@ pro Scatter_plot_2d_lasttime_ey
     restore,root_dir+'scatter_time_interval_divided_by_Bz_yearly_normal.sav'
     t_b=t_beg
     t_e=t_end
-      aa=fltarr(30)
-      for i=0,29 do begin
+      aa=fltarr(280)
+      for i=0,279 do begin
         aa[i]=N_ELEMENTS(t_end[i])
       endfor
   
   
-    time_array=[15,25,35,45,55,65,75,85,95,105,115,125,135,145]*60.
-    for i=14,1,-1 do begin
+    time_array=(findgen(139)+6)*60.0
+    for i=139,1,-1 do begin
       tb1=t_b[i]
       te1=t_e[i]
       tb2=t_b[i-1]
