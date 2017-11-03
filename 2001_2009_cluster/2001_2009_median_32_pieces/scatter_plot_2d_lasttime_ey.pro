@@ -129,7 +129,7 @@ pro Scatter_plot_2d_lasttime_ey
    
      endfor
      
-     for kk=0,279 do begin
+     for kk=0,279 do begin     ;
      tbeg=t_beg[kk]
      tend=t_end[kk]
 
@@ -241,7 +241,7 @@ pro Scatter_plot_2d_lasttime_ey
         endfor
         print,'break1'
         
-        indextl=where(t_last ge last_time_beg[kk])
+        indextl=where(t_last ge last_time_beg[kk])    ;t_last do not exist in kk eq 130
         t_last_ture=t_last[indextl]
         append_Array,t_last_ture1,TEMPORARY(t_last_ture)
         
