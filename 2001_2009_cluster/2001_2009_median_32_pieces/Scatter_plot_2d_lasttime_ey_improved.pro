@@ -283,7 +283,7 @@ pro Scatter_plot_2d_lasttime_ey_improved
 
 
     save,t_c3cis1,t_last1,t_last_ture1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-      filename=root_dir+'scatter_c3_fgmcisefw_data_selected_'+names[kk]+'.sav'
+      filename=root_dir+'scatter_c3_fgmcisefw_data_selected_'+names[kk]+'_improved.sav'
 
 
     undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1

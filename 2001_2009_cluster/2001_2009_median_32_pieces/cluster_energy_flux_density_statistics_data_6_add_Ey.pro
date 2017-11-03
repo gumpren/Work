@@ -2,7 +2,7 @@
     Re=6371.0
     root_dir='C:\__Data\Datasave\2001_2009_median_30_pieces\'
     start=systime(1)
-;;;;  ________________________________part1_______________________
+;;;; ________________________________part1_______________________
 ;    compile_opt idl2
 ;    a=findgen(30)
 ;    t_beg=list(a,/ex)
@@ -277,14 +277,14 @@
 ;
 ;   
   
-  ;________________________________part3________________________
-  
+  ;  ________________________________part3________________________
+   
   
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   filename=file_search(root_dir+'c3_fgmcisefw_data_selected__BZ'+'*.sav')
   counts=make_array(32)
-
+  
     
   a=findgen(32)
   eventimes=list(a,/ex)

@@ -129,7 +129,7 @@ pro Scatter_plot_2d_lasttime_ey
    
      endfor
      
-     for kk=0,279 do begin     ;
+     for kk=130,279 do begin     ;
      tbeg=t_beg[kk]
      tend=t_end[kk]
 
@@ -241,39 +241,41 @@ pro Scatter_plot_2d_lasttime_ey
         endfor
         print,'break1'
         
-        indextl=where(t_last ge last_time_beg[kk])    ;t_last do not exist in kk eq 130
-        t_last_ture=t_last[indextl]
-        append_Array,t_last_ture1,TEMPORARY(t_last_ture)
-        
-        append_Array,t_last1,TEMPORARY(t_last)
-        append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
-        append_Array,pos_gsm1,TEMPORARY(pos_gsm)
-        append_Array,B_gsm1,TEMPORARY(B_gsm)
-        append_Array,B_total1,TEMPORARY(B_total)
-
-        append_Array,t_c3cis1,TEMPORARY(t_c3cis)
-        append_Array,density1,TEMPORARY(density)
-        append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
-        append_Array,temperature1,TEMPORARY(temperature)
-        append_Array,pressure1,TEMPORARY(pressure)
-        append_Array,Beta1,TEMPORARY(Beta)
-
-        append_Array,t_c3efw1,TEMPORARY(t_c3efw)
-        append_Array,E_gsm1,TEMPORARY(E_gsm)
-
+        if is_array(t_last) then begin
+          indextl=where(t_last ge last_time_beg[kk])    ;t_last do not exist in kk eq 130
+          t_last_ture=t_last[indextl]
+          append_Array,t_last_ture1,TEMPORARY(t_last_ture)
+          
+          append_Array,t_last1,TEMPORARY(t_last)
+          append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
+          append_Array,pos_gsm1,TEMPORARY(pos_gsm)
+          append_Array,B_gsm1,TEMPORARY(B_gsm)
+          append_Array,B_total1,TEMPORARY(B_total)
+  
+          append_Array,t_c3cis1,TEMPORARY(t_c3cis)
+          append_Array,density1,TEMPORARY(density)
+          append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
+          append_Array,temperature1,TEMPORARY(temperature)
+          append_Array,pressure1,TEMPORARY(pressure)
+          append_Array,Beta1,TEMPORARY(Beta)
+  
+          append_Array,t_c3efw1,TEMPORARY(t_c3efw)
+          append_Array,E_gsm1,TEMPORARY(E_gsm)
+          
+        endif
         del_data,'*'
         print,ii
 
       endfor
 
-
-      save,t_c3cis1,t_last1,t_last_ture1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-            filename=root_dir+'scatter_c3_fgmcisefw_data_selected_'+names[kk]+'.sav'
-
-
-      undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
-      undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
-
+      if is_array(t_c3cis1) then begin
+        save,t_c3cis1,t_last1,t_last_ture1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
+              filename=root_dir+'scatter_c3_fgmcisefw_data_selected_'+names[kk]+'.sav'
+  
+        undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
+        undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
+      endif
+      
     endfor
 
     save_time_c3fgmcis=(systime(1)-start)/3600.0
