@@ -1,7 +1,7 @@
-pro Scatter_plot_2d_lasttime_ey_improved
+pro Scatter_data_2d_lasttime_ey_improved
 
   Re=6371.0
-  root_dir='C:\__Data\Datasave\2001_2009_median_30_pieces\'
+  root_dir='C:\__Data\Datasave\2001_2009_1minute_per_point\'
   start=systime(1)
   compile_opt idl2
   ;  ;;;  ________________________________part1_______________________
@@ -99,73 +99,73 @@ pro Scatter_plot_2d_lasttime_ey_improved
 
   ;  ________________________________part2_______________________
   
-;  for ii=0,8 do begin
-;    year='200'+strcompress(ii+1,/remove)
-;
-;    filename1=file_search('C:\__Data\Cluster\CP_FGM_SPIN\*__'+year+'*.cdf')
-;    cdf2tplot,filename1,varformat=['B_mag__C3_CP_FGM_SPIN','B_vec_xyz_gse__C3_CP_FGM_SPIN','sc_pos_xyz_gse__C3_CP_FGM_SPIN']
-;    ; newname=['B_mag','B_gse','pos_gse']
-;
-;
-;    filename2=file_search('C:\__Data\Cluster\CIS\CSA_Download_20161216_0640\C3_CP_CIS-HIA_ONBOARD_MOMENTS\*__'+year+'*.cdf')
-;    cdf2tplot,filename2,varformat=['density__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS',$
-;      'temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS','pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS']
-;
-;    filename3=file_search('C:\__Data\Cluster\EFW\C3_CP_EFW_L3_E3D_GSE\*__'+year+'*.cdf')
-;    cdf2tplot,filename3,varformat=['E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE']
-;
-;    factor_to_kev=1.0e6/(1000.0*11600)
-;    calc,'"temperature"="temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS"*factor_to_kev'
-;    calc,'"pos_gse"="sc_pos_xyz_gse__C3_CP_FGM_SPIN"/Re'
-;    calc,'"B_total"="B_mag__C3_CP_FGM_SPIN"/1.0'
-;
-;    cotrans,'B_vec_xyz_gse__C3_CP_FGM_SPIN','B_gsm',/gse2gsm
-;    cotrans,'pos_gse','pos_gsm',/gse2gsm
-;    cotrans,'velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gsm',/gse2gsm
-;    cotrans,'E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE','E_gsm',/gse2gsm
-;
-;    calc,'"density"="density__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
-;    calc,'"pressure"="pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
-;
-;    ;clean_spikes,'pressure',nsmooth=10
-;
-;    tinterpol_mxn,'B_gsm','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'pos_gsm','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'B_total','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;
-;    beta_fac=1.0e-9/(1.0e-9)^2
-;    miu0=!pi*4e-7
-;    calc,'"Beta"=2*(beta_fac)*(miu0)*"pressure"/"B_total_interp"^2'
-;    tclip,'Beta',0.3,10000
-;    tdeflag,'Beta_clip','remove_nan'                 ; beta identified
-;
-;    tinterpol_mxn,'pos_gsm','Beta_clip_deflag',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    get_data,'pos_gsm_interp',time,pos_gsm_interp
-;
-;    index_ps=identify_plasma_sheet(pos_gsm_interp[*,0],pos_gsm_interp[*,1],pos_gsm_interp[*,2])
-;    time1=time[index_ps]
-;    pos_gsm_interp=pos_gsm_interp[index_ps,*]          ;  plasma sheet identified
-;
-;    store_Data,'pos_gsm_interp',data={x:time1,y:pos_gsm_interp}
-;
-;    tinterpol_mxn,'velocity_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'B_total','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'B_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'density','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'temperature','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'pressure','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'Beta_clip_deflag','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    tinterpol_mxn,'E_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-;    
-;    tplot_save,['pos_gsm_interp','velocity_gsm_interp','B_total_interp','B_gsm_interp','density_interp',  $
-;      'temperature_interp','pressure_interp','pressure_interp','Beta_clip_deflag_interp','E_gsm_interp'], $
-;      filename=root_dir+'tplot_variables_fgm_cis_efw'+year
-;    del_data,'*'
-;    help,a 
-;  endfor
-;  print,(systime(1)-start)/60.0
-;  
-;  
+  for ii=0,8 do begin
+    year='200'+strcompress(ii+1,/remove)
+
+    filename1=file_search('C:\__Data\Cluster\CP_FGM_SPIN\*__'+year+'*.cdf')
+    cdf2tplot,filename1,varformat=['B_mag__C3_CP_FGM_SPIN','B_vec_xyz_gse__C3_CP_FGM_SPIN','sc_pos_xyz_gse__C3_CP_FGM_SPIN']
+    ; newname=['B_mag','B_gse','pos_gse']
+
+
+    filename2=file_search('C:\__Data\Cluster\CIS\CSA_Download_20161216_0640\C3_CP_CIS-HIA_ONBOARD_MOMENTS\*__'+year+'*.cdf')
+    cdf2tplot,filename2,varformat=['density__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS',$
+      'temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS','pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS']
+
+    filename3=file_search('C:\__Data\Cluster\EFW\C3_CP_EFW_L3_E3D_GSE\*__'+year+'*.cdf')
+    cdf2tplot,filename3,varformat=['E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE']
+
+    factor_to_kev=1.0e6/(1000.0*11600)
+    calc,'"temperature"="temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS"*factor_to_kev'
+    calc,'"pos_gse"="sc_pos_xyz_gse__C3_CP_FGM_SPIN"/Re'
+    calc,'"B_total"="B_mag__C3_CP_FGM_SPIN"/1.0'
+
+    cotrans,'B_vec_xyz_gse__C3_CP_FGM_SPIN','B_gsm',/gse2gsm
+    cotrans,'pos_gse','pos_gsm',/gse2gsm
+    cotrans,'velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gsm',/gse2gsm
+    cotrans,'E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE','E_gsm',/gse2gsm
+
+    calc,'"density"="density__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
+    calc,'"pressure"="pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
+
+    ;clean_spikes,'pressure',nsmooth=10
+
+    tinterpol_mxn,'B_gsm','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'pos_gsm','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'B_total','density',/NEAREST_NEIGHBOR,/IGNORE_NANS
+
+    beta_fac=1.0e-9/(1.0e-9)^2
+    miu0=!pi*4e-7
+    calc,'"Beta"=2*(beta_fac)*(miu0)*"pressure"/"B_total_interp"^2'
+    tclip,'Beta',0.3,10000
+    tdeflag,'Beta_clip','remove_nan'                 ; beta identified
+
+    tinterpol_mxn,'pos_gsm','Beta_clip_deflag',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    get_data,'pos_gsm_interp',time,pos_gsm_interp
+
+    index_ps=identify_plasma_sheet(pos_gsm_interp[*,0],pos_gsm_interp[*,1],pos_gsm_interp[*,2])
+    time1=time[index_ps]
+    pos_gsm_interp=pos_gsm_interp[index_ps,*]          ;  plasma sheet identified
+
+    store_Data,'pos_gsm_interp',data={x:time1,y:pos_gsm_interp}
+
+    tinterpol_mxn,'velocity_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'B_total','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'B_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'density','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'temperature','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'pressure','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'Beta_clip_deflag','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    tinterpol_mxn,'E_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
+    
+    tplot_save,['pos_gsm_interp','velocity_gsm_interp','B_total_interp','B_gsm_interp','density_interp',  $
+      'temperature_interp','pressure_interp','pressure_interp','Beta_clip_deflag_interp','E_gsm_interp'], $
+      filename=root_dir+'tplot_variables_fgm_cis_efw'+year
+    del_data,'*'
+    help,a 
+  endfor
+  print,(systime(1)-start)/60.0
+  
+  
   
   
   restore,root_dir+'scatter_time_interval_divided_by_Bz_yearly_add_former_time_32_pieces.sav'
