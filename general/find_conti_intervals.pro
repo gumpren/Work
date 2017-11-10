@@ -50,7 +50,7 @@ pro find_conti_intervals,tvar_name,min,max,dt=dt,margin=margin,$
   endif
   if keyword_set(duration) then begin
     dura=tend-tbeg
-    ss=where(dura ge duration[0] and dura lt duration[1],nss)
+    ss=where(dura ge duration[0] and dura lt duration[1],nss)   ; same as tsample [t1,t2)
     if nss ge 1 then begin
       nint=nss
       tbeg=tbeg[ss]

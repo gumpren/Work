@@ -1,22 +1,30 @@
 ;cerated by G.M. Ren   2017.11.09
 
-
-pro Scatter_data_2d_lasttime_ey
+pro create_raw_event_data_5minute_per_point
   
    Re=6371.0
-   root_dir='C:\__Data\Datasave\2001_2009_1minute_per_point\'
+   root_dir='C:\__Data\Datasave\2001_2009_5minute_per_point\'
    start=systime(1)
    compile_opt idl2
-;  ________________________________part1_______________________
-     
-;    a=findgen(280)
-;    t_beg=list(a,/ex)
-;    t_end=list(a,/ex)
-;
+
+    a=findgen(58)
+    t_beg=list(a,/ex)
+    t_end=list(a,/ex)
+    
+    duration=list(a,/ex)
+    for jj = 0, 57 do begin
+      if (jj ge 0) and (jj le 28)  then duration[jj]=[jj*5+5,jj*5+10]*60.
+      if (jj ge 29) and (jj le 57)  then duration[jj]=[(jj-29)*5+5,(jj-29)*5+10]*60.
+    endfor
+    
+    
+; ;  ________________________________part1_______________________
+;    
+;    
 ;    filename0=file_search('C:\__Data\OMNI\*.cdf')
 ;
-;    for jj=0,279 do begin
-;      if (jj le 139) then begin
+;    for jj=0,57 do begin
+;      if (jj le 28) then begin
 ;        maxvalue=1000
 ;        minvalue=0
 ;      endif else begin
@@ -24,10 +32,6 @@ pro Scatter_data_2d_lasttime_ey
 ;        minvalue=-1000
 ;      endelse
 ;
-;     if (jj ge 0) and (jj le 139)  then duration=[(jj+5)*60.,(jj+6)*60.]
-;     if (jj ge 140) and (jj le 279)  then duration=[(jj-135)*60.,(jj-134)*60.]
-;   
-; 
 ;   
 ;     for ii=0,106 do begin             ;divided by year
 ;       cdf2tplot,filename0[ii],varformat='BZ_GSM'
@@ -37,7 +41,7 @@ pro Scatter_data_2d_lasttime_ey
 ;
 ;       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
 ;        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
-;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=0*60,duration=duration,nint=nint,tbeg=tbeg0,tend=tend0
+;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=2*60,duration=duration[jj],nint=nint,tbeg=tbeg0,tend=tend0
 ;        append_Array,tbeg1,tbeg0
 ;        append_Array,tend1,tend0
 ;        undefine,time,BZ_GSM
@@ -46,24 +50,26 @@ pro Scatter_data_2d_lasttime_ey
 ;      t_beg[jj]=tbeg1
 ;      t_end[jj]=tend1
 ;      undefine,tbeg1,tend1
-;      save,t_beg,t_end,$
-;      filename=root_dir+'scatter_time_interval_divided_by_Bz_yearly_normal.sav'
+;      print,jj
 ;    endfor
+;      savetime_t=(systime(1)-start)/60.0
+;      save,t_beg,t_end,savetime_t,$
+;      filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point.sav'
 ;    stop
-;  
-;  
+  
+  
 ;  ;part_1_former
-;    restore,root_dir+'scatter_time_interval_divided_by_Bz_yearly_normal.sav'
+;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point.sav'
 ;    t_b=t_beg
 ;    t_e=t_end
-;      aa=fltarr(280)
-;      for i=0,279 do begin
+;      aa=fltarr(58)
+;      for i=0,57 do begin
 ;        aa[i]=N_ELEMENTS(t_end[i])
 ;      endfor
 ;  
 ;  
-;    time_array=(findgen(139)+6)*60.0
-;    for i=139,1,-1 do begin
+;    time_array=(5*findgen(28)+10)*60.0
+;    for i=28,1,-1 do begin
 ;      tb1=t_b[i]
 ;      te1=t_e[i]
 ;      tb2=t_b[i-1]
@@ -74,66 +80,71 @@ pro Scatter_data_2d_lasttime_ey
 ;      t_beg[i-1]=tb2
 ;      t_end[i-1]=te2
 ;  
-;      tb11=t_b[i+140]
-;      te11=t_e[i+140]
-;      tb22=t_b[i+139]
-;      te22=t_e[i+139]
+;      tb11=t_b[i+29]
+;      te11=t_e[i+29]
+;      tb22=t_b[i+28]
+;      te22=t_e[i+28]
 ;      append_array,tb22,tb11
 ;      append_array,te22,tb11+time_array[i-1]
 ;  
-;      t_beg[i+139]=tb22
-;      t_end[i+139]=te22
+;      t_beg[i+28]=tb22
+;      t_end[i+28]=te22
 ;  
 ;      print,i
 ;    endfor
-; 
-;    bb=fltarr(280)
-;    for i=0,279 do begin
+;      
+;      t_beg.add,t_beg[29],29
+;      t_end.add,t_beg[29]+5*60.,29
+;      
+;      t_beg.add,t_beg[0],0
+;      t_end.add,t_end[0]+5*60.,0
+;      
+;    bb=fltarr(60)
+;    for i=0,59 do begin
 ;      bb[i]=N_ELEMENTS(t_end[i])
 ;    endfor
 ;  
 ;    save,t_beg,t_end,$
-;          filename=root_dir+'scatter_time_interval_divided_by_Bz_yearly_add_former_time_32_pieces.sav'
+;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
 ;  
 ;    stop
-;  
-;   
-;  
+  
+   
+  
 
 
  ;________________________________part2_______________________
-     restore,root_dir+'scatter_time_interval_divided_by_Bz_yearly_add_former_time.sav'
+     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
      
-     bb=findgen(280)
-     last_time_beg=list(bb,/ex)
-     for jj=0,279 do begin
-       if (jj ge 0) and (jj le 139)  then last_time_beg[jj]=(jj+5)
-       if (jj ge 140) and (jj le 279)  then last_time_beg[jj]=(jj-135)
-     endfor
      
-     names=strarr(280)
-     for kk=0,279 do begin
-        if kk le 139 then begin
+     
+     
+     bb=findgen(60)
+
+     
+     names=strarr(60)
+     for kk=0,59 do begin
+        if kk le 29 then begin
           bz='_BZgt0_'
-          te=strcompress(kk+6,/remove)
+          te=strcompress((kk+1)*5,/remove)
         endif else begin
           bz='_BZle0_'
-          te=strcompress(kk-140+6,/remove)
+          te=strcompress((kk-29)*5,/remove)
         endelse
                 
-        if kk lt 5 then tb='00'+strcompress(kk+5,/remove)
-        if kk ge 5 and kk lt 95 then tb='0'+strcompress(kk+5,/remove)
-        if kk ge 95 and kk le 139 then tb=strcompress(kk+5,/remove)
+        if kk lt 2 then tb='00'+strcompress(kk*5,/remove)
+        if kk ge 2 and kk lt 20 then tb='0'+strcompress(kk*5,/remove)
+        if kk ge 20 and kk lt 29 then tb=strcompress(kk*5,/remove)
 
-        if kk ge 140 and kk lt 140+5 then tb='00'+strcompress(kk-140+5,/remove)
-        if kk ge 140+5 and kk lt 140+95 then tb='0'+strcompress(kk-140+5,/remove)
-        if kk ge 140+95 and kk le 140+139 then tb=strcompress(kk-140+5,/remove)
+        if kk ge 30 and kk lt 30+2 then tb='00'+strcompress((kk-30)*5,/remove)
+        if kk ge 30+2 and kk lt 30+20 then tb='0'+strcompress((kk-30)*5,/remove)
+        if kk ge 30+20 and kk le 30+29 then tb=strcompress((kk-30)*5,/remove)
         
         names[kk]=bz+tb+'_'+te
    
      endfor
      
-     for kk=0,279 do begin     ;
+     for kk=0,59 do begin     ;
      tbeg=t_beg[kk]
      tend=t_end[kk]
 
@@ -246,10 +257,7 @@ pro Scatter_data_2d_lasttime_ey
         print,'break1'
         
         if is_array(t_last) then begin
-          indextl=where(t_last ge last_time_beg[kk])    ;t_last do not exist in kk eq 130
-          t_last_ture=t_last[indextl]
-          append_Array,t_last_ture1,TEMPORARY(t_last_ture)
-          
+       
           append_Array,t_last1,TEMPORARY(t_last)
           append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
           append_Array,pos_gsm1,TEMPORARY(pos_gsm)
@@ -273,8 +281,8 @@ pro Scatter_data_2d_lasttime_ey
       endfor
 
       if is_array(t_c3cis1) then begin
-        save,t_c3cis1,t_last1,t_last_ture1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-              filename=root_dir+'scatter_c3_fgmcisefw_data_selected_'+names[kk]+'.sav'
+        save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
+              filename=root_dir+'c3_fgmcisefw_data_selected_5minute_per_point'+names[kk]+'.sav'
   
         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save

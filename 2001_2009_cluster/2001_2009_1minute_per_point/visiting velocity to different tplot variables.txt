@@ -1,0 +1,4 @@
+compare scatter_Data_2d_lasttime_ey(1) with scatter_Data_2d_lasttime_ey_improved(2)
+
+(2)use tplot_save to save and read tplot variables, (1) use cdf2tplot to read tplot variables from CDF files
+while the visiting velocity to tplot variables from pro(2) is slower than pro(1),why? ___to be solved  2017.11.08

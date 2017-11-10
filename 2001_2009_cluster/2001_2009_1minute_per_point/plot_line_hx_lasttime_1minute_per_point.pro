@@ -6,12 +6,12 @@ pro plot_line_hx_lasttime_1minute_per_point
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_1minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_1minute_per_point\'
-  title_char='line_hx_lasttime_1minute_per_point_full';
+  title_char='line_hx_lasttime_1minute_per_point_full_dawnflank';
 
   title0=['median_hx_Bz','average_hx_Bz']
   ytitle='H'+cgsymbol('sub')+'x'       
   
-  restore,filename=root_dir+'scatter_event_data_ey_gt_0'+save_str+'_list_1minute_per_point_full.sav'
+  restore,filename=root_dir+'event_data'+save_str+'_list_1minute_per_point_full_dawnflank.sav'
   x=indgen(140)+1
 
   median_hx1=dblarr(140)  
@@ -33,9 +33,7 @@ pro plot_line_hx_lasttime_1minute_per_point
 ;
 ;    median_hx2[i]=median(event_hx[i+16])
 ;    average_hx2[i]=average(event_hx[i+16])
- 
-    
-    ;      err_median_hx1[i]=STDDEV(H_Re.(i)[*,0],/nan)
+   ;      err_median_hx1[i]=STDDEV(H_Re.(i)[*,0],/nan)
     ;      err_median_hx2[i]=STDDEV(H_Re.(i+15)[*,0],/nan)
   endfor
     
@@ -85,15 +83,15 @@ pro plot_line_hx_lasttime_1minute_per_point
 ;      str_element,opt_plot,'xtickname',['[0,0.5]','[0.5,1.0]','[1.0,1.5]','[1.5,2.0]','[2.0,2.5]','[2.5,3.0]',$
 ;        '[3.0,3.5]','[3.5,4.0]','[4.0,4.5]','[4.5,5.0]','[5.0,5.5]', $
 ;        '[5.5,6.0]','[6.0,6.5]','[6.5,7.0]','[7.0,7.5]','[7.5, 8.0]'],/add
-      str_element,opt_plot,'xtickname',['0','5','15','25','35','45','55','65','75','85','95', $
-      '105','115','125','135','145',cgsymbol('infinity')],/add
-      str_element,opt_plot,'xticks',16,/add
+      str_element,opt_plot,'xtickname',['5','15','25','35','45','55','65','75','85','95', $
+      '105','115','125','135','145'],/add
+      str_element,opt_plot,'xticks',14,/add
       str_element,opt_plot,'charsize',0.7,/add
       str_element,opt_plot,'xtitle',cgsymbol('delta')+'t',/add
       str_element,opt_plot,'ytitle',ytitle,/add
 
       
-      cgplot,x,get_Data[*,0,i],position=pos[i,0,*],xrange=[0.5,140.5],yrange=[0,0.8],_extra=opt_plot,/normal,/noerase
+      cgplot,x,get_Data[*,0,i],position=pos[i,0,*],xrange=[0.0,140.0],yrange=[-1.0,0.4],_extra=opt_plot,/normal,/noerase
       cgoplot,x,get_Data[*,1,i],color='red',position=pos[i,0,*],_extra=opt_plot,/normal,/noerase
       labels_stamp,pos[i,0,*],title0[i],charsize=0.7,/left_right_center,/up_out
       
