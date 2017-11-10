@@ -97,7 +97,7 @@ pro create_raw_event_data_5minute_per_point
 ;      t_end.add,t_beg[29]+5*60.,29
 ;      
 ;      t_beg.add,t_beg[0],0
-;      t_end.add,t_end[0]+5*60.,0
+;      t_end.add,t_beg[0]+5*60.,0
 ;      
 ;    bb=fltarr(60)
 ;    for i=0,59 do begin
@@ -108,7 +108,7 @@ pro create_raw_event_data_5minute_per_point
 ;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
 ;  
 ;    stop
-  
+;  
    
   
 
@@ -117,8 +117,7 @@ pro create_raw_event_data_5minute_per_point
      restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
      
      
-     
-     
+         
      bb=findgen(60)
 
      
@@ -141,13 +140,12 @@ pro create_raw_event_data_5minute_per_point
         if kk ge 30+20 and kk le 30+29 then tb=strcompress((kk-30)*5,/remove)
         
         names[kk]=bz+tb+'_'+te
-   
      endfor
      
+      
      for kk=0,59 do begin     ;
      tbeg=t_beg[kk]
      tend=t_end[kk]
-
 
       for ii=0,8 do begin   ;0-8
         year='200'+strcompress(ii+1,/remove)
@@ -206,7 +204,6 @@ pro create_raw_event_data_5minute_per_point
         tinterpol_mxn,'pressure','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
         tinterpol_mxn,'Beta_clip_deflag','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
         tinterpol_mxn,'E_gsm','pos_gsm_interp',/NEAREST_NEIGHBOR,/IGNORE_NANS
-
 
         index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
 
@@ -296,7 +293,6 @@ pro create_raw_event_data_5minute_per_point
    stop
     
         
-
 
 ;  ________________________________part3_______________________
 
