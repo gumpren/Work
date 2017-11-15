@@ -34,10 +34,10 @@ PRO Velocity_Vector_Plot
   cgSetColorState, 1, Current=currentColorState
 
   ; Read the data.
-  lat_file = 'lat.dat'
-  lon_file = 'lon.dat'
-  u_file = 'u.dat'
-  v_file = 'v.dat'
+  lat_file = 'F:\___Download\lat.dat'
+  lon_file = 'F:\___Download\lon.dat'
+  u_file = 'F:\___Download\u.dat'
+  v_file = 'F:\___Download\v.dat'
 
   n_lat = 46 ; given
   n_lon = 72 ; given
@@ -86,16 +86,16 @@ PRO Velocity_Vector_Plot
   cgDisplay
 
   ; North contour plot.
-  pos = Aspect(1.0, Margin=0.05) - [0.05, 0, 0.05, 0]
-  mapNorth = Obj_New('cgMap', 'Polar Stereographic', Limit=[0, -180, 90, 180], $
-    Position=pos, /NoBorder)
-  mapNorth -> Draw
-  cgContour, wspd, lon, lat>0, /Fill, Levels=speeds, /Outline, $
-    Label=0, /Overplot, C_Colors=Indgen(12), Map=mapNorth
-
-  ; Plot annotations.
-  cgMap_Continents, Color='charcoal', Map=mapNorth
-  cgMap_Grid, LatDel=30, LonDel=60, LineStyle=0, Color='charcoal', Map=mapNorth
+  ;pos = cgAspect(1.0, Margin=0.05) - [0.05, 0, 0.05, 0]
+;  mapNorth = Obj_New('cgMap', 'Polar Stereographic', Limit=[0, -180, 90, 180], $
+;    Position=pos, /NoBorder)
+;  mapNorth -> Draw
+;  cgContour, wspd, lon, lat>0, /Fill, Levels=speeds, /Outline, $
+;    Label=0, /Overplot, C_Colors=Indgen(12), Map=mapNorth
+;
+;  ; Plot annotations.
+;  cgMap_Continents, Color='charcoal', Map=mapNorth
+;  cgMap_Grid, LatDel=30, LonDel=60, LineStyle=0, Color='charcoal', Map=mapNorth
 
   ; Plot north wind vectors.
   indices = Where((lats GE 0) AND (lats LT 85), count)
