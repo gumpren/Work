@@ -6,12 +6,12 @@ pro plot_line_hx_lasttime_5minute_per_point
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_5minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_5minute_per_point\'
-  title_char='line_hx_lasttime_5minute_per_point_dusk_3_3_re_full';
+  title_char='line_hx_lasttime_5minute_per_point_0_margin_dawnflank';
 
   title0=['median_hx_Bz','average_hx_Bz']
   ytitle='H'+cgsymbol('sub')+'x'       
   
-  restore,filename=root_dir+'raw_data'+save_str+'_list_5minute_per_point_dusk_3_3_re_full.sav'
+  restore,filename=root_dir+'raw_data'+save_str+'_list_5minute_per_point_0_margin_dawnflank.sav'
   x=indgen(30)
 
   median_hx1=dblarr(30)  
