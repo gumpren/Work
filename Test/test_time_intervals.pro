@@ -31,7 +31,7 @@ pro test_time_intervals
      restore,filename='omni_imf_bz.sav'
      store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
       
-   a=26
+   a=29
   
    j=0
    for i=0,N_ELEMENTS(tbeg0[a])-1 do begin
@@ -42,8 +42,8 @@ pro test_time_intervals
      cgplot,t_temp,bz_tmep
      
      print,N_ELEMENTS(indices)
-     if (N_ELEMENTS(indices) gt 2) then stop
-     a=in_set((t_beg[a])[i],(tbeg0[a])[i]) 
+     if (indices ne -1) then stop
+    ; aaa=in_set((t_beg[a])[i],(tbeg0[a])[i]) 
      ; stop
    endfor
    

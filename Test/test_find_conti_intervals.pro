@@ -16,11 +16,7 @@ pro test_find_conti_intervals
      append_array,BZ,BZ_temp
      append_array,t_c3fgm,t_c3fgm_temp
    endfor
-   
-   
 
    stop
-
-
 
 end
