@@ -41,7 +41,11 @@ pro create_raw_event_data_5minute_per_point
 ;
 ;       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
 ;        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
+<<<<<<< HEAD
 ;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=2*60,duration=duration[jj],nint=nint,tbeg=tbeg0,tend=tend0
+=======
+;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=0*60,duration=duration[jj],nint=nint,tbeg=tbeg0,tend=tend0
+>>>>>>> a9d4ff4bcef01d799f94f2e33eff89abcc47ddfa
 ;        append_Array,tbeg1,tbeg0
 ;        append_Array,tend1,tend0
 ;        undefine,time,BZ_GSM
@@ -54,14 +58,24 @@ pro create_raw_event_data_5minute_per_point
 ;    endfor
 ;      savetime_t=(systime(1)-start)/60.0
 ;      save,t_beg,t_end,savetime_t,$
+<<<<<<< HEAD
 ;      filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point.sav'
 ;    stop
 ;  
+=======
+;      filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin.sav'
+;    stop
+  
+>>>>>>> a9d4ff4bcef01d799f94f2e33eff89abcc47ddfa
  
     
     
 ;    ;part1.2
+<<<<<<< HEAD
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point.sav'
+=======
+;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin.sav'
+>>>>>>> a9d4ff4bcef01d799f94f2e33eff89abcc47ddfa
 ;    t_b=t_beg
 ;    t_e=t_end
 ;      aa=fltarr(58)
@@ -107,10 +121,17 @@ pro create_raw_event_data_5minute_per_point
 ;    endfor
 ;  
 ;    save,t_beg,t_end,$
+<<<<<<< HEAD
 ;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
 ;  
 ;    stop
   
+=======
+;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin_add_former_time.sav'
+;  
+;    stop
+;  
+>>>>>>> a9d4ff4bcef01d799f94f2e33eff89abcc47ddfa
    
   
 
@@ -199,7 +220,11 @@ pro create_raw_event_data_5minute_per_point
 
     
 ;     ;part2.2
+<<<<<<< HEAD
 ;     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
+=======
+;     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin_add_former_time.sav'
+>>>>>>> a9d4ff4bcef01d799f94f2e33eff89abcc47ddfa
 ;    
 ;     names=strarr(60)
 ;     for kk=0,59 do begin
@@ -223,7 +248,11 @@ pro create_raw_event_data_5minute_per_point
 ;     endfor
 ;    
 ;    
+<<<<<<< HEAD
 ;     for kk=0,59 do begin     ;
+=======
+;     for kk=59,2,-1 do begin     ;
+>>>>>>> a9d4ff4bcef01d799f94f2e33eff89abcc47ddfa
 ;       tbeg=t_beg[kk]
 ;       tend=t_end[kk]
 ;    
@@ -317,7 +346,11 @@ pro create_raw_event_data_5minute_per_point
 ;    
 ;       if is_array(t_c3cis1) then begin
 ;         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
+<<<<<<< HEAD
 ;           filename=root_dir+'c3_fgmcisefw_data_selected_5minute_per_point'+names[kk]+'.sav'
+=======
+;           filename=root_dir+'c3_fgmcisefw_data_selected_5minute_per_point_0_margin'+names[kk]+'.sav'
+>>>>>>> a9d4ff4bcef01d799f94f2e33eff89abcc47ddfa
 ;    
 ;         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
 ;         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
