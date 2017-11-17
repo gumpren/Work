@@ -3,7 +3,10 @@ pro test_time_intervals
    tbeg0=t_beg
    tend0=t_end
    
-   restore,'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
+   restore,'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time_mine.sav'
+   
+;   
+   
    
    a0=fltarr(60)
    a=fltarr(60)
@@ -28,11 +31,11 @@ pro test_time_intervals
      restore,filename='omni_imf_bz.sav'
      store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
       
-   a=28
+   a=26
   
    j=0
-   for i=0,N_ELEMENTS(t_beg[a])-1 do begin
-     bz_tmep=tsample('BZ_GSM1',[(t_beg[a])[i]-1*60,(t_end[a])[i]+0*60],times=t_temp)
+   for i=0,N_ELEMENTS(tbeg0[a])-1 do begin
+     bz_tmep=tsample('BZ_GSM1',[(tbeg0[a])[i]-2*60,(tend0[a])[i]+0*60],times=t_temp)
      indices=where(bz_tmep lt 0)
      
      cgdisplay
