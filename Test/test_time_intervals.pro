@@ -1,10 +1,14 @@
 pro test_time_intervals
+
+
+;  according to this test, time intervals for (2margin) and (find_conti_intervals_mine) are not reliable
    restore,'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin_add_former_time.sav'
    tbeg0=t_beg
    tend0=t_end
    
-   restore,'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time_mine.sav'
-   
+;   restore,'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
+;   restore,'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time_mine.sav'
+   ;these two
 ;   
    
    
@@ -31,18 +35,18 @@ pro test_time_intervals
      restore,filename='omni_imf_bz.sav'
      store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
       
-   a=29
+   a=33
   
    j=0
-   for i=0,N_ELEMENTS(tbeg0[a])-1 do begin
-     bz_tmep=tsample('BZ_GSM1',[(tbeg0[a])[i]-2*60,(tend0[a])[i]+0*60],times=t_temp)
-     indices=where(bz_tmep lt 0)
+   for i=0,N_ELEMENTS(t_beg[a])-1 do begin
+     bz_tmep=tsample('BZ_GSM1',[(t_beg[a])[i]-2*60,(t_end[a])[i]+0*60],times=t_temp)
+     indices=where(bz_tmep gt 0)
      
      cgdisplay
      cgplot,t_temp,bz_tmep
      
      print,N_ELEMENTS(indices)
-     if (indices ne -1) then stop
+     if (indices[0] ne -1) then stop
     ; aaa=in_set((t_beg[a])[i],(tbeg0[a])[i]) 
      ; stop
    endfor
