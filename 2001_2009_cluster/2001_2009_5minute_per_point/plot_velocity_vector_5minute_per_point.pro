@@ -6,9 +6,9 @@ pro plot_velocity_vector_5minute_per_point
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_5minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_5minute_per_point\'
-  title_char='velocity_vector_IMFBZ_south_5minute_per_point';
+  title_char='velocity_vector_IMFBZ_north_5minute_per_point_0_margin';
 
-  restore,filename=root_dir+'event_data'+save_str+'_list_5minute_per_point.sav'
+  restore,filename=root_dir+'event_data'+save_str+'_list_5minute_per_point_0_margin.sav'
 
   
   ;cgdisplay
@@ -22,11 +22,24 @@ pro plot_velocity_vector_5minute_per_point
 ;  bar_title=[bar_title0,bar_title1,bar_title2]
 
   for i=0,29 do begin
-    event_vx[i]=reform(event_vx[i+30],10*30*reverse_gap^2)
-    event_vy[i]=reform(event_vy[i+30],10*30*reverse_gap^2)
- 
+    event_vx[i]=reform(event_vx[i],10*30*reverse_gap^2)
+    event_vy[i]=reform(event_vy[i],10*30*reverse_gap^2)
   endfor
   
+  a=findgen(60)
+  duration=list(a,/ex)
+  for jj = 0, 59 do begin
+    if (jj ge 0) and (jj le 29)  then duration[jj]=[jj*5+0,jj*5+5]
+    if (jj ge 30) and (jj le 59)  then duration[jj]=[(jj-30)*5+0,(jj-30)*5+5]
+  endfor
+
+  
+  ptitle=strarr(5,6)
+  for i=0,4 do begin
+    for j=0,5 do begin
+      ptitle[i,j]='B!dz!n!x>0 ['+strcompress((duration[j+i*6])[0],/remove)+','+strcompress((duration[j+i*6])[1],/remove)+']'
+    endfor
+  endfor
   
  
   v_ge_100_index_per=dblarr(30)
@@ -62,20 +75,9 @@ pro plot_velocity_vector_5minute_per_point
   yrange=[15,-15]
   
   
-  a=findgen(60)
-  duration=list(a,/ex)
-  for jj = 0, 59 do begin
-    if (jj ge 0) and (jj le 29)  then duration[jj]=[jj*5+0,jj*5+5]
-    if (jj ge 30) and (jj le 59)  then duration[jj]=[(jj-30)*5+0,(jj-30)*5+5]
-  endfor
 
   
-  ptitle=strarr(5,6)
-  for i=0,4 do begin
-    for j=0,5 do begin
-     ptitle[i,j]='B!dz!n!x<0 ['+strcompress((duration[j+i*6])[0],/remove)+','+strcompress((duration[j+i*6])[1],/remove)+']'
-    endfor
-  endfor
+
 ;  title0=['B!dz!n!x>0 [5,30]','B!dz!n!x>0 [30,90]','B!dz!n!x>0 [90,]',$
 ;    'B!dz!n!x<0 [5,30]','B!dz!n!x<0 [30,90]','B!dz!n!x<0 [90,]']
   str_element,opt_plot,'charsize',0.6,/add

@@ -1,4 +1,4 @@
-pro cluster_energy_flux_density_statistics_plot_32_pieces
+pro two_dimensional_plot_hx_32_pieces
   
   Re=6371.0
   reverse_gap=5.0/5.0

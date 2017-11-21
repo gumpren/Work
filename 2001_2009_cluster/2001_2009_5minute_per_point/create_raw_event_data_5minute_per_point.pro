@@ -184,7 +184,7 @@ pro create_raw_event_data_5minute_per_point
 ;    
 ;       save,time_all,pos_gsm_interp,velocity_gsm_interp,B_total_interp,B_gsm_interp,density_interp,$
 ;         temperature_interp,pressure_interp,Beta_clip_deflag_interp,E_gsm_interp,$
-;         filename=root_dir+'variables_fgm_cis_efw'+year
+;         filename=root_dir+'variables_fgm_cis_efw'+year+'.sav'
 ;       del_data,'*'
 ;       help,a
 ;     endfor
@@ -218,14 +218,14 @@ pro create_raw_event_data_5minute_per_point
 ;     endfor
 ;    
 ;    
-;     for kk=59,0,-1 do begin     ;
+;     for kk=53,0,-1 do begin     ;
 ;       tbeg=t_beg[kk]
 ;       tend=t_end[kk]
 ;    
 ;       for ii=0,8 do begin   ;0-8
 ;         year='200'+strcompress(ii+1,/remove)
 ;    
-;         restore,filename=root_dir+'variables_fgm_cis_efw'+year      ;if using tplot_restore, the efficiency of code runnig is too low because of too many superfluous variables
+;         restore,filename=root_dir+'variables_fgm_cis_efw'+year+'.sav'      ;if using tplot_restore, the efficiency of code runnig is too low because of too many superfluous variables
 ;         store_Data,'pos_gsm_interp',data={x:time_all,y:pos_gsm_interp}
 ;         store_Data,'velocity_gsm_interp',data={x:time_all,y:velocity_gsm_interp}
 ;         store_Data,'B_total_interp',data={x:time_all,y:B_total_interp}
@@ -254,8 +254,10 @@ pro create_raw_event_data_5minute_per_point
 ;             append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
 ;             append_Array,B_gsm,TEMPORARY(B_gsm_temp)
 ;             append_Array,B_total,TEMPORARY(B_total_temp)
+;          
 ;           endif
-;    
+;           
+;          
 ;    
 ;           density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
 ;           velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
@@ -303,7 +305,7 @@ pro create_raw_event_data_5minute_per_point
 ;    
 ;           append_Array,t_c3efw1,TEMPORARY(t_c3efw)
 ;           append_Array,E_gsm1,TEMPORARY(E_gsm)
-;    
+;           
 ;         endif
 ;         del_data,'*'
 ;         print,ii
@@ -375,24 +377,22 @@ pro create_raw_event_data_5minute_per_point
     for i=0,counts-1 do begin
       restore,filename[i]
      
-
       indext=where(temperature1 lt 32)    ;T [0.005,32] KeV
       indexv=where(abs((velocity_gsm1[*,0])[indext]) le 2000.0)    ; V [-2000,2000]
       indexn=where((density1[indext])[indexv] le 10.0 and (density1[indext])[indexv] gt 0.001 )  ;n [0.001,100]
       ;indexey=where(E_gsm1[(([indext])[indexv])[indexn],1] gt 0)     ;ey gt 0
       index_all=((([indext])[indexv])[indexn]);[indexey]
     
-      indextl=where(t_last1[index_all] ge  t_last_beg[i] )
-      index_all=(index_all)[indextl]
-     
-      ;index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
-      ;index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
+;      indextl=where(t_last1[index_all] ge  t_last_beg[i] )
+;      index_all=(index_all)[indextl]
+      
+      
+;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
+;      index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward
-
-;      
+;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward      
       index_pos=where(pos_gsm1[index_all,0] gt -17.0 and pos_gsm1[index_all,0] le -14.0 $
                   and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dusk_3_3_re
       index_all=(index_all)[index_pos]
@@ -427,7 +427,7 @@ pro create_raw_event_data_5minute_per_point
 
       bb[i]=n_elements(velocity_x)
     
-      ;event_data
+;      ;event_data
 ;      eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
 ;      event_n[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
 ;      event_t[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
@@ -449,10 +449,10 @@ pro create_raw_event_data_5minute_per_point
     endfor
     
 ;    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
-;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_5minute_per_point.sav'
+;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_5minute_per_point_0_margin.sav'
    
     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-      filename=root_dir+'raw_data'+save_str+'_list_5minute_per_point_0_margin_dusk_3_3_re.sav'
+      filename=root_dir+'raw_data'+save_str+'_list_5minute_per_point_0_margin_full_dusk_3_3_re.sav'
     stop
       
   
