@@ -6,15 +6,12 @@ pro plot_line_hx_lasttime_halfhour_per_point
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_halfhour_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_halfhour_per_point\'
-  title_char='line_hx_dawnflank_lasttime_halfhour_per_point';
-
-  ee=1
-  tt=300
+  title_char='line_hkx_lasttime_halfhour_per_point_near_dawnlank';
 
   title0=['median_hx_Bz','average_hx_Bz']
   ytitle='H'+cgsymbol('sub')+'x'       
   
-  restore,filepath('event_data_dawnflank'+save_str+'_list_halfhour_per_point.sav',root_dir=root_dir)
+  restore,filepath('raw_data'+save_str+'_list_halfhour_per_point_near_dawnflank.sav',root_dir=root_dir)
 
   x=indgen(16)+1
 
@@ -23,29 +20,14 @@ pro plot_line_hx_lasttime_halfhour_per_point
   median_hx2=dblarr(16)
   average_hx2=dblarr(16)
 
-  err_median_hx1=dblarr(16)
-  err_average_hx1=dblarr(16)
-  err_median_hx2=dblarr(16)
-  err_average_hx2=dblarr(16)
-  ;  STDDEV()
 
   for i=0,15 do begin
-    median_hx1[i]=median((H_Re[i])[*,0])
-    average_hx1[i]=average((H_Re[i])[*,0],/nan)
+    median_hx1[i]=median((H_k_Re[i])[*,0])
+    average_hx1[i]=average((H_k_Re[i])[*,0],/nan)
 
-    median_hx2[i]=median((H_Re[i+16])[*,0])
-    average_hx2[i]=average((H_Re[i+16])[*,0],/nan)
+    median_hx2[i]=median((H_k_Re[i+16])[*,0])
+    average_hx2[i]=average((H_k_Re[i+16])[*,0],/nan)
     
-    ;event data
-;    median_hx1[i]=median(event_hx[i])
-;    average_hx1[i]=average(event_hx[i])
-;
-;    median_hx2[i]=median(event_hx[i+16])
-;    average_hx2[i]=average(event_hx[i+16])
- 
-    
-    ;      err_median_hx1[i]=STDDEV(H_Re.(i)[*,0],/nan)
-    ;      err_median_hx2[i]=STDDEV(H_Re.(i+15)[*,0],/nan)
   endfor
 
   a=[[[1],[2]], $
@@ -53,8 +35,7 @@ pro plot_line_hx_lasttime_halfhour_per_point
   
   get_Data=[[[median_hx1],[median_hx2]],  $
            [[average_hx1],[average_hx2]]]
-;  err_bar=[[[err_median_hx1],[err_median_hx2]],  $
-;           [[err_average_hx1],[err_average_hx2]] ]
+
 
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
   pos=set_plot_position(2,1,left=0.05,right=0.80,xgap=0.1,ygap=0.1,low=0.01,high=0.7)
@@ -112,8 +93,6 @@ pro plot_line_hx_lasttime_halfhour_per_point
   ;  cgplot,x,aaa,position=pos[0,1,*],xrange=[-20,-10],_extra=opt_plot
 
   cgps_close
-
-
 
   stop
 
