@@ -257,8 +257,8 @@
          store_Data,'Beta_clip_deflag_interp',data={x:time_all,y:Beta_clip_deflag_interp}
          store_Data,'E_gsm_interp',data={x:time_all,y:E_gsm_interp}
          
-;         restore,filename='C:\__Data\Datasave\omni_imf_bz.sav'
-;         store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
+         restore,filename='C:\__Data\Datasave\omni_imf_bz.sav'
+         store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
          
          index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
 
@@ -266,17 +266,17 @@
          for jj=0,count-1 do begin
           
            tic
-;           bz_tmep=tsample('BZ_GSM1',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_omni_temp)                      
-;           if kk le 15 then indices=where(bz_tmep lt 0)
-;           if kk gt 15 then indices=where(bz_tmep gt 0)   
-;           if ((kk ge 0 and  kk le 2) or (kk ge 16 and  kk le 18)) then begin
-;              numb=4
-;           endif else begin
-;              numb=10
-;           endelse
+           bz_tmep=tsample('BZ_GSM1',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_omni_temp)                      
+           if kk le 15 then indices=where(bz_tmep lt 0)
+           if kk gt 15 then indices=where(bz_tmep gt 0)   
+           if ((kk ge 0 and  kk le 2) or (kk ge 16 and  kk le 18)) then begin
+              numb=4
+           endif else begin
+              numb=10
+           endelse
            
            ;N_ELEMENTS(indices) le numb
-           if ( 1 eq 1) then begin    ;clip too much error gap
+           if ( N_ELEMENTS(indices) le numb) then begin    ;clip too much error gap
              
              B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
              B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
@@ -352,7 +352,7 @@
 
        if is_array(t_c3cis1) then begin
          save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-           filename=root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_'+names[kk]+'.sav'
+           filename=root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_fixed_'+names[kk]+'.sav'
 
          undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
          undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
