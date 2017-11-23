@@ -125,18 +125,18 @@ pro create_raw_event_data_10minute_per_point
       tb2=t_beg[i-1]
       te2=t_end[i-1]
       
-      for j=1000,n_elements(tb1)-1 do begin ;
+      for j=0,n_elements(tb1)-1 do begin ;
         tic               
-        t_str=time_string(tb1[j]+time_array[i-1],precision=-4,format=2)       
-        filename1=file_search('C:\__Data\OMNI\*'+t_str+'*.cdf')        
-        filenames=file_search('C:\__Data\OMNI\*.cdf')
-        idx=where((strcompress(filename1[0]) eq strcompress(filenames)) eq 1b)  ; find tend cdf file
-        
-        if (idx-1 ge 0) then begin
-          filename=[filenames[idx-1],filenames[idx]]
+       
+        tb_str=time_string(tb1[j],precision=-4,format=2)             
+        te_str=time_string(tb1[j]+time_array[i-1],precision=-4,format=2)       
+        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
+        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
+        if ( (filename1 eq filename2) eq 1b) then begin
+          filename=filename1
         endif else begin
-          filename=filenames[idx]
-        endelse        
+          filename=[filename1,filename2]
+        endelse  
                 
 ;        if(n_elements(filename) eq 1) then begin
 ;          loadcdf,filename[0],'Epoch',time
@@ -154,8 +154,7 @@ pro create_raw_event_data_10minute_per_point
 ;        store_data,'BZ_GSM',time,BZ_GSM
                   
         cdf2tplot,filename,varformat=['BZ_GSM'] 
-         
-        toc 
+                
                      
         bz_temp=tsample('BZ_GSM',[tb1[j],tb1[j]+time_array[i-1]],times=t_omni_temp)
         indices=where(bz_temp lt 0)
@@ -179,15 +178,14 @@ pro create_raw_event_data_10minute_per_point
       te22=t_end[i+14]      
       for j=0,n_elements(tb11)-1 do begin
         
-        t_str=time_string(tb11[j]+time_array[i-1],precision=-4,format=2)
-        filename1=file_search('C:\__Data\OMNI\*'+t_str+'*.cdf')
-        filenames=file_search('C:\__Data\OMNI\*.cdf')
-        idx=where((strcompress(filename1[0]) eq strcompress(filenames)) eq 1b)
-
-        if (idx-1 ge 0) then begin
-          filename=[filenames[idx-1],filenames[idx]]
+        tb_str=time_string(tb11[j],precision=-4,format=2)             
+        te_str=time_string(tb11[j]+time_array[i-1],precision=-4,format=2)       
+        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
+        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
+        if ( (filename1 eq filename2) eq 1b) then begin
+          filename=filename1
         endif else begin
-          filename=filenames[idx]
+          filename=[filename1,filename2]
         endelse
         cdf2tplot,filename,varformat=['BZ_GSM']
 
@@ -213,7 +211,7 @@ pro create_raw_event_data_10minute_per_point
     endfor
     
     save_time=(systime(1)-start)/60.0
-    save,t_beg,t_end,$
+    save,t_beg,t_end,save_time$
           filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_former_time.sav'
  
     stop
