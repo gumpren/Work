@@ -57,7 +57,7 @@
 ;  print,(systime(1)-start)/60.
 ;  
 ;  stop
-
+;
 
   
 ;    ;part_1.2
@@ -66,38 +66,7 @@
 ;    t_b=t_beg
 ;    t_e=t_end
 ;    
-;    ;clip unsuitable numbers 
-;    
-;    restore,filename='C:\__Data\Datasave\omni_imf_bz.sav'
-;    store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
-;    j=0
-;    for i=0,31 do begin
-;      for j=0,N_ELEMENTS(t_beg[i])-1 do begin
-;        bz_tmep=tsample('BZ_GSM1',[(t_beg[i])[j]-0*60,(t_end[i])[j]+0*60],times=t_temp) 
-;               
-;        if i le 15 then indices=where(bz_tmep lt 0)
-;        if i gt 15 then indices=where(bz_tmep gt 0)
-;        
-;        if ((i ge 0 and  i le 2) or (i ge 16 and  i le 18)) then begin
-;           numb=4
-;        endif else begin
-;           numb=10
-;        endelse
-;
-;        if (N_ELEMENTS(indices) ge numb) then begin
-;          aa=t_beg[i]
-;          aa[j]=!values.F_NAN
-;          t_beg[i]=aa
-;           
-;         ; (t_beg[i])[j]=0 
-;          j=j+1
-;        endif
-;        
-;      endfor
-;    endfor
-;    
-;    
-;    
+;   
 ;    aa=fltarr(32)
 ;    for i=0,31 do begin
 ;      aa[i]=N_ELEMENTS(t_end[i])
@@ -230,144 +199,143 @@
 ;     stop
 
 
-<<<<<<< HEAD
-     ;part2.2
-     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point.sav'
+;     ;part2.2
+;     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point.sav'
+;
+;     names=['_BZgt0_0.0_0.5','_BZgt0_0.5_1.0','_BZgt0_1.0_1.5','_BZgt0_1.5_2.0','_BZgt0_2.0_2.5','_BZgt0_2.5_3.0','_BZgt0_3.0_3.5','_BZgt0_3.5_4.0',$
+;            '_BZgt0_4.0_4.5','_BZgt0_4.5_5.0','_BZgt0_5.0_5.5','_BZgt0_5.5_6.0','_BZgt0_6.0_6.5','_BZgt0_6.5_7.0','_BZgt0_7.0_7.5','_BZgt0_7.5_8.0',$
+;            '_BZle0_0.0_0.5','_BZle0_0.5_1.0','_BZle0_1.0_1.5','_BZle0_1.5_2.0','_BZle0_2.0_2.5','_BZle0_2.5_3.0','_BZle0_3.0_3.5','_BZle0_3.5_4.0',$
+;            '_BZle0_4.0_4.5','_BZle0_4.5_5.0','_BZle0_5.0_5.5','_BZle0_5.5_6.0','_BZle0_6.0_6.5','_BZle0_6.5_7.0','_BZle0_7.0_7.5','_BZle0_7.5_8.0']
+;            
+;     for kk=0,31 do begin     
+;       tbeg=t_beg[kk]
+;       tend=t_end[kk]
+;      
+;             
+;       for ii=0,8 do begin   ;
+;         year='200'+strcompress(ii+1,/remove)
+;
+;         restore,filename='C:\__Data\Datasave\'+'variables_fgm_cis_efw'+year+'.sav'      ;if using tplot_restore, the efficiency of code runnig is too low because of too many superfluous variables
+;         store_Data,'pos_gsm_interp',data={x:time_all,y:pos_gsm_interp}
+;         store_Data,'velocity_gsm_interp',data={x:time_all,y:velocity_gsm_interp}
+;         store_Data,'B_total_interp',data={x:time_all,y:B_total_interp}
+;         store_Data,'B_gsm_interp',data={x:time_all,y:B_gsm_interp}
+;         store_Data,'density_interp',data={x:time_all,y:density_interp}
+;         store_Data,'temperature_interp',data={x:time_all,y:temperature_interp}
+;         store_Data,'pressure_interp',data={x:time_all,y:pressure_interp}
+;         store_Data,'Beta_clip_deflag_interp',data={x:time_all,y:Beta_clip_deflag_interp}
+;         store_Data,'E_gsm_interp',data={x:time_all,y:E_gsm_interp}
+;         
+;         restore,filename='C:\__Data\Datasave\omni_imf_bz.sav'
+;         store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
+;         
+;         index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
+;
+;
+;         for jj=0,count-1 do begin
+;          
+;           tic
+;           bz_tmep=tsample('BZ_GSM1',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_omni_temp)                      
+;           if kk le 15 then indices=where(bz_tmep lt 0)
+;           if kk gt 15 then indices=where(bz_tmep gt 0)   
+;           if ((kk ge 0 and  kk le 2) or (kk ge 16 and  kk le 18)) then begin
+;              numb=4
+;           endif else begin
+;              numb=10
+;           endelse
+;           
+;           ;N_ELEMENTS(indices) le numb
+;           if ( N_ELEMENTS(indices) le numb) then begin    ;clip too much error gap
+;             
+;             B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;             B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;             pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;             ;attention!!!selcet bbf  change this tplot variable
+;
+;
+;             if is_array(B_gsm_temp) then begin
+;               t_last_temp=(t_c3fgm_temp-tbeg[(index_terval[jj])])/60.0;+last_time_beg[kk]
+;               append_Array,t_last,TEMPORARY(t_last_temp)
+;               append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
+;               append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
+;               append_Array,B_gsm,TEMPORARY(B_gsm_temp)
+;               append_Array,B_total,TEMPORARY(B_total_temp)
+;
+;             endif
+;
+;             density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;             velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;             temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;             pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;             Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;
+;             if is_array(density_temp) then begin
+;               append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
+;               append_Array,density,TEMPORARY(density_temp)
+;               append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
+;               append_Array,temperature,TEMPORARY(temperature_temp)
+;               append_Array,pressure,TEMPORARY(pressure_temp)
+;               append_Array,Beta,TEMPORARY(Beta_temp)
+;             endif
+;
+;             E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
+;             if is_array(E_gsm_temp) then begin
+;               append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
+;               append_Array,E_gsm,TEMPORARY(E_gsm_temp)
+;             endif
+;
+;             print,jj
+;   
+;           endif
+;           
+;           toc
+;
+;         endfor
+;
+;         print,(systime(1)-start)/60.
+;         print,'break1'
+;
+;         if is_array(t_last) then begin
+;
+;           append_Array,t_last1,TEMPORARY(t_last)
+;           append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
+;           append_Array,pos_gsm1,TEMPORARY(pos_gsm)
+;           append_Array,B_gsm1,TEMPORARY(B_gsm)
+;           append_Array,B_total1,TEMPORARY(B_total)
+;
+;           append_Array,t_c3cis1,TEMPORARY(t_c3cis)
+;           append_Array,density1,TEMPORARY(density)
+;           append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
+;           append_Array,temperature1,TEMPORARY(temperature)
+;           append_Array,pressure1,TEMPORARY(pressure)
+;           append_Array,Beta1,TEMPORARY(Beta)
+;
+;           append_Array,t_c3efw1,TEMPORARY(t_c3efw)
+;           append_Array,E_gsm1,TEMPORARY(E_gsm)
+;
+;         endif
+;         del_data,'*'
+;         print,ii
+;
+;       endfor
+;
+;       if is_array(t_c3cis1) then begin
+;         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
+;           filename=root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_fixed_'+names[kk]+'.sav'
+;
+;         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
+;         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
+;       endif
+;       print,(systime(1)-start)/60.
+;       print,jj
+;     endfor
+;
+;     save_time_c3fgmcis=(systime(1)-start)/3600.0
+;     print,'save_time ',save_time_c3fgmcis,' hour'
+;
+;     stop
 
-     names=['_BZgt0_0.0_0.5','_BZgt0_0.5_1.0','_BZgt0_1.0_1.5','_BZgt0_1.5_2.0','_BZgt0_2.0_2.5','_BZgt0_2.5_3.0','_BZgt0_3.0_3.5','_BZgt0_3.5_4.0',$
-            '_BZgt0_4.0_4.5','_BZgt0_4.5_5.0','_BZgt0_5.0_5.5','_BZgt0_5.5_6.0','_BZgt0_6.0_6.5','_BZgt0_6.5_7.0','_BZgt0_7.0_7.5','_BZgt0_7.5_8.0',$
-            '_BZle0_0.0_0.5','_BZle0_0.5_1.0','_BZle0_1.0_1.5','_BZle0_1.5_2.0','_BZle0_2.0_2.5','_BZle0_2.5_3.0','_BZle0_3.0_3.5','_BZle0_3.5_4.0',$
-            '_BZle0_4.0_4.5','_BZle0_4.5_5.0','_BZle0_5.0_5.5','_BZle0_5.5_6.0','_BZle0_6.0_6.5','_BZle0_6.5_7.0','_BZle0_7.0_7.5','_BZle0_7.5_8.0']
-            
-     for kk=0,31 do begin     
-       tbeg=t_beg[kk]
-       tend=t_end[kk]
-      
-             
-       for ii=0,8 do begin   ;
-         year='200'+strcompress(ii+1,/remove)
-
-         restore,filename='C:\__Data\Datasave\'+'variables_fgm_cis_efw'+year+'.sav'      ;if using tplot_restore, the efficiency of code runnig is too low because of too many superfluous variables
-         store_Data,'pos_gsm_interp',data={x:time_all,y:pos_gsm_interp}
-         store_Data,'velocity_gsm_interp',data={x:time_all,y:velocity_gsm_interp}
-         store_Data,'B_total_interp',data={x:time_all,y:B_total_interp}
-         store_Data,'B_gsm_interp',data={x:time_all,y:B_gsm_interp}
-         store_Data,'density_interp',data={x:time_all,y:density_interp}
-         store_Data,'temperature_interp',data={x:time_all,y:temperature_interp}
-         store_Data,'pressure_interp',data={x:time_all,y:pressure_interp}
-         store_Data,'Beta_clip_deflag_interp',data={x:time_all,y:Beta_clip_deflag_interp}
-         store_Data,'E_gsm_interp',data={x:time_all,y:E_gsm_interp}
-         
-         restore,filename='C:\__Data\Datasave\omni_imf_bz.sav'
-         store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
-         
-         index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
-
-
-         for jj=0,count-1 do begin
-          
-           tic
-           bz_tmep=tsample('BZ_GSM1',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_omni_temp)                      
-           if kk le 15 then indices=where(bz_tmep lt 0)
-           if kk gt 15 then indices=where(bz_tmep gt 0)   
-           if ((kk ge 0 and  kk le 2) or (kk ge 16 and  kk le 18)) then begin
-              numb=4
-           endif else begin
-              numb=10
-           endelse
-           
-           ;N_ELEMENTS(indices) le numb
-           if ( N_ELEMENTS(indices) le numb) then begin    ;clip too much error gap
-             
-             B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-             B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-             pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-             ;attention!!!selcet bbf  change this tplot variable
-
-
-             if is_array(B_gsm_temp) then begin
-               t_last_temp=(t_c3fgm_temp-tbeg[(index_terval[jj])])/60.0;+last_time_beg[kk]
-               append_Array,t_last,TEMPORARY(t_last_temp)
-               append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
-               append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
-               append_Array,B_gsm,TEMPORARY(B_gsm_temp)
-               append_Array,B_total,TEMPORARY(B_total_temp)
-
-             endif
-
-             density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-             velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-             temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-             pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-             Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-
-             if is_array(density_temp) then begin
-               append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
-               append_Array,density,TEMPORARY(density_temp)
-               append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
-               append_Array,temperature,TEMPORARY(temperature_temp)
-               append_Array,pressure,TEMPORARY(pressure_temp)
-               append_Array,Beta,TEMPORARY(Beta_temp)
-             endif
-
-             E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
-             if is_array(E_gsm_temp) then begin
-               append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
-               append_Array,E_gsm,TEMPORARY(E_gsm_temp)
-             endif
-
-             print,jj
-   
-           endif
-           
-           toc
-
-         endfor
-
-         print,(systime(1)-start)/60.
-         print,'break1'
-
-         if is_array(t_last) then begin
-
-           append_Array,t_last1,TEMPORARY(t_last)
-           append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
-           append_Array,pos_gsm1,TEMPORARY(pos_gsm)
-           append_Array,B_gsm1,TEMPORARY(B_gsm)
-           append_Array,B_total1,TEMPORARY(B_total)
-
-           append_Array,t_c3cis1,TEMPORARY(t_c3cis)
-           append_Array,density1,TEMPORARY(density)
-           append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
-           append_Array,temperature1,TEMPORARY(temperature)
-           append_Array,pressure1,TEMPORARY(pressure)
-           append_Array,Beta1,TEMPORARY(Beta)
-
-           append_Array,t_c3efw1,TEMPORARY(t_c3efw)
-           append_Array,E_gsm1,TEMPORARY(E_gsm)
-
-         endif
-         del_data,'*'
-         print,ii
-
-       endfor
-
-       if is_array(t_c3cis1) then begin
-         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-           filename=root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_fixed_'+names[kk]+'.sav'
-
-         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
-         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
-       endif
-       print,(systime(1)-start)/60.
-       print,jj
-     endfor
-
-     save_time_c3fgmcis=(systime(1)-start)/3600.0
-     print,'save_time ',save_time_c3fgmcis,' hour'
-
-     stop
-
-=======
+      ;fixed
 ;     ;part2.2
 ;     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point.sav'
 ;
@@ -503,14 +471,13 @@
 ;     print,'save_time ',save_time_c3fgmcis,' hour'
 ;
 ;     stop
->>>>>>> 008dc58a52741009705e25cc1900f9b00d87f85b
 
  
   ;_________________________________part3________________________
   
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
-  filename=file_search(root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point'+'*.sav')
+  filename=file_search(root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_fixed'+'*.sav')
   counts=n_elements(filename)
 
   a=findgen(counts)
@@ -565,19 +532,21 @@
 
 
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
-      index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
+;      index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward
 
-;    index_pos=where(pos_gsm1[index_all,0] gt -17.0 and pos_gsm1[index_all,0] le -14.0 $
-;      and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dusk_3_3_re
-      
 ;    index_pos=where(pos_gsm1[index_all,0] gt 14.0 and pos_gsm1[index_all,0] le 17.0 $
-;      and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dawn_3_3_re
-      
-    index_all=(index_all)[index_pos]
+;               and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dawn_3_3_re
+
+
+;    index_pos=where(pos_gsm1[index_all,0] gt -17.0 and pos_gsm1[index_all,0] le -14.0 $
+;                and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dusk_3_3_re
+;            
+;    index_all=(index_all)[index_pos]
+
 
     t_c3cis[i]=t_c3cis1[index_all]
     t_last[i]=t_last1[index_all]
@@ -609,31 +578,32 @@
     bb[i]=n_elements(velocity_x)
 
 ;      ;event_data
-;      eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
-;      event_n[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
-;      event_t[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
-;      event_p[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
-;      event_vx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
-;      event_vy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
-;      event_ey[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
+;    eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
+;    event_n[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
+;    event_t[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
+;    event_p[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
+;    event_vx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
+;    event_vy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
+;    event_ey[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
 ;
-;      event_hx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
-;      event_hy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
+;    event_hx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
+;    event_hy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
 ;
-;      event_kx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,0],reverse_gap)
-;      event_ky[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,1],reverse_gap)
+;    event_kx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,0],reverse_gap)
+;    event_ky[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,1],reverse_gap)
 ;
-;      event_h_k_x[i]=event_hx[i]+event_kx[i]
-;      event_h_k_y[i]=event_hy[i]+event_ky[i]
+;    event_h_k_x[i]=event_hx[i]+event_kx[i]
+;    event_h_k_y[i]=event_hy[i]+event_ky[i]
 
     print,i
   endfor
 
-  ;    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
-  ;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_5minute_per_point_0_margin.sav'
+;   save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
+;        event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_halfhour_per_point.sav'
 
   save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-    filename=root_dir+'raw_data'+save_str+'_list_halfhour_per_point_dawnflank.sav'
+    filename=root_dir+'raw_data'+save_str+'_list_halfhour_per_point.sav'
+  
   stop
 
 

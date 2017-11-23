@@ -55,57 +55,66 @@ pro create_raw_event_data_5minute_per_point
 ;  
    
     
-;    ;part1.2
-;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin.sav'
-;    t_b=t_beg
-;    t_e=t_end
-;      aa=fltarr(58)
-;      for i=0,57 do begin
-;        aa[i]=N_ELEMENTS(t_end[i])
-;      endfor
-;  
-;  
-;    time_array=(5*findgen(28)+10)*60.0
-;    for i=28,1,-1 do begin
-;      tb1=t_b[i]
-;      te1=t_e[i]
-;      tb2=t_b[i-1]
-;      te2=t_e[i-1]
-;      append_array,tb2,tb1
-;      append_array,te2,tb1+time_array[i-1]
-;  
-;      t_beg[i-1]=tb2
-;      t_end[i-1]=te2
-;  
-;      tb11=t_b[i+29]
-;      te11=t_e[i+29]
-;      tb22=t_b[i+28]
-;      te22=t_e[i+28]
-;      append_array,tb22,tb11
-;      append_array,te22,tb11+time_array[i-1]
-;  
-;      t_beg[i+28]=tb22
-;      t_end[i+28]=te22
-;  
-;      print,i
-;    endfor
-;      
-;      t_beg.add,t_beg[29],29
-;      t_end.add,t_beg[29]+5*60.,29
-;      
-;      t_beg.add,t_beg[0],0
-;      t_end.add,t_beg[0]+5*60.,0
-;      
-;    bb=fltarr(60)
-;    for i=0,59 do begin
-;      bb[i]=N_ELEMENTS(t_end[i])
-;    endfor
-;  
-;    save,t_beg,t_end,$
-;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin_add_former_time.sav'
-;  
-;    stop
-;  
+    ;part1.2
+    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin.sav'
+    t_b=t_beg
+    t_e=t_end
+    
+;    t_e[0]=0    ;list acts like Dynamic array, if change t_e,t_end also changes
+;    t_beg[0]=0
+      aa=fltarr(58)
+      for i=0,57 do begin
+        aa[i]=N_ELEMENTS(t_end[i])
+      endfor
+  
+  
+    time_array=(5*findgen(28)+10)*60.0
+    for i=28,1,-1 do begin
+      tb1=t_b[i]
+      te1=t_e[i]
+      tb2=t_b[i-1]
+      te2=t_e[i-1]
+      append_array,tb2,tb1
+      append_array,te2,tb1+time_array[i-1]
+  
+      t_beg[i-1]=tb2
+      t_end[i-1]=te2
+  
+      tb11=t_b[i+29]
+      te11=t_e[i+29]
+      tb22=t_b[i+28]
+      te22=t_e[i+28]
+      append_array,tb22,tb11
+      append_array,te22,tb11+time_array[i-1]
+  
+      t_beg[i+28]=tb22
+      t_end[i+28]=te22
+  
+      print,i
+    endfor
+      
+    cc=fltarr(58)
+    for i=0,57 do begin
+      cc[i]=N_ELEMENTS(t_end[i])
+    endfor
+      
+      
+      t_beg.add,t_beg[29],29
+      t_end.add,t_beg[29]+5*60.,29
+      
+      t_beg.add,t_beg[0],0
+      t_end.add,t_beg[0]+5*60.,0
+      
+    bb=fltarr(60)
+    for i=0,59 do begin
+      bb[i]=N_ELEMENTS(t_end[i])
+    endfor
+  
+    save,t_beg,t_end,$
+          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_0_margin_add_former_time.sav'
+  
+    stop
+  
 
    
 

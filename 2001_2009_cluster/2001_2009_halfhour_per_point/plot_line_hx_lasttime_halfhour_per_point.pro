@@ -6,12 +6,12 @@ pro plot_line_hx_lasttime_halfhour_per_point
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_halfhour_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_halfhour_per_point\'
-  title_char='line_hkx_lasttime_halfhour_per_point_near_dawnlank';
+  title_char='line_hkx_lasttime_halfhour_per_point_fixed_subsection_average';
 
   title0=['median_hx_Bz','average_hx_Bz']
   ytitle='H'+cgsymbol('sub')+'x'       
   
-  restore,filepath('raw_data'+save_str+'_list_halfhour_per_point_near_dawnflank.sav',root_dir=root_dir)
+  restore,filepath('raw_data'+save_str+'_list_halfhour_per_point.sav',root_dir=root_dir)
 
   x=indgen(16)+1
 
@@ -20,13 +20,14 @@ pro plot_line_hx_lasttime_halfhour_per_point
   median_hx2=dblarr(16)
   average_hx2=dblarr(16)
 
-
+  
+  
   for i=0,15 do begin
     median_hx1[i]=median((H_k_Re[i])[*,0])
-    average_hx1[i]=average((H_k_Re[i])[*,0],/nan)
+    average_hx1[i]=cal_average((H_k_Re[i])[*,0],/subsection_average)
 
     median_hx2[i]=median((H_k_Re[i+16])[*,0])
-    average_hx2[i]=average((H_k_Re[i+16])[*,0],/nan)
+    average_hx2[i]=cal_average((H_k_Re[i+16])[*,0],/subsection_average)
     
   endfor
 
@@ -47,7 +48,6 @@ pro plot_line_hx_lasttime_halfhour_per_point
   str_element,opt_plot,'X(Re)',xtitle,/add
   ;  str_element,opt_plot,'average H along Y',ytitle,/add
   
-
 
   for i=0,1 do begin
 ;    for j=0,1 do begin
