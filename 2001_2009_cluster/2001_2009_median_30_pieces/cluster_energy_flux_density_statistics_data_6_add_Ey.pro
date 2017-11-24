@@ -58,14 +58,14 @@
 ;  
 ;  
   ;part_1_former
-;  restore,root_dir+'time_interval_divided_by_Bz_yearly_normal.sav'
-;  t_b=t_beg
-;  t_e=t_end
-;    aa=fltarr(30)
-;    for i=0,29 do begin
-;      aa[i]=N_ELEMENTS(t_end[i])
-;    endfor
-;  
+  restore,root_dir+'time_interval_divided_by_Bz_yearly_normal.sav'
+  t_b=t_beg
+  t_e=t_end
+    aa=fltarr(30)
+    for i=0,29 do begin
+      aa[i]=N_ELEMENTS(t_end[i])
+    endfor
+  stop
 ;  
 ;;  b=findgen(30)      ;add new array of time range [0,5]
 ;;  t_beg=list(b,/ex)
