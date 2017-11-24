@@ -65,8 +65,7 @@ pro create_raw_event_data_5minute_per_point
       aa=fltarr(58)
       for i=0,57 do begin
         aa[i]=N_ELEMENTS(t_end[i])
-      endfor
-  
+      endfor  
   
     time_array=(5*findgen(28)+10)*60.0
     for i=28,1,-1 do begin
@@ -97,8 +96,7 @@ pro create_raw_event_data_5minute_per_point
     for i=0,57 do begin
       cc[i]=N_ELEMENTS(t_end[i])
     endfor
-      
-      
+            
       t_beg.add,t_beg[29],29
       t_end.add,t_beg[29]+5*60.,29
       
