@@ -81,7 +81,7 @@ pro create_raw_event_data_10minute_per_point
   
    
     ;part1.2
-    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'   
+    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'  
 ;    t_b=t_beg
 ;    t_e=t_end
     
@@ -211,7 +211,7 @@ pro create_raw_event_data_10minute_per_point
     endfor
     
     save_time=(systime(1)-start)/60.0
-    save,t_beg,t_end,save_time$
+    save,t_beg,t_end,save_time,  $
           filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_former_time.sav'
  
     stop
