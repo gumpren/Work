@@ -4,10 +4,9 @@ pro test_time_intervals
 
 ;  root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
 ;  according to this test, time intervals for (2margin) and (find_conti_intervals_mine) are not reliable
-   restore,'C:\__Data\Datasave\2001_2009_10minute_per_point\time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav'
-
-   t_beg=tt_beg
-   t_end=tt_end
+   restore,'C:\__Data\Datasave\2001_2009_10minute_per_point\time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
+   t_beg=t_beg
+   t_end=t_end
    
 ;   restore,'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time.sav'
 ;   restore,'time_interval_divided_by_Bz_yearly_normal_5minute_per_point_add_former_time_mine.sav'
@@ -25,7 +24,7 @@ pro test_time_intervals
 ;   
 
      
-   a=0
+   a=14
   
    j=0
    
@@ -52,7 +51,7 @@ pro test_time_intervals
      
      print,i,'    ',N_ELEMENTS(indices)
 
-     if (N_ELEMENTS(indices) ge 8) then j=j+1
+     if (N_ELEMENTS(indices) ge 5) then stop
 
    endfor
    
