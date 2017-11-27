@@ -132,8 +132,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    endfor
 ;    save,tt_beg,tt_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav' 
 
-    
- 
+     
 ;   ;part1.3
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav'  
@@ -282,7 +281,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    save,t_beg,t_end,save_time,  $
 ;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
 ; 
-;    
+    
   
 
    
@@ -496,7 +495,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
 ;         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
 ;       endif
-;       print,(systime(1)-start)/60.
+;        print,(systime(1)-start)/60.
 ;       print,jj
 ;     endfor
 ;    
@@ -504,7 +503,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;     print,'save_time ',save_time_c3fgmcis,' hour'
 ;    
 ;     stop
-
+;
 
 ; ; ________________________________part3_______________________
 
@@ -561,8 +560,8 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
       ;indexey=where(E_gsm1[(([indext])[indexv])[indexn],1] gt 0)     ;ey gt 0
       index_all=((([indext])[indexv])[indexn]);[indexey]
     
-;      indextl=where(t_last1[index_all] ge  t_last_beg[i] )
-;      index_all=(index_all)[indextl]
+      indextl=where(t_last1[index_all] ge  t_last_beg[i] )
+      index_all=(index_all)[indextl]
       
       
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
@@ -570,10 +569,10 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
-      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward      
+;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward      
 ;      index_pos=where(pos_gsm1[index_all,0] gt -17.0 and pos_gsm1[index_all,0] le -14.0 $
 ;                  and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dusk_3_3_re
-      index_all=(index_all)[index_pos]
+;      index_all=(index_all)[index_pos]
        
     
       t_c3cis[i]=t_c3cis1[index_all]
@@ -605,32 +604,32 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 
       bb[i]=n_elements(velocity_x)
     
-;      ;event_data
-;      eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
-;      event_n[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
-;      event_t[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
-;      event_p[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
-;      event_vx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
-;      event_vy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
-;      event_ey[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
-;
-;      event_hx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
-;      event_hy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
-;     
-;      event_kx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,0],reverse_gap)
-;      event_ky[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,1],reverse_gap)
-;    
-;      event_h_k_x[i]=event_hx[i]+event_kx[i]
-;      event_h_k_y[i]=event_hy[i]+event_ky[i]
+      ;event_data
+      eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
+      event_n[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
+      event_t[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
+      event_p[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
+      event_vx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
+      event_vy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
+      event_ey[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
+
+      event_hx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
+      event_hy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
+     
+      event_kx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,0],reverse_gap)
+      event_ky[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,1],reverse_gap)
+    
+      event_h_k_x[i]=event_hx[i]+event_kx[i]
+      event_h_k_y[i]=event_hy[i]+event_ky[i]
       
       print,i
     endfor
     
-;    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
-;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_5minute_per_point_0_margin.sav'
+    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
+      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point_add_time_after_150_minutes.sav'
    
-    save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point_add_time_after_150_minutes_near_dawnflank_full.sav'
+;    save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
+;      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point_add_time_after_150_minutes_near_dawnflank_full.sav'
     stop
       
   
