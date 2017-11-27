@@ -81,7 +81,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;
 
  
-     ;part1.2   add time after 150 minutes
+;     ;part1.2   add time after 150 minutes
 ;    tt_beg=list(length=2)
 ;    tt_end=list(length=2) 
 ; 
@@ -284,9 +284,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     
   
 
-   
-
-
+  
   ;; ________________________________part2________________________________________
      
     
