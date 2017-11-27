@@ -49,9 +49,9 @@ pro test_time_intervals
 
      cgplot,t_temp,bz_tmep,yrange=[-10,10]
      
-     print,i,'    ',N_ELEMENTS(indices)
+     print,i,'    ',N_ELEMENTS(indices),'     ',((t_end[a])[i]-(t_beg[a])[i])/60.
 
-     if (N_ELEMENTS(indices) ge 5) then stop
+     if (((t_end[a])[i]-(t_beg[a])[i])/60. gt 155.0) then stop
 
    endfor
    

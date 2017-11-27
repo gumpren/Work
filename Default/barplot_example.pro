@@ -1,8 +1,4 @@
 
-PRO EX_BOX, X0, Y0, X1, Y1, color
-  ;µ÷ÓÃPolyFill½øÐÐ»æÖÆ
-  POLYFILL, [X0, X0, X1, X1], [Y0, Y1, Y1, Y0], COL = color
-END
 
 PRO BARPLOT_EXAMPLE
   
@@ -12,18 +8,18 @@ PRO BARPLOT_EXAMPLE
   HUMPBACK=[467, 465, 449, 446, 445, 444, 443, 443, 443, 443, 445]
   names = ['Coho','Sockeye','Humpback','Chinook']
   ALLPTS = [[COHO], [SOCKEYE], [HUMPBACK], [CHINOOK]]
-  ;Äê·Ý
+  ;ï¿½ï¿½ï¿½
   YEAR = [1967, 1970, INDGEN(9) + 1975]
   XVAL = FINDGEN(3)/4.+0.2
-  ;µÚÒ»ÄêÊý×é×éºÏ
+  ;ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   YVAL = [COHO[0], SOCKEYE[0], HUMPBACK[0], CHINOOK[0]]
-  ;»æÖÆÎÞÊý¾ÝµÄÇúÏß£¬x·¶Î§[0,1],xVal¾ÓÖÐÏÔÊ¾.
+  ;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ß£ï¿½xï¿½ï¿½Î§[0,1],xValï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾.
   window,xsize = 600,ysize = 400
-  ;»ùÓÚ±äÁ¿namesÏÔÊ¾Ïß±êÌâ:
+  ;ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½namesï¿½ï¿½Ê¾ï¿½ß±ï¿½ï¿½ï¿½:
   PLOT, XVAL, YVAL, /YNOZERO, XRANGE = [0,1], XTICKV = XVAL, $
     XTICKS = 3, XTICKNAME = NAMES, /NODATA, $
     TITLE = 'Salmon Populations, 1967'
-  ;»æÖÆÖù×´Í¼£¬ÔÚ¿Ì¶ÈÏßÖÐ¼äÏÔÊ¾£¬!Y.CRangeÊÇXÖá¿Ì¶ÈÏßµÄy±êÊ¶¡£
+  ;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Í¼ï¿½ï¿½ï¿½Ú¿Ì¶ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½!Y.CRangeï¿½ï¿½Xï¿½ï¿½Ì¶ï¿½ï¿½ßµï¿½yï¿½ï¿½Ê¶ï¿½ï¿½
   FOR I = 0, 2 DO EX_BOX, XVAL[I] - .08, !Y.CRANGE[0], $
     XVAL[I] + 0.08, YVAL[I], 128
 ;   agco=0.0

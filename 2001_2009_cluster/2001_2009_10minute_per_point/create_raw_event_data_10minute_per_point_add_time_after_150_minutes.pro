@@ -133,154 +133,154 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    save,tt_beg,tt_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav' 
 
      
-;   ;part1.3
-;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'
-;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav'  
-;
-;    t_beg14=t_beg[14]
-;    t_end14=t_end[14]
-;    append_array,t_beg14,tt_beg[0]
-;    append_array,t_end14,tt_end[0]
-;    t_beg[14]=t_beg14
-;    t_end[14]=t_end14
-;    
-;    t_beg29=t_beg[29]
-;    t_end29=t_end[29]
-;    append_array,t_beg29,tt_beg[1]
-;    append_array,t_end29,tt_end[1]
-;    t_beg[29]=t_beg29
-;    t_end[29]=t_end29            ;add time after 150 minutes
-;    
-;    aa=fltarr(30)
-;    for i=0,29 do begin
-;      aa[i]=N_ELEMENTS(t_end[i])
-;    endfor
-;     
-;    time_array=(10*findgen(14)+10)*60.0 
-;    
-;    for i=14,4,-1 do begin
-;      tb1=t_beg[i]
-;      te1=t_end[i]
-;      tb2=t_beg[i-1]
-;      te2=t_end[i-1]
-;      append_array,tb2,tb1
-;      append_array,te2,tb1+time_array[i-1]   
-;      t_beg[i-1]=tb2
-;      t_end[i-1]=te2
-;    
-;      tb11=t_beg[i+15]
-;      te11=t_end[i+15]
-;      tb22=t_beg[i+14]
-;      te22=t_end[i+14]
-;      append_array,tb22,tb11
-;      append_array,te22,tb11+time_array[i-1]
-;      t_beg[i+14]=tb22
-;      t_end[i+14]=te22
-;  
-;      print,i
-;    endfor
-;     
-;   ; eliminate error point 
-;;    restore,'C:\__Data\Datasave\omni_imf_bz.sav'
-;;    store_data,'BZ_GSM1',time,bz_gsm
-;     
-;    error_p=[2,3,5]  
-;    for i=3,1,-1 do begin
-;  
-;      ;bz_north
-;      tb1=t_beg[i]
-;      te1=t_end[i]
-;      tb2=t_beg[i-1]
-;      te2=t_end[i-1]
-;      
-;      for j=0,n_elements(tb1)-1 do begin ;
-;        tic               
-;       
-;        tb_str=time_string(tb1[j],precision=-4,format=2)             
-;        te_str=time_string(tb1[j]+time_array[i-1],precision=-4,format=2)       
-;        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
-;        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
-;        if ( (filename1 eq filename2) eq 1b) then begin
-;          filename=filename1
+   ;part1.3
+    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'
+    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav'  
+
+    t_beg14=t_beg[14]
+    t_end14=t_end[14]
+    append_array,t_beg14,tt_beg[0]
+    append_array,t_end14,tt_beg[0]+150.0*60
+    t_beg[14]=t_beg14
+    t_end[14]=t_end14
+    
+    t_beg29=t_beg[29]
+    t_end29=t_end[29]
+    append_array,t_beg29,tt_beg[1]
+    append_array,t_end29,tt_beg[1]+150.0*60
+    t_beg[29]=t_beg29
+    t_end[29]=t_end29            ;add time after 150 minutes
+    
+    aa=fltarr(30)
+    for i=0,29 do begin
+      aa[i]=N_ELEMENTS(t_end[i])
+    endfor
+     
+    time_array=(10*findgen(14)+10)*60.0 
+    
+    for i=14,4,-1 do begin
+      tb1=t_beg[i]
+      te1=t_end[i]
+      tb2=t_beg[i-1]
+      te2=t_end[i-1]
+      append_array,tb2,tb1
+      append_array,te2,tb1+time_array[i-1]   
+      t_beg[i-1]=tb2
+      t_end[i-1]=te2
+    
+      tb11=t_beg[i+15]
+      te11=t_end[i+15]
+      tb22=t_beg[i+14]
+      te22=t_end[i+14]
+      append_array,tb22,tb11
+      append_array,te22,tb11+time_array[i-1]
+      t_beg[i+14]=tb22
+      t_end[i+14]=te22
+  
+      print,i
+    endfor
+     
+   ; eliminate error point 
+;    restore,'C:\__Data\Datasave\omni_imf_bz.sav'
+;    store_data,'BZ_GSM1',time,bz_gsm
+     
+    error_p=[2,3,5]  
+    for i=3,1,-1 do begin
+  
+      ;bz_north
+      tb1=t_beg[i]
+      te1=t_end[i]
+      tb2=t_beg[i-1]
+      te2=t_end[i-1]
+      
+      for j=0,n_elements(tb1)-1 do begin ;
+        tic               
+       
+        tb_str=time_string(tb1[j],precision=-4,format=2)             
+        te_str=time_string(tb1[j]+time_array[i-1],precision=-4,format=2)       
+        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
+        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
+        if ( (filename1 eq filename2) eq 1b) then begin
+          filename=filename1
+        endif else begin
+          filename=[filename1,filename2]
+        endelse  
+                
+;        if(n_elements(filename) eq 1) then begin
+;          loadcdf,filename[0],'Epoch',time
+;          loadcdf,filename[0],'BZ_GSM',BZ_GSM
 ;        endif else begin
-;          filename=[filename1,filename2]
-;        endelse  
-;                
-;;        if(n_elements(filename) eq 1) then begin
-;;          loadcdf,filename[0],'Epoch',time
-;;          loadcdf,filename[0],'BZ_GSM',BZ_GSM
-;;        endif else begin
-;;          loadcdf,filename[0],'Epoch',time0
-;;          loadcdf,filename[1],'Epoch',time1
-;;          loadcdf,filename[0],'BZ_GSM',BZ_GSM0
-;;          loadcdf,filename[1],'BZ_GSM',BZ_GSM1
-;;          
-;;          time=[time0,time1]
-;;          BZ_GSM=[BZ_GSM0,BZ_GSM1]
-;;        endelse
-;;        
-;;        store_data,'BZ_GSM',time,BZ_GSM
-;                  
-;        cdf2tplot,filename,varformat=['BZ_GSM'] 
-;                                     
-;        bz_temp=tsample('BZ_GSM',[tb1[j],tb1[j]+time_array[i-1]],times=t_omni_temp)
-;        indices=where(bz_temp lt 0)
-;                
-;        if ( N_ELEMENTS(indices) le error_p[i-1] ) then begin   ;
-;          append_Array,tb2,tb1[j]
-;          append_Array,te2,tb1[j]+time_array[i-1]
-;        endif
-;        
-;        toc
-;      endfor
-;     
-;      t_beg[i-1]=tb2
-;      t_end[i-1]=te2
-;
-;
-;      ;bz south
-;      tb11=t_beg[i+15]
-;      te11=t_end[i+15]
-;      tb22=t_beg[i+14]
-;      te22=t_end[i+14]      
-;      for j=0,n_elements(tb11)-1 do begin
-;        
-;        tb_str=time_string(tb11[j],precision=-4,format=2)             
-;        te_str=time_string(tb11[j]+time_array[i-1],precision=-4,format=2)       
-;        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
-;        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
-;        if ( (filename1 eq filename2) eq 1b) then begin
-;          filename=filename1
-;        endif else begin
-;          filename=[filename1,filename2]
+;          loadcdf,filename[0],'Epoch',time0
+;          loadcdf,filename[1],'Epoch',time1
+;          loadcdf,filename[0],'BZ_GSM',BZ_GSM0
+;          loadcdf,filename[1],'BZ_GSM',BZ_GSM1
+;          
+;          time=[time0,time1]
+;          BZ_GSM=[BZ_GSM0,BZ_GSM1]
 ;        endelse
-;        cdf2tplot,filename,varformat=['BZ_GSM']
-;
 ;        
-;        bz_temp=tsample('BZ_GSM',[tb11[j],tb11[j]+time_array[i-1]],times=t_omni_temp)
-;        indices=where(bz_temp gt 0)
-;
-;        if ( N_ELEMENTS(indices) le error_p[i-1] ) then begin   ;
-;          append_Array,tb22,tb11[j]
-;          append_Array,te22,tb11[j]+time_array[i-1]
-;        endif
-;      endfor
-;      t_beg[i+14]=tb22
-;      t_end[i+14]=te22
-;
-;      print,i
-;    endfor      
-;      
-;      
-;    bb=fltarr(30)
-;    for i=0,29 do begin
-;      bb[i]=N_ELEMENTS(t_end[i])
-;    endfor
-;    
-;    save_time=(systime(1)-start)/60.0
-;    save,t_beg,t_end,save_time,  $
-;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
-; 
+;        store_data,'BZ_GSM',time,BZ_GSM
+                  
+        cdf2tplot,filename,varformat=['BZ_GSM'] 
+                                     
+        bz_temp=tsample('BZ_GSM',[tb1[j],tb1[j]+time_array[i-1]],times=t_omni_temp)
+        indices=where(bz_temp lt 0)
+                
+        if ( N_ELEMENTS(indices) le error_p[i-1] ) then begin   ;
+          append_Array,tb2,tb1[j]
+          append_Array,te2,tb1[j]+time_array[i-1]
+        endif
+        
+        toc
+      endfor
+     
+      t_beg[i-1]=tb2
+      t_end[i-1]=te2
+
+
+      ;bz south
+      tb11=t_beg[i+15]
+      te11=t_end[i+15]
+      tb22=t_beg[i+14]
+      te22=t_end[i+14]      
+      for j=0,n_elements(tb11)-1 do begin
+        
+        tb_str=time_string(tb11[j],precision=-4,format=2)             
+        te_str=time_string(tb11[j]+time_array[i-1],precision=-4,format=2)       
+        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
+        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
+        if ( (filename1 eq filename2) eq 1b) then begin
+          filename=filename1
+        endif else begin
+          filename=[filename1,filename2]
+        endelse
+        cdf2tplot,filename,varformat=['BZ_GSM']
+
+        
+        bz_temp=tsample('BZ_GSM',[tb11[j],tb11[j]+time_array[i-1]],times=t_omni_temp)
+        indices=where(bz_temp gt 0)
+
+        if ( N_ELEMENTS(indices) le error_p[i-1] ) then begin   ;
+          append_Array,tb22,tb11[j]
+          append_Array,te22,tb11[j]+time_array[i-1]
+        endif
+      endfor
+      t_beg[i+14]=tb22
+      t_end[i+14]=te22
+
+      print,i
+    endfor      
+      
+      
+    bb=fltarr(30)
+    for i=0,29 do begin
+      bb[i]=N_ELEMENTS(t_end[i])
+    endfor
+    
+    save_time=(systime(1)-start)/60.0
+    save,t_beg,t_end,save_time,  $
+          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
+ 
     
   
 
@@ -368,140 +368,140 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;     stop
 
     
-;     ;part2.2
-;     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
-;    
-;     names=strarr(30)
-;     for kk=0,29 do begin
-;       if kk le 14 then begin
-;         bz='_BZgt0_'
-;         te=strcompress((kk+1)*10,/remove)
-;       endif else begin
-;         bz='_BZle0_'
-;         te=strcompress((kk+1-15)*10,/remove)
-;       endelse
-;    
-;       if kk lt 1 then tb='00'+strcompress(kk*10,/remove)
-;       if kk ge 1 and kk lt 10 then tb='0'+strcompress(kk*10,/remove)
-;       if kk ge 10 and kk le 14  then tb=strcompress(kk*10,/remove)
-;    
-;       if kk ge 15 and kk lt 15+1 then tb='00'+strcompress((kk-15)*10,/remove)
-;       if kk ge 15+1 and kk lt 15+10 then tb='0'+strcompress((kk-15)*10,/remove)
-;       if kk ge 15+10 and kk le 15+14 then tb=strcompress((kk-15)*10,/remove)
-;    
-;       names[kk]=bz+tb+'_'+te
-;     endfor
-;    
-;    
-;     for kk=29,0,-1 do begin     ;
-;       tbeg=t_beg[kk]
-;       tend=t_end[kk]
-;    
-;       for ii=0,8 do begin   ;0-8
-;         year='200'+strcompress(ii+1,/remove)
-;    
-;         restore,filename='C:\__Data\Datasave\variables_fgm_cis_efw'+year+'.sav'      ;if using tplot_restore, the efficiency of code runnig is too low because of too many superfluous variables
-;         store_Data,'pos_gsm_interp',data={x:time_all,y:pos_gsm_interp}
-;         store_Data,'velocity_gsm_interp',data={x:time_all,y:velocity_gsm_interp}
-;         store_Data,'B_total_interp',data={x:time_all,y:B_total_interp}
-;         store_Data,'B_gsm_interp',data={x:time_all,y:B_gsm_interp}
-;         store_Data,'density_interp',data={x:time_all,y:density_interp}
-;         store_Data,'temperature_interp',data={x:time_all,y:temperature_interp}
-;         store_Data,'pressure_interp',data={x:time_all,y:pressure_interp}
-;         store_Data,'Beta_clip_deflag_interp',data={x:time_all,y:Beta_clip_deflag_interp}
-;         store_Data,'E_gsm_interp',data={x:time_all,y:E_gsm_interp}
-;    
-;         index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
-;    
-;         for jj=0,count-1 do begin
-;           tic
-;    
-;           B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-;           B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-;           pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-;           ;attention!!!selcet bbf  change this tplot variable
-;    
-;    
-;           if is_array(B_gsm_temp) then begin
-;             t_last_temp=(t_c3fgm_temp-tbeg[(index_terval[jj])])/60.0;+last_time_beg[kk]
-;             append_Array,t_last,TEMPORARY(t_last_temp)
-;             append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
-;             append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
-;             append_Array,B_gsm,TEMPORARY(B_gsm_temp)
-;             append_Array,B_total,TEMPORARY(B_total_temp)
-;          
-;           endif
-;           
-;              
-;           density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-;           velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-;           temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-;           pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-;           Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-;    
-;           if is_array(density_temp) then begin
-;             append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
-;             append_Array,density,TEMPORARY(density_temp)
-;             append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
-;             append_Array,temperature,TEMPORARY(temperature_temp)
-;             append_Array,pressure,TEMPORARY(pressure_temp)
-;             append_Array,Beta,TEMPORARY(Beta_temp)
-;           endif
-;    
-;           E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
-;           if is_array(E_gsm_temp) then begin
-;             append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
-;             append_Array,E_gsm,TEMPORARY(E_gsm_temp)
-;           endif
-;    
-;           print,jj
-;           toc
-;    
-;         endfor
-;    
-;         print,(systime(1)-start)/60.
-;         print,'break1'
-;    
-;         if is_array(t_last) then begin
-;    
-;           append_Array,t_last1,TEMPORARY(t_last)
-;           append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
-;           append_Array,pos_gsm1,TEMPORARY(pos_gsm)
-;           append_Array,B_gsm1,TEMPORARY(B_gsm)
-;           append_Array,B_total1,TEMPORARY(B_total)
-;    
-;           append_Array,t_c3cis1,TEMPORARY(t_c3cis)
-;           append_Array,density1,TEMPORARY(density)
-;           append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
-;           append_Array,temperature1,TEMPORARY(temperature)
-;           append_Array,pressure1,TEMPORARY(pressure)
-;           append_Array,Beta1,TEMPORARY(Beta)
-;    
-;           append_Array,t_c3efw1,TEMPORARY(t_c3efw)
-;           append_Array,E_gsm1,TEMPORARY(E_gsm)
-;           
-;         endif
-;         del_data,'*'
-;         print,ii
-;    
-;       endfor
-;    
-;       if is_array(t_c3cis1) then begin
-;         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-;           filename=root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'.sav'
-;    
-;         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
-;         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
-;       endif
-;        print,(systime(1)-start)/60.
-;       print,jj
-;     endfor
-;    
-;     save_time_c3fgmcis=(systime(1)-start)/3600.0
-;     print,'save_time ',save_time_c3fgmcis,' hour'
-;    
-;     stop
-;
+     ;part2.2
+     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
+    
+     names=strarr(30)
+     for kk=0,29 do begin
+       if kk le 14 then begin
+         bz='_BZgt0_'
+         te=strcompress((kk+1)*10,/remove)
+       endif else begin
+         bz='_BZle0_'
+         te=strcompress((kk+1-15)*10,/remove)
+       endelse
+    
+       if kk lt 1 then tb='00'+strcompress(kk*10,/remove)
+       if kk ge 1 and kk lt 10 then tb='0'+strcompress(kk*10,/remove)
+       if kk ge 10 and kk le 14  then tb=strcompress(kk*10,/remove)
+    
+       if kk ge 15 and kk lt 15+1 then tb='00'+strcompress((kk-15)*10,/remove)
+       if kk ge 15+1 and kk lt 15+10 then tb='0'+strcompress((kk-15)*10,/remove)
+       if kk ge 15+10 and kk le 15+14 then tb=strcompress((kk-15)*10,/remove)
+    
+       names[kk]=bz+tb+'_'+te
+     endfor
+    
+    
+     for kk=29,0,-1 do begin     ;
+       tbeg=t_beg[kk]
+       tend=t_end[kk]
+    
+       for ii=0,8 do begin   ;0-8
+         year='200'+strcompress(ii+1,/remove)
+    
+         restore,filename='C:\__Data\Datasave\variables_fgm_cis_efw'+year+'.sav'      ;if using tplot_restore, the efficiency of code runnig is too low because of too many superfluous variables
+         store_Data,'pos_gsm_interp',data={x:time_all,y:pos_gsm_interp}
+         store_Data,'velocity_gsm_interp',data={x:time_all,y:velocity_gsm_interp}
+         store_Data,'B_total_interp',data={x:time_all,y:B_total_interp}
+         store_Data,'B_gsm_interp',data={x:time_all,y:B_gsm_interp}
+         store_Data,'density_interp',data={x:time_all,y:density_interp}
+         store_Data,'temperature_interp',data={x:time_all,y:temperature_interp}
+         store_Data,'pressure_interp',data={x:time_all,y:pressure_interp}
+         store_Data,'Beta_clip_deflag_interp',data={x:time_all,y:Beta_clip_deflag_interp}
+         store_Data,'E_gsm_interp',data={x:time_all,y:E_gsm_interp}
+    
+         index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
+    
+         for jj=0,count-1 do begin
+           tic
+    
+           B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+           B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+           pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+           ;attention!!!selcet bbf  change this tplot variable
+    
+    
+           if is_array(B_gsm_temp) then begin
+             t_last_temp=(t_c3fgm_temp-tbeg[(index_terval[jj])])/60.0;+last_time_beg[kk]
+             append_Array,t_last,TEMPORARY(t_last_temp)
+             append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
+             append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
+             append_Array,B_gsm,TEMPORARY(B_gsm_temp)
+             append_Array,B_total,TEMPORARY(B_total_temp)
+          
+           endif
+           
+              
+           density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+           velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+           temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+           pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+           Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+    
+           if is_array(density_temp) then begin
+             append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
+             append_Array,density,TEMPORARY(density_temp)
+             append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
+             append_Array,temperature,TEMPORARY(temperature_temp)
+             append_Array,pressure,TEMPORARY(pressure_temp)
+             append_Array,Beta,TEMPORARY(Beta_temp)
+           endif
+    
+           E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
+           if is_array(E_gsm_temp) then begin
+             append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
+             append_Array,E_gsm,TEMPORARY(E_gsm_temp)
+           endif
+    
+           print,jj
+           toc
+    
+         endfor
+    
+         print,(systime(1)-start)/60.
+         print,'break1'
+    
+         if is_array(t_last) then begin
+    
+           append_Array,t_last1,TEMPORARY(t_last)
+           append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
+           append_Array,pos_gsm1,TEMPORARY(pos_gsm)
+           append_Array,B_gsm1,TEMPORARY(B_gsm)
+           append_Array,B_total1,TEMPORARY(B_total)
+    
+           append_Array,t_c3cis1,TEMPORARY(t_c3cis)
+           append_Array,density1,TEMPORARY(density)
+           append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
+           append_Array,temperature1,TEMPORARY(temperature)
+           append_Array,pressure1,TEMPORARY(pressure)
+           append_Array,Beta1,TEMPORARY(Beta)
+    
+           append_Array,t_c3efw1,TEMPORARY(t_c3efw)
+           append_Array,E_gsm1,TEMPORARY(E_gsm)
+           
+         endif
+         del_data,'*'
+         print,ii
+    
+       endfor
+    
+       if is_array(t_c3cis1) then begin
+         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
+           filename=root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'.sav'
+    
+         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
+         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
+       endif
+        print,(systime(1)-start)/60.
+       print,jj
+     endfor
+    
+     save_time_c3fgmcis=(systime(1)-start)/3600.0
+     print,'save_time ',save_time_c3fgmcis,' hour'
+    
+     stop
+
 
 ; ; ________________________________part3_______________________
 
