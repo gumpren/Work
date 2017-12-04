@@ -60,60 +60,60 @@
 ;
 
   
-;    ;part_1.2
-;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_halfhour_per_point.sav'
-;    
-;    t_b=t_beg
-;    t_e=t_end
-;    
-;   
-;    aa=fltarr(32)
-;    for i=0,31 do begin
-;      aa[i]=N_ELEMENTS(t_end[i])
-;    endfor
-;    
-;    time_array=[0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5]*3600.
-;    for i=15,1,-1 do begin
-;      tb1=t_b[i]
-;      te1=t_e[i]
-;      tb2=t_b[i-1]
-;      te2=t_e[i-1]
-;      append_array,tb2,tb1
-;      append_array,te2,tb1+time_array[i-1]
-;      
-;      t_beg[i-1]=tb2
-;      t_end[i-1]=te2
-;      
-;      tb11=t_b[i+16]
-;      te11=t_e[i+16]
-;      tb22=t_b[i+15]
-;      te22=t_e[i+15]
-;      append_array,tb22,tb11
-;      append_array,te22,tb11+time_array[i-1]
-;  
-;      t_beg[i+15]=tb22
-;      t_end[i+15]=te22
-;      
-;      print,i 
-;    endfor
-;  ;    t_beg.add,t_beg[21],21
-;  ;    t_end.add,t_beg[21]+5*60.0,21
-;  ;    
-;  ;    t_beg.add,t_beg[0],0
-;  ;    t_end.add,t_beg[0]+5*60.0,0
-;      
-;      
-;      
-;    bb=fltarr(32)
-;    for i=0,31 do begin
-;      bb[i]=N_ELEMENTS(t_end[i])
-;    endfor  
-;     
-;    save,t_beg,t_end,$
-;          filename=root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point.sav'
-;    
-;  
-;    stop
+    ;part_1.2
+    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_halfhour_per_point.sav'
+    
+    t_b=t_beg
+    t_e=t_end
+    
+   
+    aa=fltarr(32)
+    for i=0,31 do begin
+      aa[i]=N_ELEMENTS(t_end[i])
+    endfor
+    
+    time_array=[0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5]*3600.
+    for i=15,1,-1 do begin
+      tb1=t_b[i]
+      te1=t_e[i]
+      tb2=t_b[i-1]
+      te2=t_e[i-1]
+      append_array,tb2,tb1
+      append_array,te2,tb1+time_array[i-1]
+      
+      t_beg[i-1]=tb2
+      t_end[i-1]=te2
+      
+      tb11=t_b[i+16]
+      te11=t_e[i+16]
+      tb22=t_b[i+15]
+      te22=t_e[i+15]
+      append_array,tb22,tb11
+      append_array,te22,tb11+time_array[i-1]
+  
+      t_beg[i+15]=tb22
+      t_end[i+15]=te22
+      
+      print,i 
+    endfor
+  ;    t_beg.add,t_beg[21],21
+  ;    t_end.add,t_beg[21]+5*60.0,21
+  ;    
+  ;    t_beg.add,t_beg[0],0
+  ;    t_end.add,t_beg[0]+5*60.0,0
+      
+      
+      
+    bb=fltarr(32)
+    for i=0,31 do begin
+      bb[i]=N_ELEMENTS(t_end[i])
+    endfor  
+     
+    save,t_beg,t_end,$
+          filename=root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point.sav'
+    
+  
+    stop
 
 
 ;; ________________________________part2________________________________________
