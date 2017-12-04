@@ -7,15 +7,15 @@ pro two_dimensional_plot_hx_10_minute_per_point
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
   
-  title_char='two_dimensional_plot_hx_Bz_southward_10minute_per_point_full'
+  title_char='two_dimensional_plot_hx_Bz_southward_10minute_per_point'
   panel_title='B!dz!n!x<0'
   bbindex=15
   
-  restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point_add_time_after_150_minutes_full.sav'
+  restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
 
   ;cgdisplay
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
-  pos=set_plot_position(3,5,left=0.01,right=0.87,xgap=0.02,ygap=0.02,low=0.01,high=0.95)
+  pos=set_plot_position(3,5,left=0.01,right=0.72,xgap=0.02,ygap=0.02,low=0.01,high=0.95)
 
   factor_to_kev=1.0;1.0e6/(1000.0*11600)
 

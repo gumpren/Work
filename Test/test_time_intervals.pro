@@ -4,7 +4,7 @@ pro test_time_intervals
 
 ;  root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
 ;  according to this test, time intervals for (2margin) and (find_conti_intervals_mine) are not reliable
-   restore,'C:\__Data\Datasave\2001_2009_10minute_per_point\time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
+   restore,'C:\__Data\Datasave\2001_2009_halfhour_per_point\time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point.sav'
    t_beg=t_beg
    t_end=t_end
    
@@ -24,7 +24,7 @@ pro test_time_intervals
 ;   
 
      
-   a=14
+   a=3
   
    j=0
    
@@ -50,8 +50,9 @@ pro test_time_intervals
      cgplot,t_temp,bz_tmep,yrange=[-10,10]
      
      print,i,'    ',N_ELEMENTS(indices),'     ',((t_end[a])[i]-(t_beg[a])[i])/60.
-
-     if (((t_end[a])[i]-(t_beg[a])[i])/60. gt 155.0) then stop
+     
+     if n_elements(indices) gt 8  then stop;j=j+1
+   ;  if (((t_end[a])[i]-(t_beg[a])[i])/60. gt 155.0) then stop
 
    endfor
    

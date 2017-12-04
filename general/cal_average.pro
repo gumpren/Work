@@ -20,7 +20,7 @@ function cal_average,dat,normal_average=normal_average,subsection_average=subsec
   his=histogram(dat1,binsize=0.02,locations=locat)
   
   ; p1  normal average
-  dat_average1=average(dat1)
+  dat_average1=average(dat1,/nan)
   
   ; p2  subsection average
   datv=0

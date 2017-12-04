@@ -497,7 +497,7 @@ pro create_raw_event_data_10minute_per_point
       
       
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
+;      index_pos=where(pos_gsm1[index_all,1] le 0.0  )  ;dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward

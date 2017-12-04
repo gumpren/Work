@@ -1,45 +1,56 @@
-pro plot_line_hx_lasttime_10minute_per_point
-  
-  namestr='full_'
+pro plot_line_hx_lasttime_10minute_per_point1
   
   Re=6371.0
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point_near_duskflank.sav'
-  
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
-  title_char='line_hx_lasttime_10minute_per_point_near_duskflank'
-   
-  if (strmatch(filename,'*full*') eq 1b) then begin
-    output_dir=output_dir+'full\'
-    title_char='full_'+title_char
-  endif else begin
-    output_dir=output_dir
-    title_char=title_char
-  endelse
-    
+  title_char='full_line_hx_lasttime_10minute_per_point_compare_dusk_dawn';
+
   title0=['median_hx_Bz','average_hx_Bz']
   ytitle='H'+cgsymbol('sub')+'x'       
   
-  restore,filename=filename
-  x=indgen(15)
-
-  median_hx1=dblarr(15)  
+  restore,filename=root_dir+'full_raw_data'+save_str+'_list_10minute_per_point_dawnflank.sav'
+  
+  median_hx1=dblarr(15)
   average_hx1=dblarr(15)
   median_hx2=dblarr(15)
   average_hx2=dblarr(15)
-         
+  
   for i=0,14 do begin
     median_hx1[i]=median((H_Re[i])[*,0])
     average_hx1[i]=cal_average((H_Re[i])[*,0],/normal_average)   ;fix average
 
     median_hx2[i]=median((H_Re[i+15])[*,0])
-    average_hx2[i]=cal_average((H_Re[i+15])[*,0],/normal_average)    ; 57 58 
+    average_hx2[i]=cal_average((H_Re[i+15])[*,0],/normal_average)    ; 57 58
+
+    print,i
+
+  endfor
+
+  
+  restore,filename=root_dir+'full_raw_data'+save_str+'_list_10minute_per_point_duskflank.sav'
+  x=indgen(15)
+
+  median_hx3=dblarr(15)  
+  average_hx3=dblarr(15)
+  median_hx4=dblarr(15)
+  average_hx4=dblarr(15)
+   
+   
+  for i=0,14 do begin
+    median_hx3[i]=median((H_Re[i])[*,0])
+    average_hx3[i]=cal_average((H_Re[i])[*,0],/normal_average)   ;fix average
+
+    median_hx4[i]=median((H_Re[i+15])[*,0])
+    average_hx4[i]=cal_average((H_Re[i+15])[*,0],/normal_average)    ; 57 58 
+    
+    print,i
     
   endfor
-         
+    
+     
   a=[[[1],[2]], $
      [[3],[4]]]
   
