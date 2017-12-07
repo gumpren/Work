@@ -1,4 +1,4 @@
-pro save_data_C3_FGM_CIS_2001_2009
+pro write_data_C3_FGM_CIS_2001_2009
 
   filename1=file_search('D:\__Data\Cluster\CP_FGM_SPIN\*.cdf')
   filename2=file_search('D:\__Data\Cluster\CIS\CSA\C3_CP_CIS-HIA_ONBOARD_MOMENTS\*.cdf')

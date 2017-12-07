@@ -1,97 +1,76 @@
-pro plot_line_ntp_lasttime_halfhour_per_point
 
+pro plot_line_variables_lasttime_halfhour_per_point
+  suffix_strs='_add_time_after_8hours_'+['duskflank','dawnflank','near_duskflank','near_dawnflank','far_duskflank','far_dawnflank']
+for kk=0,5 do begin
+  namestr=''
+  suffix_str=suffix_strs[kk]
+  
   Re=6371.0
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_halfhour_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_halfhour_per_point\'
-  title_char='line_p_lasttime_halfhour_per_point';
-
-  title0=['median_p_Bz','average_p_Bz']
-  nrange=[0.05,0.6]
-  trange=[0,5]
-  prange=[0.05,0.15]
-
-  restore,filepath('raw_data'+save_str+'_list_halfhour_per_point.sav',root_dir=root_dir)
-
+  filename=root_dir+namestr+'raw_data'+save_str+'_list_halfhour_per_point'+suffix_str+'.sav'
+         ;_add_time_after_8hours
+  restore,filename=filename
+  
   x=indgen(16)+1
-
-  median_n1=dblarr(16)
-  average_n1=dblarr(16)
-  median_n2=dblarr(16)
-  average_n2=dblarr(16)
+  vari=density
+  vari_str='density'
   
-  median_t1=dblarr(16)
-  average_t1=dblarr(16)
-  median_t2=dblarr(16)
-  average_t2=dblarr(16)
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_halfhour_per_point\'
+  title_char='line_'+vari_str+'_lasttime_halfhour_per_point'+suffix_str
+  if (strmatch(filename,'*full*') eq 1b) then begin
+    output_dir=output_dir+'full\'
+    title_char='full_'+title_char
+  endif else begin
+    output_dir=output_dir
+    title_char=title_char
+  endelse
+
+ 
+  title0=['median_'+vari_str+'_Bz','average_'+vari_str+'_Bz']
+  ytitle=vari_str
   
-  median_p1=dblarr(16)
-  average_p1=dblarr(16)
-  median_p2=dblarr(16)
-  average_p2=dblarr(16)
+  if (vari_str eq 'density' eq 1b)  then yrange=[0.0,0.6] ;n
+  if (vari_str eq 'pressure' eq 1b)  then yrange=[0.05,0.15] ;p
+  if (vari_str eq 'temperature' eq 1b)  then yrange=[0.0,5.0] ;t
+  if (vari_str eq 'e_gsm_y' eq 1b)  then yrange=[-0.8,0.8] ; ey
   
-;  err_median_ey1=dblarr(16)
-;  err_average_ey1=dblarr(16)
-;  err_median_ey2=dblarr(16)
-;  err_average_ey2=dblarr(16)
-  ;  STDDEV()
-
-;  ey_minus_per=dblarr(32)
-;  for ii=0,31 do begin
-;    index=where(E_gsm_y[ii] le 0,count)
-;    ey_minus_per[ii]=count/float(n_elements(E_gsm_y[ii]))
-;  endfor
-
-
+  median_vari1=dblarr(16)  
+  average_vari1=dblarr(16)
+  median_vari2=dblarr(16)
+  average_vari2=dblarr(16)
+      
   for i=0,15 do begin
-    median_n1[i]=median(density[i])
-    average_n1[i]=average(density[i],/nan)
-    median_n2[i]=median(density[i+16])
-    average_n2[i]=average(density[i+16],/nan)
-       
-    median_t1[i]=median(temperature[i])
-    average_t1[i]=average(temperature[i],/nan)
-    median_t2[i]=median(temperature[i+16])
-    average_t2[i]=average(temperature[i+16],/nan)
-     
-    median_p1[i]=median(pressure[i])
-    average_p1[i]=average(pressure[i],/nan)
-    median_p2[i]=median(pressure[i+16])
-    average_p2[i]=average(pressure[i+16],/nan)
+    median_vari1[i]=median(vari[i])
+    average_vari1[i]=average(vari[i],/nan);cal_average(vari[i],/normal_average)   ;fix average
 
-
-    ;event data
-    ;    median_ey1[i]=median(event_ey[i])
-    ;    average_ey1[i]=average(event_ey[i])
-    ;
-    ;    median_ey2[i]=median(event_ey[i+16])
-    ;    average_ey2[i]=average(event_ey[i+16])
-
-
-    ;      err_median_ey1[i]=STDDEV(H_Re.(i)[*,0],/nan)
-    ;      err_median_ey2[i]=STDDEV(H_Re.(i+15)[*,0],/nan)
+    median_vari2[i]=median(vari[i+16])
+    average_vari2[i]=average(vari[i+16],/nan);cal_average(vari[i+16],/normal_average)    ; 57 58 
+    
+    print,i
+    
   endfor
-
+    
+     
   a=[[[1],[2]], $
      [[3],[4]]]
- 
-  get_Data=[[[median_p1],[median_p2]], $
-            [[average_p1],[average_p2]]]  
-           
-  ;  err_bar=[[[err_median_ey1],[err_median_ey2]],  $
-  ;           [[err_average_ey1],[err_average_ey2]] ]
+  
+  get_Data=[[[median_vari1],[median_vari2]],  $
+           [[average_vari1],[average_vari2]]]
 
-   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
+  cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=8.0;,/ENCAPSULATED
   pos=set_plot_position(2,1,left=0.05,right=0.80,xgap=0.1,ygap=0.1,low=0.01,high=0.7)
 
-
-
+  str_element,opt_plot,'charsize',0.6,/add
+  str_element,opt_plot,'yticklen',0.05,/add
   str_element,opt_plot,'XMINOR',2,/add
+  str_element,opt_plot,'xticks',2,/add
+  str_element,opt_plot,'X(Re)',xtitle,/add
+  ;  str_element,opt_plot,'average H along Y',ytitle,/add
+  
 
-
- 
 
   for i=0,1 do begin
 ;    for j=0,1 do begin
@@ -112,14 +91,14 @@ pro plot_line_ntp_lasttime_halfhour_per_point
 ;      str_element,opt_plot,'xtickname',['[0,0.5]','[0.5,1.0]','[1.0,1.5]','[1.5,2.0]','[2.0,2.5]','[2.5,3.0]',$
 ;        '[3.0,3.5]','[3.5,4.0]','[4.0,4.5]','[4.5,5.0]','[5.0,5.5]', $
 ;        '[5.5,6.0]','[6.0,6.5]','[6.5,7.0]','[7.0,7.5]','[7.5, 8.0]'],/add
-      str_element,opt_plot,'xtickname',['0.0','0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0','4.5','5.0', $
-      '5.5','6.0','6.5','7.0','7.5','8.0'],/add
+;      str_element,opt_plot,'xtickname',['0','10','20','30','40','50','60','70','80','90', $
+;      '100','110','120','130','140','150'],/add
+      str_element,opt_plot,'xtickname',['0','0.5','1.0','1.5','2.0','2.5',$
+        '3.0','3.5','4.0','4.5','5.0','5.5','6.0','6.5','7.0','7.5','8.0'],/add
       str_element,opt_plot,'xticks',16,/add
       str_element,opt_plot,'charsize',0.7,/add
       str_element,opt_plot,'xtitle',cgsymbol('delta')+'t',/add
       str_element,opt_plot,'ytitle',ytitle,/add
-      str_element,opt_plot,'yrange',prange,/add
-
 
       
       cgplot,x,get_Data[*,0,i],position=pos[i,0,*],xrange=[0.5,16.5],yrange=yrange,_extra=opt_plot,/normal,/noerase
@@ -138,9 +117,10 @@ pro plot_line_ntp_lasttime_halfhour_per_point
   ;
   ;  cgplot,x,aaa,position=pos[0,1,*],xrange=[-20,-10],_extra=opt_plot
 
-  cgps_close
+  cgps_close;,/png
+  ;cgPS2Raster,output_dir+title_char+save_str+'.ps', /PNG
 
-
+endfor
   stop
 
 

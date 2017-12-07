@@ -390,7 +390,6 @@
 ;
 ;     stop
 
-
  
   ;_________________________________part3________________________
   
@@ -431,13 +430,14 @@
 
   t_last_beg=list(a,/ex)
   for jj = 0, 31 do begin
-    if (jj ge 0) and (jj le 15)  then t_last_beg[jj]=(jj*30)
-    if (jj ge 16) and (jj le 31)  then t_last_beg[jj]=((jj-16)*30)
+    if (jj eq 0) or (jj eq 16)  then t_last_beg[jj]=5
+    if (jj ge 1) and (jj le 15)  then t_last_beg[jj]=(jj*30)
+    if (jj ge 17) and (jj le 31)  then t_last_beg[jj]=((jj-16)*30)
   endfor
 
   bb=fltarr(counts)
 
-  for i=0,counts-1 do begin
+  for i=29,counts-1 do begin
     restore,filename[i]
 
     indext=where(temperature1 lt 32)    ;T [0.005,32] KeV
@@ -449,22 +449,21 @@
     indextl=where(t_last1[index_all] ge  t_last_beg[i] )
     index_all=(index_all)[indextl]
 
-
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward
+;    index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
+;    index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
+;    index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
+    index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
+;    index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
+;    index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward
 
 ;    index_pos=where(pos_gsm1[index_all,0] gt 14.0 and pos_gsm1[index_all,0] le 17.0 $
 ;               and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dawn_3_3_re
 
-
+;
 ;    index_pos=where(pos_gsm1[index_all,0] gt -17.0 and pos_gsm1[index_all,0] le -14.0 $
 ;                and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dusk_3_3_re
-;            
-;    index_all=(index_all)[index_pos]
+;;            
+    index_all=(index_all)[index_pos]
 
 
     t_c3cis[i]=t_c3cis1[index_all]
@@ -521,7 +520,7 @@
 ;        event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_halfhour_per_point.sav'
 
   save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-    filename=root_dir+'raw_data'+save_str+'_list_halfhour_per_point.sav'
+    filename=root_dir+'full_raw_data'+save_str+'_list_halfhour_per_point_add_time_after_8hours_dusk_3_3re.sav'
   
   stop
 

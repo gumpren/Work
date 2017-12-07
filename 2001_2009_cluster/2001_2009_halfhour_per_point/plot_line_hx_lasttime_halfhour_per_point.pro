@@ -1,42 +1,53 @@
 pro plot_line_hx_lasttime_halfhour_per_point
   
+  namestr='full_'
+  suffix_str='_add_time_after_8hours_dawn_3_3re'
+  
   Re=6371.0
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_halfhour_per_point\'
+  filename=root_dir+namestr+'raw_data'+save_str+'_list_halfhour_per_point'+suffix_str+'.sav'
+  
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_halfhour_per_point\'
-  title_char='line_hkx_lasttime_halfhour_per_point_fixed_subsection_average';
-
+  title_char='line_hx_lasttime_halfhour_per_point'+suffix_str
+   
+  if (strmatch(filename,'*full*') eq 1b) then begin
+    output_dir=output_dir+'full\'
+    title_char='full_'+title_char
+  endif else begin
+    output_dir=output_dir
+    title_char=title_char
+  endelse
+    
   title0=['median_hx_Bz','average_hx_Bz']
   ytitle='H'+cgsymbol('sub')+'x'       
   
-  restore,filepath('raw_data'+save_str+'_list_halfhour_per_point.sav',root_dir=root_dir)
-
+  restore,filename=filename
   x=indgen(16)+1
 
-  median_hx1=dblarr(16)
+  median_hx1=dblarr(16)  
   average_hx1=dblarr(16)
   median_hx2=dblarr(16)
   average_hx2=dblarr(16)
-
-  
-  
+         
   for i=0,15 do begin
-    median_hx1[i]=median((H_k_Re[i])[*,0])
-    average_hx1[i]=cal_average((H_k_Re[i])[*,0],/subsection_average)
+    median_hx1[i]=median((H_Re[i])[*,0])
+    average_hx1[i]=cal_average((H_Re[i])[*,0],/normal_average)   ;fix average
 
-    median_hx2[i]=median((H_k_Re[i+16])[*,0])
-    average_hx2[i]=cal_average((H_k_Re[i+16])[*,0],/subsection_average)
+    median_hx2[i]=median((H_Re[i+16])[*,0])
+    average_hx2[i]=cal_average((H_Re[i+16])[*,0],/normal_average)    ; 57 58 
     
   endfor
-
+         
   a=[[[1],[2]], $
      [[3],[4]]]
   
   get_Data=[[[median_hx1],[median_hx2]],  $
            [[average_hx1],[average_hx2]]]
-
+;  err_bar=[[[err_median_hx1],[err_median_hx2]],  $
+;           [[err_average_hx1],[err_average_hx2]] ]
 
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
   pos=set_plot_position(2,1,left=0.05,right=0.80,xgap=0.1,ygap=0.1,low=0.01,high=0.7)
@@ -48,6 +59,7 @@ pro plot_line_hx_lasttime_halfhour_per_point
   str_element,opt_plot,'X(Re)',xtitle,/add
   ;  str_element,opt_plot,'average H along Y',ytitle,/add
   
+
 
   for i=0,1 do begin
 ;    for j=0,1 do begin
@@ -77,7 +89,7 @@ pro plot_line_hx_lasttime_halfhour_per_point
 
       
       cgplot,x,get_Data[*,0,i],position=pos[i,0,*],xrange=[0.5,16.5],yrange=[-0.2,0.5],_extra=opt_plot,/normal,/noerase
-      cgoplot,x,get_Data[*,1,i],color='red',position=pos[i,0,*],xrange=[1,16],_extra=opt_plot,/normal,/noerase
+      cgoplot,x,get_Data[*,1,i],color='red',position=pos[i,0,*],_extra=opt_plot,/normal,/noerase
       labels_stamp,pos[i,0,*],title0[i],charsize=0.7,/left_right_center,/up_out
       
       ;      p = ERRORPLOT(x, get_Data[*,i,j], err_bar[*,i,j], XRANGE=[1,15], $
@@ -93,6 +105,8 @@ pro plot_line_hx_lasttime_halfhour_per_point
   ;  cgplot,x,aaa,position=pos[0,1,*],xrange=[-20,-10],_extra=opt_plot
 
   cgps_close
+
+
 
   stop
 
