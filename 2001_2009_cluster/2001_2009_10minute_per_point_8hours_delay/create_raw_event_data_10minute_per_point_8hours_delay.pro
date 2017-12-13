@@ -22,14 +22,14 @@ pro create_raw_event_data_10minute_per_point_8hours_delay
 ;     t_beg[i]=tbeg
 ;   endfor
 ;   save,t_beg,t_end,  $
-;     filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_9hours_delay.sav'
+;     filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_8hours_delay.sav'
 ;
 ;   
 ;  ;; ________________________________part2________________________________________
 ;     
 ;       
 ;                  
-;     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_9hours_delay.sav'
+;     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_8hours_delay.sav'
 ;    
 ;     names=strarr(30)
 ;     for kk=0,29 do begin

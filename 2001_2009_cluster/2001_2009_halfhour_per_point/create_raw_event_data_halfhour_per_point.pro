@@ -60,8 +60,67 @@
 ;
 
   
-;    ;part_1.2
+    ;part_1.2
+    
+;    tt_beg=list(length=2)
+;    tt_end=list(length=2)
+;    filename0=file_search('C:\__Data\OMNI\*.cdf')
+;    
+;    for jj=0,1 do begin
+;      if (jj le 0) then begin
+;        maxvalue=1000
+;        minvalue=0
+;      endif else begin
+;        maxvalue=0
+;        minvalue=-1000
+;      endelse
+;
+;      duration=[8.0,6666666666]*3600.   ;duration
+;
+;      marg=2*60.0  ;marg
+;
+;      error_point=8  ;error_point
+;
+;      for ii=0,106 do begin             ;divided by year
+;        cdf2tplot,filename0[ii],varformat='BZ_GSM'
+;        get_data,'BZ_GSM',time0,BZ_GSM0
+;        append_array,time,time0
+;        append_array,BZ_GSM,BZ_GSM0
+;
+;        if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
+;          store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
+;          find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=marg,duration=duration,nint=nint,tbeg=tbeg0,tend=tend0
+;          append_Array,tbeg1,tbeg0
+;          append_Array,tend1,tend0     
+;          undefine,time,BZ_GSM
+;        endif
+;      endfor
+;      tt_beg[jj]=tbeg1
+;      tt_end[jj]=tend1
+;      undefine,tbeg1,tend1
+;      print,jj
+;    endfor
+;    save,tt_beg,tt_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_halfhour_per_point_tt.sav'
+
+
+;
+;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_halfhour_per_point_tt.sav'
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_halfhour_per_point.sav'
+;    
+;    t_beg15=t_beg[15]
+;    t_end15=t_end[15]
+;    append_array,t_beg15,tt_beg[0]
+;    append_array,t_end15,tt_beg[0]+8.0*3600
+;    t_beg[15]=t_beg15
+;    t_end[15]=t_end15
+;
+;    t_beg31=t_beg[31]
+;    t_end31=t_end[31]
+;    append_array,t_beg31,tt_beg[1]
+;    append_array,t_end31,tt_beg[1]+8.0*3600
+;    t_beg[31]=t_beg31
+;    t_end[31]=t_end31
+;    
 ;    
 ;    t_b=t_beg
 ;    t_e=t_end
@@ -102,19 +161,17 @@
 ;  ;    t_beg.add,t_beg[0],0
 ;  ;    t_end.add,t_beg[0]+5*60.0,0
 ;      
-;      
-;      
+;            
 ;    bb=fltarr(32)
 ;    for i=0,31 do begin
 ;      bb[i]=N_ELEMENTS(t_end[i])
 ;    endfor  
 ;     
 ;    save,t_beg,t_end,$
-;          filename=root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point.sav'
-;    
-;  
+;          filename=root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point_add_time_after_8hours.sav'
+;      
 ;    stop
-
+;
 
 ;; ________________________________part2________________________________________
 
@@ -200,14 +257,14 @@
 
 
 ;     ;part2.2
-;     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point.sav'
+;     restore,root_dir+'time_interval_divided_by_Bz_yearly_add_former_halfhour_per_point_add_time_after_8hours.sav'
 ;
 ;     names=['_BZgt0_0.0_0.5','_BZgt0_0.5_1.0','_BZgt0_1.0_1.5','_BZgt0_1.5_2.0','_BZgt0_2.0_2.5','_BZgt0_2.5_3.0','_BZgt0_3.0_3.5','_BZgt0_3.5_4.0',$
 ;            '_BZgt0_4.0_4.5','_BZgt0_4.5_5.0','_BZgt0_5.0_5.5','_BZgt0_5.5_6.0','_BZgt0_6.0_6.5','_BZgt0_6.5_7.0','_BZgt0_7.0_7.5','_BZgt0_7.5_8.0',$
 ;            '_BZle0_0.0_0.5','_BZle0_0.5_1.0','_BZle0_1.0_1.5','_BZle0_1.5_2.0','_BZle0_2.0_2.5','_BZle0_2.5_3.0','_BZle0_3.0_3.5','_BZle0_3.5_4.0',$
 ;            '_BZle0_4.0_4.5','_BZle0_4.5_5.0','_BZle0_5.0_5.5','_BZle0_5.5_6.0','_BZle0_6.0_6.5','_BZle0_6.5_7.0','_BZle0_7.0_7.5','_BZle0_7.5_8.0']
 ;            
-;     for kk=0,31 do begin     
+;     for kk=31,0,-1 do begin     
 ;       tbeg=t_beg[kk]
 ;       tend=t_end[kk]     
 ;             
@@ -319,7 +376,7 @@
 ;
 ;       if is_array(t_c3cis1) then begin
 ;         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-;           filename=root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_'+names[kk]+'.sav'
+;           filename=root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_add_time_after_8hours_'+names[kk]+'.sav'
 ;
 ;         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
 ;         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
@@ -332,14 +389,13 @@
 ;     print,'save_time ',save_time_c3fgmcis,' hour'
 ;
 ;     stop
-;
 
  
   ;_________________________________part3________________________
   
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
-  filename=file_search(root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_fixed'+'*.sav')
+  filename=file_search(root_dir+'c3_fgmcisefw_data_selected_halfhour_per_point_add_time_after_8hours'+'*.sav')
   counts=n_elements(filename)
 
   a=findgen(counts)
@@ -374,13 +430,14 @@
 
   t_last_beg=list(a,/ex)
   for jj = 0, 31 do begin
-    if (jj ge 0) and (jj le 15)  then t_last_beg[jj]=(jj*30)
-    if (jj ge 16) and (jj le 31)  then t_last_beg[jj]=((jj-16)*30)
+    if (jj eq 0) or (jj eq 16)  then t_last_beg[jj]=5
+    if (jj ge 1) and (jj le 15)  then t_last_beg[jj]=(jj*30)
+    if (jj ge 17) and (jj le 31)  then t_last_beg[jj]=((jj-16)*30)
   endfor
 
   bb=fltarr(counts)
 
-  for i=0,counts-1 do begin
+  for i=29,counts-1 do begin
     restore,filename[i]
 
     indext=where(temperature1 lt 32)    ;T [0.005,32] KeV
@@ -392,22 +449,21 @@
     indextl=where(t_last1[index_all] ge  t_last_beg[i] )
     index_all=(index_all)[indextl]
 
-
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward
+;    index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
+;    index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
+;    index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
+    index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
+;    index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
+;    index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward
 
 ;    index_pos=where(pos_gsm1[index_all,0] gt 14.0 and pos_gsm1[index_all,0] le 17.0 $
 ;               and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dawn_3_3_re
 
-
+;
 ;    index_pos=where(pos_gsm1[index_all,0] gt -17.0 and pos_gsm1[index_all,0] le -14.0 $
 ;                and pos_gsm1[index_all,1] gt  6.0  and pos_gsm1[index_all,1] le 9.0)   ; dusk_3_3_re
-;            
-;    index_all=(index_all)[index_pos]
+;;            
+    index_all=(index_all)[index_pos]
 
 
     t_c3cis[i]=t_c3cis1[index_all]
@@ -464,7 +520,7 @@
 ;        event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_halfhour_per_point.sav'
 
   save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-    filename=root_dir+'raw_data'+save_str+'_list_halfhour_per_point.sav'
+    filename=root_dir+'full_raw_data'+save_str+'_list_halfhour_per_point_add_time_after_8hours_dusk_3_3re.sav'
   
   stop
 
