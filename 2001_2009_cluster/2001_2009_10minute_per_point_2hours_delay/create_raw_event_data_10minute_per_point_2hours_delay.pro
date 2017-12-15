@@ -1,9 +1,9 @@
 ;cerated by G.M. Ren   2017.11.23
 
-pro create_raw_event_data_10minute_per_point_8hours_delay
+pro create_raw_event_data_10minute_per_point_2hours_delay
   
    Re=6371.0
-   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point_8hours_delay\'
+   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point_2hours_delay\'
    start=systime(1)
    compile_opt idl2    
     
@@ -15,21 +15,21 @@ pro create_raw_event_data_10minute_per_point_8hours_delay
 ;     tbeg=t_beg[i]
 ;     tend=t_end[i]
 ;     
-;     tbeg=tbeg+8*60*60.0
-;     tend=tend+8*60*60.0
+;     tbeg=tbeg+2*60*60.0
+;     tend=tend+2*60*60.0
 ;          
 ;     t_end[i]=tend
 ;     t_beg[i]=tbeg
 ;   endfor
 ;   save,t_beg,t_end,  $
-;     filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_8hours_delay.sav'
+;     filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_2hours_delay.sav'
 ;
 ;   
 ;  ;; ________________________________part2________________________________________
 ;     
 ;       
 ;                  
-;     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_8hours_delay.sav'
+;     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_2hours_delay.sav'
 ;    
 ;     names=strarr(30)
 ;     for kk=0,29 do begin
@@ -148,7 +148,7 @@ pro create_raw_event_data_10minute_per_point_8hours_delay
 ;    
 ;       if is_array(t_c3cis1) then begin
 ;         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-;           filename=root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_8hours_delay'+names[kk]+'.sav'
+;           filename=root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_2hours_delay'+names[kk]+'.sav'
 ;    
 ;         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
 ;         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
@@ -168,7 +168,7 @@ pro create_raw_event_data_10minute_per_point_8hours_delay
 
     reverse_gap=5.0/5.0
     save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
-    filename=file_search(root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_8hours_delay'+'*.sav')
+    filename=file_search(root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_2hours_delay'+'*.sav')
     counts=n_elements(filename)
          
     a=findgen(counts)
@@ -218,9 +218,9 @@ pro create_raw_event_data_10minute_per_point_8hours_delay
       ;indexey=where(E_gsm1[(([indext])[indexv])[indexn],1] gt 0)     ;ey gt 0
       index_all=((([indext])[indexv])[indexn]);[indexey]
     
-;      indextl=where(t_last1[index_all] ge  t_last_beg[i] )
-;      index_all=(index_all)[indextl]
-      region_str=''
+      indextl=where(t_last1[index_all] ge  t_last_beg[i] )
+      index_all=(index_all)[indextl]
+      region_Str=''
       
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 ) & region_str='_duskflank'
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  ) & region_str='_dawnflank'
@@ -290,8 +290,8 @@ pro create_raw_event_data_10minute_per_point_8hours_delay
 ;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'full_event_data'+save_str+'_list_10minute_per_point.sav'
    
     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point_8hours_delay'+region_str+'.sav'
-
+      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point_2hours_delay'+region_str+'.sav'
+;    stop
       
   
 end
