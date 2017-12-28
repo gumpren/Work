@@ -1,7 +1,7 @@
 pro plot_line_hx_lasttime_10minute_per_point_2hours_delay
   
-  namestr=''
-  suffix_str='_dawnflank'
+  namestr='full_'
+  suffix_str='_far_duskflank'
   
   Re=6371.0
   reverse_gap=5.0/5.0

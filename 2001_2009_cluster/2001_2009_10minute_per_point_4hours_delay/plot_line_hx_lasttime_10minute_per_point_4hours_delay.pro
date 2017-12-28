@@ -1,17 +1,17 @@
-pro plot_line_hx_lasttime_10minute_per_point_8hours_delay
+pro plot_line_hx_lasttime_10minute_per_point_4hours_delay
   
-  namestr=''
-  suffix_str='_far_duskflank'
+  namestr='full_'
+  suffix_str='_dawnflank'
   
   Re=6371.0
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
-  root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point_8hours_delay\'
-  filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point_8hours_delay'+suffix_str+'.sav'
+  root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point_4hours_delay\'
+  filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point_4hours_delay'+suffix_str+'.sav'
   
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point_8hours_delay\'
-  title_char='line_hx_lasttime_10minute_per_point_8hours_delay'+suffix_str
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point_4hours_delay\'
+  title_char='line_hx_lasttime_10minute_per_point_4hours_delay'+suffix_str
    
   if (strmatch(filename,'*full*') eq 1b) then begin
     output_dir=output_dir+'full\'
