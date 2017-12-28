@@ -7,9 +7,9 @@ pro two_dimensional_plot_hx_10_minute_per_point
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
   
-  title_char='two_dimensional_plot_hx_Bz_southward_10minute_per_point'
-  panel_title='B!dz!n!x<0'
-  bbindex=15
+  title_char='two_dimensional_plot_kx_Bz_northward_10minute_per_point'
+  panel_title='B!dz!n!x>0'
+  bbindex=0
   
   restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
 
@@ -33,8 +33,8 @@ pro two_dimensional_plot_hx_10_minute_per_point
   zrange5=[-0.4,0.4];H
   zrange6=[-0.001,0.001];K
  
-  bar_title=[bar_title5,bar_title5,bar_title5]
-  zrange=[[zrange5],[zrange5],[zrange5]]
+  bar_title=[bar_title6,bar_title6,bar_title6]
+  zrange=[[zrange6],[zrange6],[zrange6]]
 
   for i=0,14 do begin
     event_n[i]=reform(event_n[i+bbindex],10*30*reverse_gap^2)
@@ -46,9 +46,9 @@ pro two_dimensional_plot_hx_10_minute_per_point
     event_h_k_x[i]=reform(event_h_k_x[i+bbindex],10*30*reverse_gap^2)
   endfor
 
-  data=[[[event_hx[0]],[event_hx[1]],[event_hx[2]],[event_hx[3]],[event_hx[4]]],$
-       [[event_hx[5]],[event_hx[6]],[event_hx[7]],[event_hx[8]],[event_hx[9]]],$
-       [[event_hx[10]],[event_hx[11]],[event_hx[12]],[event_hx[13]],[event_hx[14]]]]
+  data=[[[event_kx[0]],[event_kx[1]],[event_kx[2]],[event_kx[3]],[event_kx[4]]],$
+       [[event_kx[5]],[event_kx[6]],[event_kx[7]],[event_kx[8]],[event_kx[9]]],$
+       [[event_kx[10]],[event_kx[11]],[event_kx[12]],[event_kx[13]],[event_kx[14]]]]
            
   x=linspace(-20,-10,10*reverse_gap+1)
   v=linspace(-15,15,30*reverse_gap+1)  ; connect to the return_vari function. follow the same start point

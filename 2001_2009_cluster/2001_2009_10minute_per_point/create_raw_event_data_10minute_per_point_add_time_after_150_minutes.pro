@@ -552,27 +552,27 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     for i=0,counts-1 do begin
       restore,filename[i]
      
-      indext=where(temperature1 lt 32)    ;T [0.005,32] KeV
+      indext=where(temperature1 lt 32)    ;T [0.005,32] KeV    ( gt 0.52kev hot) 
       indexv=where(abs((velocity_gsm1[*,0])[indext]) le 2000.0)    ; V [-2000,2000]
       indexn=where((density1[indext])[indexv] le 10.0 and (density1[indext])[indexv] gt 0.001 )  ;n [0.001,100]
       ;indexey=where(E_gsm1[(([indext])[indexv])[indexn],1] gt 0)     ;ey gt 0
       index_all=((([indext])[indexv])[indexn]);[indexey]
     
-;      indextl=where(t_last1[index_all] ge  t_last_beg[i] )
-;      index_all=(index_all)[indextl]
+      indextl=where(t_last1[index_all] ge  t_last_beg[i] )
+      index_all=(index_all)[indextl]
       
       
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
+ ;     index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward      
-      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
-                  and pos_gsm1[index_all,1] gt  3.0  and pos_gsm1[index_all,1] le 6.0)   ; dusk 3*3 re
+;      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
+;                  and pos_gsm1[index_all,1] gt  3.0  and pos_gsm1[index_all,1] le 6.0)   ; dusk 3*3 re
 ;       index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
 ;                   and pos_gsm1[index_all,1] gt -6.0  and pos_gsm1[index_all,1] le -3.0)   ; dawnk3*3 re
-      index_all=(index_all)[index_pos]
+;      index_all=(index_all)[index_pos]
        
     
       t_c3cis[i]=t_c3cis1[index_all]
@@ -629,7 +629,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'full_event_data'+save_str+'_list_10minute_per_point.sav'
    
     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-      filename=root_dir+'full_raw_data'+save_str+'_list_10minute_per_point_dusk_3_3re.sav'
+      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point.sav'
     stop
       
   
