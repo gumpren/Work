@@ -7,9 +7,9 @@ pro two_dimensional_plot_hx_10_minute_per_point
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
   
-  title_char='two_dimensional_plot_kx_Bz_northward_10minute_per_point'
-  panel_title='B!dz!n!x>0'
-  bbindex=0
+  title_char='two_dimensional_plot_kx_Bz_southward_10minute_per_point'
+  panel_title='B!dz!n!x<0'
+  bbindex=15
   
   restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
 

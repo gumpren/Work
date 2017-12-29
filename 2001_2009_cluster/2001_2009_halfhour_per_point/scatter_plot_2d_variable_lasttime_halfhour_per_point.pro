@@ -4,7 +4,7 @@ pro scatter_plot_2d_variable_lasttime_halfhour_per_point
   
   ;1W/m^2=6.371^2*1.0e3(1.0e16*erg/(Re^2*s))
   
-  region_str=''
+  region_str='_dawnflank'
   namestr=''
     
   Re=6371.0
@@ -43,6 +43,8 @@ pro scatter_plot_2d_variable_lasttime_halfhour_per_point
   
   if (vari_str eq 'H_x' eq 1b)  then begin
     yrange=[-4,2] 
+    unit_str='(10!u16!nerg/(Re!u2!ns))'
+
     ytickname=['10!u-4!n','10!u-3!n','10!u-2!n','10!u-1!n','10!u0!n','10!u1!n','10!u2!n']; hx
   endif
 
@@ -76,11 +78,14 @@ pro scatter_plot_2d_variable_lasttime_halfhour_per_point
   endfor  
    
     
-   ;cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
+   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
    pos=set_plot_position(1,2,left=0.07,right=0.95,xgap=0.1,ygap=0.1,low=0.05,high=0.5)
    cgdisplay
    
    str_element,opt_plot,'ytickname',ytickname,/add
+   str_element,opt_plot,'title','Northward'+region_str,/add
+   str_element,opt_plot,'ytitle',vari_str+unit_str,/add
+
    
    idx_north_gt0=where(vari_north gt 0 )
    t_north_gt0=tt_north[idx_north_gt0]
