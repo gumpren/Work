@@ -4,7 +4,7 @@ pro scatter_plot_2d_variable_lasttime_halfhour_per_point
   
   ;1W/m^2=6.371^2*1.0e3(1.0e16*erg/(Re^2*s))
   
-  region_str='_dawnflank'
+  region_str='_duskflank'
   namestr=''
     
   Re=6371.0
@@ -102,6 +102,9 @@ pro scatter_plot_2d_variable_lasttime_halfhour_per_point
   ; myLine = LINFIT(t_north_gt0, vari_north_gt0, CHISQR=chisqr, COVAR=covar,MEASURE_ERRORS=measures, PROB=prob, SIGMA=sigma,YFIT=yfit)
    
    ;plot southward
+   str_element,opt_plot,'title','Southward'+region_str,/add
+   str_element,opt_plot,'ytitle',vari_str+unit_str,/delete
+
    
    idx_south_gt0=where(vari_south gt 0 )
    t_south_gt0=tt_south[idx_south_gt0]
