@@ -1,4 +1,4 @@
-pro plot_velocity_vector_10minute_per_point
+pro vector_plot_velocity_10minute_per_point
 
   Re=6371.0
   reverse_gap=5.0/5.0

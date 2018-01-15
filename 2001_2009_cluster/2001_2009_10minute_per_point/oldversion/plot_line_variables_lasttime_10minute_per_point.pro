@@ -2,7 +2,7 @@
 pro plot_line_variables_lasttime_10minute_per_point
   
   namestr=''
-  suffix_str='_dawn_3_3re'
+  suffix_str='_duskflank'
   
   Re=6371.0
   reverse_gap=5.0/5.0

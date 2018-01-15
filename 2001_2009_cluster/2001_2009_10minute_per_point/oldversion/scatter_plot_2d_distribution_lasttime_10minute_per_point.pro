@@ -1,11 +1,10 @@
 
-pro scatter_plot_2d_variable_lasttime_10minute_per_point
+pro scatter_plot_2d_distribution_lasttime_10minute_per_point
   h_Factor=1.0/(6.371^2*1.0e3)
   
   ;1W/m^2=6.371^2*1.0e3(1.0e15*erg/(Re^2*s))
   
-  
-  region_str='_duskflank'
+  region_str=''
   namestr=''
     
   Re=6371.0
@@ -19,7 +18,7 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point
   vari=pressure
   vari_str='pressure'
   
-  title_char=namestr+'scatter_plot_2d_median_'+vari_str+'_lasttime_10minute_per_point'+region_str
+  title_char=namestr+'scatter_plot_2d_distribution_'+vari_str+'_lasttime_10minute_per_point'+region_str
   x=10*(indgen(15))+5  
   median_vari_north=dblarr(15)
   average_vari_north=dblarr(15)
@@ -28,32 +27,29 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point
   
   
   
-  xrange=[0.0,150.0]
+  xrange=[0,2.0]
   if (vari_str eq 'density' eq 1b)  then begin
     yrange=[-2.0,1.0]
-    unit_str='(cm!u-3!n)'
-    yticks=3
+    unit_str='(cm!u-3!n)'  
     ytickname=['10!u-2!n','10!u-1!n','10!u0!n','10!u1!n'] ;n
   endif
   if (vari_str eq 'pressure' eq 1b)  then begin
-    yrange=[-2.0,0.0] 
-    unit_str='(nPa)'
-    yticks=2  
-    ytickname=['10!u-2!n','10!u-1!n','10!u0!n'];['10!u-3!n','10!u-2!n','10!u-1!n','10!u0!n','10!u1!n'] ;p
+    yrange=[-3.0,1.0] 
+    unit_str='(nPa)'  
+    ytickname=['10!u-3!n','10!u-2!n','10!u-1!n','10!u0!n','10!u1!n'] ;p
   endif
   if (vari_str eq 'temperature' eq 1b)  then begin
-    yrange=[-1.0,1.0] 
+    yrange=[-2.0,2.0] 
     unit_str='(KeV)'  
-    yticks=2
-    ytickname=['10!u-1!n','10!u0!n','10!u1!n'];['10!u-1!n','10!u0!n','10!u1!n'];t
+    ytickname=['10!u-2!n','10!u-1!n','10!u0!n','10!u1!n','10!u2!n'];t
   endif
   if (vari_str eq 'e_gsm_y' eq 1b)  then begin
     yrange=[-8,4] ; ey
   endif
   
   if (vari_str eq 'H_x' eq 1b)  then begin
-    yrange=[-4,2] 
-    ytickname=['10!u-4!n','10!u-3!n','10!u-2!n','10!u-1!n','10!u0!n','10!u1!n','10!u2!n']; hx
+    yrange=[-2,2] 
+    ytickname=['10!u-2!n','10!u-1!n','10!u0!n','10!u1!n','10!u2!n']; hx
     unit_str='(10!u16!nerg/(Re!u2!ns))'
   endif
   
@@ -87,40 +83,47 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point
     
     append_array,tt_north,t_last[i]
     append_Array,vari_north,vari1
+    append_array,vx_north,(velocity_gsm[i])[*,0]
+    append_array,n_north,density[i]
 
     append_array,tt_south,t_last[i+15]
     append_Array,vari_south,vari2
-  endfor  
-   
+    append_array,vx_sourth,(velocity_gsm[i+15])[*,0]
+    append_array,n_south,density[i+15]
     
-   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
+  endfor  
+    
+    
+   ;cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
    pos=set_plot_position(1,2,left=0.07,right=0.95,xgap=0.1,ygap=0.1,low=0.05,high=0.5)
    cgdisplay
    
-   str_element,opt_plot,'yticks',yticks,/add
+ 
    str_element,opt_plot,'ytickname',ytickname,/add
    str_element,opt_plot,'ytitle',vari_str+unit_str,/add
-   str_element,opt_plot,'xtitle','Time(min)'
+   str_element,opt_plot,'xtitle','Vx(min)'
                                                   ;there is something wrong about density's ytickname
-   str_element,opt_plot,'title','Northward'+region_str,/add
+   str_element,opt_plot,'title','Northward',/add
    
    idx_north_gt0=where(vari_north gt 0 )
-   t_north_gt0=tt_north[idx_north_gt0]
+   vx_north_gt0=vx_north[idx_north_gt0]
    vari_north_gt0=vari_north[idx_north_gt0]   
-   cgplot,t_north_gt0,alog10(vari_north_gt0),pos=pos[0,0,*],psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
+   cgplot,vx_north_gt0,alog10(vari_north_gt0),pos=pos[0,0,*],psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
    
    idx_north_lt0=where(vari_north lt 0 )
-   t_north_lt0=tt_north[idx_north_lt0]
+   vx_north_lt0=vx_north[idx_north_lt0]
    vari_north_lt0=vari_north[idx_north_lt0]   
-   cgoplot,t_north_lt0,alog10(-vari_north_lt0),psym=3,ylog=ylog,color='royal blue'
-  
+   cgoplot,vx_north_lt0,alog10(-vari_north_lt0),psym=3,ylog=ylog,color='royal blue'
+   
+   
+   
    cgoplot,x,alog10(median_vari_north),xrange=xrange,ylog=ylog,yrange=yrange,color='red',/normal,/noerase
    
   ; myLine = LINFIT(t_north_gt0, vari_north_gt0, CHISQR=chisqr, COVAR=covar,MEASURE_ERRORS=measures, PROB=prob, SIGMA=sigma,YFIT=yfit)
    
    ;plot southward
    str_element,opt_plot,'ytitle',vari_str+unit_str,/delete
-   str_element,opt_plot,'title','Southward'+region_str,/add
+   str_element,opt_plot,'title','Southward',/add
    
    idx_south_gt0=where(vari_south gt 0 )
    t_south_gt0=tt_south[idx_south_gt0]
@@ -139,9 +142,9 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point
  ;   labels_stamp,title0[i],charsize=0.7,/left_right_center,/up_out
   ;stop
   print,'a'
-  cgps_close
+;  cgps_close
   
-
+  
 
   stop
 

@@ -549,7 +549,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     
     bb=fltarr(counts)
     
-    for i=0,counts-1 do begin
+    for i=26,counts-1 do begin
       restore,filename[i]
      
       indext=where(temperature1 lt 32)    ;T [0.005,32] KeV    ( gt 0.52kev hot) 
@@ -560,20 +560,20 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     
       indextl=where(t_last1[index_all] ge  t_last_beg[i] )
       index_all=(index_all)[indextl]
-      
-      
- ;     index_pos=where(pos_gsm1[index_all,1] gt 0.0 )   ;duskward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  )   ;dawnward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_dawnward
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0)  ; far_duskward
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_duskward
-;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0)  ; near_dawnward      
+      region_Str=''
+
+      index_pos=where(pos_gsm1[index_all,1] gt 0.0 ) & region_str='_duskflank'
+;      index_pos=where(pos_gsm1[index_all,1] le 0.0  ) & region_str='_dawnflank'
+;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0) & region_str='_far_dawnflank'
+;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0) & region_str='_far_duskflank'
+;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] ge -15.0) & region_str='_near_duskflank'
+;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0) & region_str='_near_dawnflank'
 ;      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
-;                  and pos_gsm1[index_all,1] gt  3.0  and pos_gsm1[index_all,1] le 6.0)   ; dusk 3*3 re
-;       index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
-;                   and pos_gsm1[index_all,1] gt -6.0  and pos_gsm1[index_all,1] le -3.0)   ; dawnk3*3 re
-;      index_all=(index_all)[index_pos]
-       
+;                  and pos_gsm1[index_all,1] gt  3.0  and pos_gsm1[index_all,1] le 6.0) & region_str='_dusk_3_3re'
+;      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
+;                   and pos_gsm1[index_all,1] gt -6.0  and pos_gsm1[index_all,1] le -3.0) & region_str='_dawn_3_3re'
+      index_all=(index_all)[index_pos]
+
     
       t_c3cis[i]=t_c3cis1[index_all]
       t_last[i]=t_last1[index_all]
@@ -602,7 +602,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
       K_Re[i]=return_kinetic_energy_flow_density(density[i],(velocity_gsm[i])[*,0],(velocity_gsm[i])[*,1],(velocity_gsm[i])[*,2],2)
       H_K_Re[i]=H_Re[i]+K_Re[i]
 
-      bb[i]=n_elements(velocity_x)
+      bb[i]=n_elements(density[i])
     
 ;      ;event_data
 ;      eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
@@ -628,8 +628,8 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
 ;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'full_event_data'+save_str+'_list_10minute_per_point.sav'
    
-    save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point.sav'
+     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
+      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
     stop
       
   

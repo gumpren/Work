@@ -1,4 +1,4 @@
-pro two_dimensional_plot_hx_10_minute_per_point
+pro two_dimensional_plot_hx_10_minute_per_point_less_panel
 
   Re=6371.0
   reverse_gap=5.0/5.0
@@ -7,15 +7,14 @@ pro two_dimensional_plot_hx_10_minute_per_point
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
   
-  title_char='two_dimensional_plot_number_Bz_southward_10minute_per_point'
-  panel_title='B!dz!n!x<0'
-  bbindex=15
+  title_char='two_dimensional_plot_hx_10minute_per_point'
+  bbindex=0
   
   restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
 
   ;cgdisplay
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
-  pos=set_plot_position(3,5,left=0.01,right=0.72,xgap=0.02,ygap=0.02,low=0.01,high=0.95)
+  pos=set_plot_position(2,5,left=0.01,right=0.88,xgap=0.03,ygap=0.04,low=0.01,high=0.8)
 
   factor_to_kev=1.0;1.0e6/(1000.0*11600)
 
@@ -25,7 +24,6 @@ pro two_dimensional_plot_hx_10_minute_per_point
   bar_title4='Velocity_x(km/s)'
   bar_title5='H!dX!N!X (10!u16!n!xergs!u-1!n!xRe!u2!n!x)'
   bar_title6='K!dX!N!X (10!u16!n!xergs!u-1!n!xRe!u2!n!x)'
-  bar_title7='Times'
 
   zrange1=[0.05,0.5];N
   zrange2=[0.15,6.0];T
@@ -33,13 +31,11 @@ pro two_dimensional_plot_hx_10_minute_per_point
   zrange4=[-50,50];V
   zrange5=[-0.4,0.4];H
   zrange6=[-0.001,0.001];K
-  zrange7=[0.001,350]
  
-  bar_title=[bar_title7,bar_title7,bar_title7]
-  zrange=[[zrange7],[zrange7],[zrange7]]
+  bar_title=[bar_title5,bar_title5]
+  zrange=[[zrange5],[zrange5]]
 
-  for i=0,14 do begin
-    eventimes[i]=reform(eventimes[i+bbindex],10*30*reverse_gap^2)
+  for i=0,29 do begin
     event_n[i]=reform(event_n[i+bbindex],10*30*reverse_gap^2)
     event_t[i]=reform(event_t[i+bbindex],10*30*reverse_gap^2*factor_to_kev)
     event_p[i]=reform(event_p[i+bbindex],10*30*reverse_gap^2)
@@ -49,26 +45,27 @@ pro two_dimensional_plot_hx_10_minute_per_point
     event_h_k_x[i]=reform(event_h_k_x[i+bbindex],10*30*reverse_gap^2)
   endfor
 
-  data=[[[eventimes[0]],[eventimes[1]],[eventimes[2]],[eventimes[3]],[eventimes[4]]],$
-       [[eventimes[5]],[eventimes[6]],[eventimes[7]],[eventimes[8]],[eventimes[9]]],$
-       [[eventimes[10]],[eventimes[11]],[eventimes[12]],[eventimes[13]],[eventimes[14]]]]
+  data=[[[event_hx[0]],[event_hx[3]],[event_hx[6]],[event_hx[9]],[event_hx[12]]],$
+        [[event_hx[15]],[event_hx[18]],[event_hx[21]],[event_hx[24]],[event_hx[27]]]]
            
   x=linspace(-20,-10,10*reverse_gap+1)
   v=linspace(-15,15,30*reverse_gap+1)  ; connect to the return_vari function. follow the same start point
   xrange=[-10,-20]
   yrange=[15,-15]
 
-  a=findgen(30)
-  duration=list(a,/ex)
-  for jj = 0, 29 do begin
-     if (jj ge 0) and (jj le 14)  then duration[jj]=[jj*10,jj*10+10]
-     if (jj ge 15) and (jj le 29)  then duration[jj]=[(jj-30)*10,(jj-30)*5]
+  duration=list(length=10)
+  for jj = 0, 9 do begin
+     if (jj ge 0) and (jj le 4)  then duration[jj]=[jj*3*10,jj*3*10+10]
+     if (jj ge 5) and (jj le 9)  then duration[jj]=[(jj-5)*3*10,(jj-5)*3*10+10]
   endfor
   
-  ptitle=strarr(3,5)
-  for i=0,2 do begin
+  panel_titles=['B!dz!n!x>0','B!dz!n!x<0']
+  ptitle=strarr(2,5)
+  for i=0,1 do begin
+    if i eq 0 then panel_title=panel_titles[0]
+    if i eq 1 then panel_title=panel_titles[1]
     for j=0,4 do begin
-      ptitle[i,j]=panel_title+' ['+strcompress((duration[j+i*5])[0],/remove)+','+strcompress((duration[j+i*5])[1],/remove)+']'
+      ptitle[i,j]=panel_title+' ['+strcompress((duration[j])[0],/remove)+','+strcompress((duration[j])[1],/remove)+']'
     endfor
   endfor
 
@@ -83,30 +80,27 @@ pro two_dimensional_plot_hx_10_minute_per_point
 
 
   ;str_element,extra,'title','test',/add
-  str_element,opt_plot,'charsize',0.6,/add
+  str_element,opt_plot,'charsize',0.8,/add
   str_element,opt_plot,'yticklen',0.05,/add
   str_element,opt_plot,'xticks',2,/add
   str_element,opt_plot,'xrange',xrange,/add
   str_element,opt_plot,'yrange',yrange,/add
-  str_element,opt_plot,'zlog',1,/add
-
 
   ;str_element,opt_bar,'position',[],/add
   str_element,opt_bar,'no_color_scale',0,/add
-  str_element,opt_bar,'charsize',0.6,/add
+  str_element,opt_bar,'charsize',0.8,/add
   str_element,opt_bar,'title',bar_title,/add
 
-;  restore,'E:\OneDrive\IDLworks\Work\Other\blue_white_red_256.ctl'
-;
-;  tvlct,r,g,b
-  
- ; cgloadct,39,clip=[0, 253]
-  
-  for i=0,2 do begin
-    
+  restore,'E:\OneDrive\IDLworks\Work\Other\blue_white_red_256.ctl'
+
+  tvlct,r,g,b
+
+
+  for i=0,1 do begin
     str_element,opt_bar,'title',bar_title[i],/add
     for j=0,4 do begin
       ;str_element,opt_plot,'title',title0[j,i],/add
+
       ;      if i eq 0 then begin
       ;        bottom=0
       ;        ncolors=253
@@ -123,7 +117,7 @@ pro two_dimensional_plot_hx_10_minute_per_point
         str_element,opt_plot,'ytitle','Y(Re)',/add
       endelse
 
-      if i ne 2 then begin
+      if i ne 1 then begin
         str_element,opt_plot,'xtickformat','(a1)',/add
         str_element,opt_plot,'xtitle',/delete
       endif else begin
@@ -135,7 +129,7 @@ pro two_dimensional_plot_hx_10_minute_per_point
       str_element,opt_bar,'position',[pos[i,j,2]+0.02,pos[i,j,1],pos[i,j,2]+0.05,pos[i,j,3]],/add
       d={x:x,y:reform(data[*,j,i],10*reverse_gap,30*reverse_gap),v:v}
       color_fill,pos[i,j,*],d,xrange=xrange,yrange=yrange,zrange=zrange[*,i],top=255,bottom=0,backcolor='grey',opt_plot=opt_plot,opt_bar=opt_bar
-      labels_stamp,pos[i,j,*],ptitle[i,j],charsize=0.6,/left_right_center,/up_out
+      labels_stamp,pos[i,j,*],ptitle[i,j],charsize=0.9,/left_right_center,/up_out
     endfor                                                      ;[-0.3,0.3] thermal EFD range
   endfor
 
