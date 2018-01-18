@@ -1,12 +1,20 @@
+PRO EX_BOX, X0, Y0, X1, Y1, color
+
+  ;Call POLYFILL.
+
+  POLYFILL, [X0, X0, X1, X1], [Y0, Y1, Y1, Y0], COL = color
+
+END
+
 pro plot_status_new
 
   
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
-  root_dir='C:\__Data\Datasave\2001_2009_median_new\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_median_new\'
+  root_dir='G:\__Data\Datasave\2001_2009_median_old\2001_2009_median_new\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_median_old\2001_2009_median_new\'
 
-  restore,filepath('OMNI_2001_2009_Bz_Vxyz_p_AE_SYMH.sav',root_dir='C:\__Data\Datasave\2001_2009_median')
+  restore,filepath('OMNI_2001_2009_Bz_Vxyz_p_AE_SYMH.sav',root_dir='C:\__Data\Datasave\2001_2009_median_old\2001_2009_median')
   restore,filepath('eventimes'+save_str+'.sav',root_dir=root_dir)
 
   cgps_open,output_dir+'cluster_status'+save_str+'.ps',xsize=6.0,ysize=7.0

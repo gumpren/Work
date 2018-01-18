@@ -7,9 +7,9 @@ pro two_dimensional_plot_hx_10_minute_per_point
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
   
-  title_char='two_dimensional_plot_number_Bz_southward_10minute_per_point'
-  panel_title='B!dz!n!x<0'
-  bbindex=15
+  title_char='two_dimensional_plot_number_Bz_northward_10minute_per_point'
+  panel_title='B!dz!n!x>0'
+  bbindex=0
   
   restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
 
@@ -33,7 +33,7 @@ pro two_dimensional_plot_hx_10_minute_per_point
   zrange4=[-50,50];V
   zrange5=[-0.4,0.4];H
   zrange6=[-0.001,0.001];K
-  zrange7=[0.001,350]
+  zrange7=[0.1,4000]
  
   bar_title=[bar_title7,bar_title7,bar_title7]
   zrange=[[zrange7],[zrange7],[zrange7]]
@@ -88,7 +88,6 @@ pro two_dimensional_plot_hx_10_minute_per_point
   str_element,opt_plot,'xticks',2,/add
   str_element,opt_plot,'xrange',xrange,/add
   str_element,opt_plot,'yrange',yrange,/add
-  str_element,opt_plot,'zlog',1,/add
 
 
   ;str_element,opt_bar,'position',[],/add
@@ -99,8 +98,8 @@ pro two_dimensional_plot_hx_10_minute_per_point
 ;  restore,'E:\OneDrive\IDLworks\Work\Other\blue_white_red_256.ctl'
 ;
 ;  tvlct,r,g,b
-  
- ; cgloadct,39,clip=[0, 253]
+  cgloadct,39
+ ; cgloadct,39,clip=[20, 253]
   
   for i=0,2 do begin
     
@@ -134,7 +133,7 @@ pro two_dimensional_plot_hx_10_minute_per_point
       if j eq 4 then str_element,opt_bar,'no_color_scale',0,/add else str_element,opt_bar,'no_color_scale',1,/add
       str_element,opt_bar,'position',[pos[i,j,2]+0.02,pos[i,j,1],pos[i,j,2]+0.05,pos[i,j,3]],/add
       d={x:x,y:reform(data[*,j,i],10*reverse_gap,30*reverse_gap),v:v}
-      color_fill,pos[i,j,*],d,xrange=xrange,yrange=yrange,zrange=zrange[*,i],top=255,bottom=0,backcolor='grey',opt_plot=opt_plot,opt_bar=opt_bar
+      color_fill,pos[i,j,*],d,xrange=xrange,yrange=yrange,zrange=zrange[*,i],zlog=1,top=254,bottom=0,backcolor='grey',opt_plot=opt_plot,opt_bar=opt_bar
       labels_stamp,pos[i,j,*],ptitle[i,j],charsize=0.6,/left_right_center,/up_out
     endfor                                                      ;[-0.3,0.3] thermal EFD range
   endfor
