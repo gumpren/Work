@@ -63,7 +63,7 @@ pro color_fill,pos,data,xrange=xrange,yrange=yrange,zrange=zrange,$
     pos[2]+3.*charsize*!d.x_ch_size/!d.x_size,pos[3]]
 
   if ~keyword_set(no_color_scale) then begin
-    cgcolorbar,range=zrange,bottom=bottom,ncolors=top-bottom+1,position=position,ylog=1,/right,/vertical,_extra=opt_bar
+    cgcolorbar,range=zrange,bottom=bottom,ncolors=top-bottom+1,position=position,/right,/vertical,_extra=opt_bar
   endif
 end
 

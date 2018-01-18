@@ -94,6 +94,7 @@ pro two_dimensional_plot_hx_10_minute_per_point
   str_element,opt_bar,'no_color_scale',0,/add
   str_element,opt_bar,'charsize',0.6,/add
   str_element,opt_bar,'title',bar_title,/add
+  str_element,opt_bar,'ylog',1,/add
 
 ;  restore,'E:\OneDrive\IDLworks\Work\Other\blue_white_red_256.ctl'
 ;
