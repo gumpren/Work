@@ -288,6 +288,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
   ;; ________________________________part2________________________________________
      
     
+
 ;     ;part2.1
 ;     for ii=0,8 do begin
 ;       year='200'+strcompress(ii+1,/remove)
@@ -549,7 +550,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     
     bb=fltarr(counts)
     
-    for i=26,counts-1 do begin
+    for i=0,counts-1 do begin
       restore,filename[i]
      
       indext=where(temperature1 lt 32)    ;T [0.005,32] KeV    ( gt 0.52kev hot) 

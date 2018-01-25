@@ -13,8 +13,8 @@ function cal_average,dat,normal_average=normal_average,subsection_average=subsec
 ;   
 ;  dat=(H_Re[0])[*,0]
 
-
-
+  
+  
   dat1=dat[sort(dat)]   ;sorted by the range from min to max
   nums=n_elements(dat)    
   his=histogram(dat1,binsize=0.02,locations=locat)

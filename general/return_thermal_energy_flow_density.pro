@@ -4,11 +4,17 @@ Function return_thermal_energy_flow_density,pressure,velocityx,velocityy,velocit
   
   Re=6371.0
   Re_fac=(1.0e6*Re^2)/1.0e16
-
-  pressure[where(~finite(pressure))]=0
-  velocityx[where(~finite(velocityx))]=0
-  velocityy[where(~finite(velocityy))]=0
-  velocityz[where(~finite(velocityz))]=0
+  
+  index_p=where(~finite(pressure))
+  index_vx=where(~finite(velocityx))
+  index_vy=where(~finite(velocityy))
+  index_vz=where(~finite(velocityz))
+   
+  if(index_p[0] ne -1) then pressure[index_p]=0
+  if(index_vx[0] ne -1) then velocityx[index_vx]=0
+  if(index_vy[0] ne -1) then velocityy[index_vy]=0
+  if(index_vz[0] ne -1) then velocityz[index_vz]=0
+  
 
 ;  thermal_EFD_x=2.5*10.0*(pressure[*,0,0]*velocityx+pressure[*,0,1]*velocityy+pressure[*,0,2]*velocityz)
 ;  thermal_EFD_y=2.5*10.0*(pressure[*,1,0]*velocityx+pressure[*,1,1]*velocityy+pressure[*,1,2]*velocityz)
