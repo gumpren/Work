@@ -7,11 +7,11 @@ pro vector_plot_velocity_10minute_per_point
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
     
-  title_char='full_velocity_vector_IMFBZ_north_10minute_per_point';
-  panel_title='B!dz!n!x>0'
-  bbindex=0
+  title_char='velocity_vector_IMFBZ_south_10minute_per_point';
+  panel_title='B!dz!n!x<0'
+  bbindex=15
 
-  restore,filename=root_dir+'full_event_data'+save_str+'_list_10minute_per_point.sav'
+  restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
    
   ;cgdisplay
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0;,/ENCAPSULATED

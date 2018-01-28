@@ -1,4 +1,4 @@
-pro two_dimensional_plot_hx_10_minute_per_point
+pro two_dimensional_plot_hy_10_minute_per_point
 
   Re=6371.0
   reverse_gap=5.0/5.0
@@ -7,9 +7,9 @@ pro two_dimensional_plot_hx_10_minute_per_point
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
   
-  title_char='two_dimensional_plot_Hx_Bz_northward_10minute_per_point'
-  panel_title='B!dz!n!x>0'
-  bbindex=0
+  title_char='two_dimensional_plot_Hy_Bz_southward_10minute_per_point'
+  panel_title='B!dz!n!x<0'
+  bbindex=15
   
   restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
 
@@ -23,16 +23,16 @@ pro two_dimensional_plot_hx_10_minute_per_point
   bar_title2='Temperature (keV)'
   bar_title3='Pressure (nPa)'
   bar_title4='Velocity_x(km/s)'
-  bar_title5='H!dX!N!X (10!u16!n!xergs!u-1!n!xRe!u2!n!x)'
-  bar_title6='K!dX!N!X (10!u16!n!xergs!u-1!n!xRe!u2!n!x)'
+  bar_title5='H!dY!N!X (10!u16!n!xergs!u-1!n!xRe!u2!n!x)'
+  bar_title6='K!dY!N!X (10!u16!n!xergs!u-1!n!xRe!u2!n!x)'
   bar_title7='Times'
-  
+
   zrange1=[0.05,0.5];N
   zrange2=[0.15,6.0];T
   zrange3=[0.01,0.2];P
   zrange4=[-50,50];V
-  zrange5=[-0.4,0.4];H
-  zrange6=[-0.001,0.001];K
+  zrange5=[-0.4,0.4];Hy
+  zrange6=[-0.001,0.001];Ky
   zrange7=[0.1,4000]  ;number
  
   bar_title=[bar_title5,bar_title5,bar_title5]
@@ -47,11 +47,14 @@ pro two_dimensional_plot_hx_10_minute_per_point
     event_hx[i]=reform(event_hx[i+bbindex],10*30*reverse_gap^2)
     event_kx[i]=reform(event_kx[i+bbindex],10*30*reverse_gap^2)
     event_h_k_x[i]=reform(event_h_k_x[i+bbindex],10*30*reverse_gap^2)
+    event_hy[i]=reform(event_hy[i+bbindex],10*30*reverse_gap^2)
+    event_ky[i]=reform(event_ky[i+bbindex],10*30*reverse_gap^2)
+    event_h_k_y[i]=reform(event_h_k_y[i+bbindex],10*30*reverse_gap^2)
   endfor
 
-  data=[[[event_hx[0]],[event_hx[1]],[event_hx[2]],[event_hx[3]],[event_hx[4]]],$
-        [[event_hx[5]],[event_hx[6]],[event_hx[7]],[event_hx[8]],[event_hx[9]]],$
-        [[event_hx[10]],[event_hx[11]],[event_hx[12]],[event_hx[13]],[event_hx[14]]]]
+  data=[[[event_hy[0]],[event_hy[1]],[event_hy[2]],[event_hy[3]],[event_hy[4]]],$
+        [[event_hy[5]],[event_hy[6]],[event_hy[7]],[event_hy[8]],[event_hy[9]]],$
+        [[event_hy[10]],[event_hy[11]],[event_hy[12]],[event_hy[13]],[event_hy[14]]]]
            
   x=linspace(-20,-10,10*reverse_gap+1)
   v=linspace(-15,15,30*reverse_gap+1)  ; connect to the return_vari function. follow the same start point

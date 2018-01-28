@@ -21,15 +21,15 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point_4panel
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
   
   restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
-  vari_dawn=H_re 
+  vari_dawn=e_gsm_y 
   tt_dawn=t_last
   
   restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
-  vari_dusk=H_re
-  vari_str='H_x'
+  vari_dusk=e_gsm_y
+  vari_str='E!dy!n'
   tt_dusk=t_last
   
-  title_char=namestr+'scatter_plot_2d_'+vari_str+'_dawn_dusk_lasttime_10minute_per_point_4panel'
+  title_char=namestr+'plot_2d_median_nolog_'+vari_str+'_dawn_dusk_lasttime_10minute_per_point_4panel'
 
   x=10*(indgen(15))+5
   
@@ -46,10 +46,12 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point_4panel
 
   xrange=[0.0,150.0]
   if (vari_str eq 'density' eq 1b)  then begin
-    yrange=[-2.0,1.0]
+    yrange=[-1,0]
+  
     unit_str='(cm!u-3!n)'
-    yticks=3
-    ytickname=['10!u-2!n','10!u-1!n','10!u0!n','10!u1!n'] ;n
+
+    yticks=1
+    ytickname=['10!u-1!n','10!u-0!n'] ;n
   endif
   if (vari_str eq 'pressure' eq 1b)  then begin
     yrange=[-2.0,0.0]
@@ -58,27 +60,30 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point_4panel
     ytickname=['10!u-2!n','10!u-1!n','10!u0!n'];['10!u-3!n','10!u-2!n','10!u-1!n','10!u0!n','10!u1!n'] ;p
   endif
   if (vari_str eq 'temperature' eq 1b)  then begin
-    yrange=[-1.0,1.0]
+    yrange=[0,1]
     unit_str='(KeV)'
-    yticks=2
-    ytickname=['10!u-1!n','10!u0!n','10!u1!n'];['10!u-1!n','10!u0!n','10!u1!n'];t
+    
+    yticks=1
+    ytickname=['10!u-1!n','10!u0!n']
   endif
-  if (vari_str eq 'e_gsm_y' eq 1b)  then begin
-    yrange=[-8,4] ; ey
+  if (vari_str eq 'E!dy!n' eq 1b)  then begin
+    yrange=[-0.5,0.5] ; ey
+    unit_str='(mV/m)'
   endif
 
-  if (vari_str eq 'H_x' eq 1b)  then begin
-;    yrange=[-2,0]
-;    yticks=2
-;    ytickname=['10!u-2!n','10!u-1!n','10!u0!n']; hx
-    yrange=[-3,1]
-    ytickname=['10!u-3!n','10!u-2!n','10!u-1!n','10!u0!n','10!u1!n']; hx
+  if (vari_str eq 'H!dx!n' eq 1b)  then begin
+   ; yrange=[-0.1,0.15]  ;Hy no log
+    
+    yrange=[-2,0]
+    yticks=2
+    ytickname=['10!u-2!n','10!u-1!n','10!u0!n']; hx
     unit_str='(10!u16!nerg/(Re!u2!ns))'
   endif
 
-  if (vari_str eq 'K_x' eq 1b)  then begin
-    yrange=[-10,2]
-    ytickname=['10!u-10!n','10!u-8!n','10!u-6!n','10!u-4!n','10!u-2!n','10!u0!n','10!u2!n']; hx
+  if (vari_str eq 'K!dx!n' eq 1b)  then begin
+    yrange=[-5,-3]
+    yticks=2
+    ytickname=['10!u-5!n','10!u-4!n','10!u-3!n']; hx
     unit_str='(10!u16!nerg/(Re!u2!ns))'
   endif
 
@@ -88,7 +93,11 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point_4panel
     unit_str='(10!u16!nerg/(Re!u2!ns))'
   endif
 
-
+  if(vari_str eq 'v_x' eq 1b) then begin
+    yrange=[-400,400]
+    unit_str='(km/s)'
+  endif
+  
   for i=0,14 do begin
 
     if ( (size(vari_dusk[i]))[0] eq 1)  then begin
@@ -104,7 +113,7 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point_4panel
       vari_dusk_north=get_varii((vari_dusk[i])[*,0],log=0)
       vari_dusk_south=get_varii((vari_dusk[i+15])[*,0],log=0)
     endif
-
+    
 
     median_vari_dawn_north[i]=median(vari_dawn_north)
     median_vari_dawn_south[i]=median(vari_dawn_south)
@@ -137,6 +146,7 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point_4panel
   vari_arr[0,0]=vari_dawn_north1   &    vari_arr[0,1]=vari_dawn_south1
   vari_arr[1,0]=vari_dusk_north1   &    vari_arr[1,1]=vari_dusk_south1
   
+  if ((vari_str eq 'H!dx!n' or vari_str eq 'K!dx!n')eq 1b)  then median_vari_dusk_south[11]=!values.f_nan
   median_arr=hash()
   median_arr[0,0]=median_vari_dawn_north   &    median_arr[0,1]=median_vari_dawn_south
   median_arr[1,0]=median_vari_dusk_north   &    median_arr[1,1]=median_vari_dusk_south
@@ -149,14 +159,14 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point_4panel
              ['S-IMF Dawnflank','S-IMF Duskflank']]
 
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
-   pos=set_plot_position(2,2,left=0.07,right=0.95,xgap=0.06,ygap=0.06,low=0.05,high=0.90)
+   pos=set_plot_position(2,2,left=0.07,right=0.95,xgap=0.06,ygap=0.06,low=0.05,high=0.60)
   ;cgdisplay
 
-  str_element,opt_plot,'charsize',1.2,/add
+  str_element,opt_plot,'charsize',1.0,/add
   str_element,opt_plot,'yticks',yticks,/add
   str_element,opt_plot,'ytickname',ytickname,/add
-  str_element,opt_plot,'ytitle',vari_str+unit_str,/add
-  str_element,opt_plot,'xtitle','Time(min)',/add                                                     
+ ; str_element,opt_plot,'ytitle',vari_str+unit_str,/add
+ ; str_element,opt_plot,'xtitle','Time(minutes)',/add                                                     
   str_element,opt_plot,'xminor',2,/add
   str_element,opt_plot,'yminor',5,/add
 
@@ -179,20 +189,23 @@ pro scatter_plot_2d_variable_lasttime_10minute_per_point_4panel
         str_element,opt_plot,'xtitle',/delete
       endif else begin
         str_element,opt_plot,'xtickformat',/delete
-        str_element,opt_plot,'xtitle','Time(min)',/add
+        str_element,opt_plot,'xtitle','Time(minutes)',/add
       endelse
      
    ;  cgplot,tt_arr[i,j],alog(vari_arr[i,j]),pos=pos[i,j,*],color='grey',psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
-     cgplot,x,alog10(median_arr[i,j]),pos=pos[i,j,*],xrange=xrange,color='red',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
-     cgoplot,x,alog10(average_arr[i,j]),xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
+   ;  cgplot,x,alog10(median_arr[i,j]),pos=pos[i,j,*],xrange=xrange,color='red',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
+   ;  cgoplot,x,alog10(average_arr[i,j]),xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
 
+     cgplot,x,median_arr[i,j],pos=pos[i,j,*],xrange=xrange,color='red',/normal,/noerase,_extra=opt_plot,yrange=yrange
+;     cgoplot,x,average_arr[i,j],xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,yrange=yrange
+  
      labels_stamp,pos[i,j,*],title_arr[i,j],charsize=1.0,/left_right_center,/up_out
     
     endfor         
   endfor
   
-  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal
-  cgtext,0.98,0.85,'average',alignment=0,charsize=1.0,font=0,color='royal blue',/normal 
+;  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal
+;  cgtext,0.98,0.85,'average',alignment=0,charsize=1.0,font=0,color='royal blue',/normal 
 ;  cgLegend, Colors=['red','red', 'black', 'black'], linestyle=[0,2,0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.9, 0.6], $
 ;       Titles=title_arr, Length=0.075, /Box, VSpace=1.15, /Background, $
 ;       BG_Color='light grey', /AddCmd   ;, PSyms=[6,15]

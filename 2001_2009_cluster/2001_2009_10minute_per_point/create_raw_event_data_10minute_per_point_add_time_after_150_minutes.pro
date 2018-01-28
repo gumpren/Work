@@ -288,7 +288,6 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
   ;; ________________________________part2________________________________________
      
     
-
 ;     ;part2.1
 ;     for ii=0,8 do begin
 ;       year='200'+strcompress(ii+1,/remove)
@@ -563,7 +562,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
       index_all=(index_all)[indextl]
       region_Str=''
 
-      index_pos=where(pos_gsm1[index_all,1] gt 0.0 ) & region_str='_duskflank'
+;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 ) & region_str='_duskflank'
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  ) & region_str='_dawnflank'
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0) & region_str='_far_dawnflank'
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0) & region_str='_far_duskflank'
@@ -573,8 +572,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;                  and pos_gsm1[index_all,1] gt  3.0  and pos_gsm1[index_all,1] le 6.0) & region_str='_dusk_3_3re'
 ;      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
 ;                   and pos_gsm1[index_all,1] gt -6.0  and pos_gsm1[index_all,1] le -3.0) & region_str='_dawn_3_3re'
-      index_all=(index_all)[index_pos]
-
+;      index_all=(index_all)[index_pos]
     
       t_c3cis[i]=t_c3cis1[index_all]
       t_last[i]=t_last1[index_all]
@@ -605,32 +603,32 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 
       bb[i]=n_elements(density[i])
     
-;      ;event_data
-;      eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
-;      event_n[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
-;      event_t[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
-;      event_p[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
-;      event_vx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
-;      event_vy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
-;      event_ey[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
-;
-;      event_hx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
-;      event_hy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
-;     
-;      event_kx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,0],reverse_gap)
-;      event_ky[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,1],reverse_gap)
-;    
-;      event_h_k_x[i]=event_hx[i]+event_kx[i]
-;      event_h_k_y[i]=event_hy[i]+event_ky[i]
+      ;event_data
+      eventimes[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],[],reverse_gap)
+      event_n[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],density[i],reverse_gap)
+      event_t[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],temperature[i],reverse_gap)
+      event_p[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],pressure[i],reverse_gap)
+      event_vx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
+      event_vy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
+      event_ey[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
+
+      event_hx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
+      event_hy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
+     
+      event_kx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,0],reverse_gap)
+      event_ky[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(K_Re[i])[*,1],reverse_gap)
+    
+      event_h_k_x[i]=event_hx[i]+event_kx[i]
+      event_h_k_y[i]=event_hy[i]+event_ky[i]
       
       print,i
     endfor
     
-;    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
-;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'full_event_data'+save_str+'_list_10minute_per_point.sav'
+    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
+      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
    
-     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
+;     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
+;      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
     stop
       
   
