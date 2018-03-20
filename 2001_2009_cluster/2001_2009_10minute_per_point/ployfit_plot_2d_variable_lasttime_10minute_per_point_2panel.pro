@@ -2,7 +2,7 @@
 ; :Author: Gren
 ;-
 
-pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
+pro ployfit_plot_2d_variable_lasttime_10minute_per_point_2panel
   h_Factor=1.0/(6.371^2*1.0e3)
 
   ;1W/m^2=6.371^2*1.0e3(1.0e15*erg/(Re^2*s))
@@ -21,17 +21,17 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
   
   restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
-  vari_dawn=K_re 
+  vari_dawn=H_re 
   tt_dawn=t_last
   
   restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
-  vari_dusk=K_re
-  vari_str='K!dx!n'
+  vari_dusk=H_Re
+  vari_str='H!dx!n'
   tt_dusk=t_last
   
-  title_char=namestr+'2panel_plot_2d_median_'+vari_str+'_dawn_dusk_lasttime_10minute_per_point'
+  title_char=namestr+'1ployfit_2panel_plot_2d_median_'+vari_str+'_dawn_dusk_lasttime_10minute_per_point'
 
-  x=10*(indgen(15))+5
+  x=10*(findgen(15))+5
   
   median_vari_dawn_north=dblarr(15)
   median_vari_dawn_south=dblarr(15)
@@ -122,7 +122,7 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
 ;    vari_dawn_south=vari_dawn_south[(idx_dawn_south_gt0[i])]
 ;    vari_dusk_north=vari_dusk_north[(idx_dusk_north_gt0[i])]
 ;    vari_dusk_south=vari_dusk_south[(idx_dusk_south_gt0[i])]
-;    
+    
         
     median_vari_dawn_north[i]=median(vari_dawn_north)
     median_vari_dawn_south[i]=median(vari_dawn_south)
@@ -155,7 +155,7 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
   vari_arr[0,0]=vari_dawn_north1   &    vari_arr[0,1]=vari_dawn_south1
   vari_arr[1,0]=vari_dusk_north1   &    vari_arr[1,1]=vari_dusk_south1
   
-  if ((vari_str eq 'H!dx!n' or vari_str eq 'K!dx!n')eq 1b)  then median_vari_dusk_south[11]=!values.f_nan
+  ;if ((vari_str eq 'H!dx!n' or vari_str eq 'K!dx!n')eq 1b)  then median_vari_dusk_south[11]=!values.f_nan
   median_arr=hash()
   median_arr[0,0]=median_vari_dawn_north   &    median_arr[0,1]=median_vari_dawn_south
   median_arr[1,0]=median_vari_dusk_north   &    median_arr[1,1]=median_vari_dusk_south
@@ -169,7 +169,8 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
   title_arr=['Dawnflank','Duskflank']
   
   cgps_open,output_dir+title_char+save_str+'.ps',xsize=6.0,ysize=7.0
-  pos=set_plot_position(2,1,left=0.07,right=0.48,xgap=0.06,ygap=0.06,low=0.05,high=0.60)
+  pos=set_plot_position(2,1,left=0.07,right=0.48,xgap=0.06,ygap=0.06,low=0.05,high=0.80)
+
  ;cgdisplay
 
   str_element,opt_plot,'charsize',1.0,/add
@@ -179,6 +180,8 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
  ; str_element,opt_plot,'xtitle','Time(minutes)',/add                                                     
   str_element,opt_plot,'xminor',2,/add
   str_element,opt_plot,'yminor',5,/add
+  str_element,opt_plot,'xrange',xrange,/add
+  str_Element,opt_plot,'yrange',yrange,/add
 
   
   
@@ -193,30 +196,25 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
         str_element,opt_plot,'xtitle','Time(minutes)',/add
       endelse
      
-   ;  cgplot,tt_arr[i,j],alog(vari_arr[i,j]),pos=pos[i,j,*],color='grey',psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
-     cgplot,x,alog10(median_arr[i,0]),pos=pos[i,0,*],xrange=xrange,color='black',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange,linestyle=0
-     cgoplot,x,alog10(median_arr[i,1]),pos=pos[i,0,*],xrange=xrange,color='black',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange,linestyle=2
+     
+     polynomial_fit,x,alog10(median_arr[i,0]),alog10(median_arr[i,1]),5,measure_errors=measure_errors,plot_vis=1,$
+              pos=pos[i,0,*],_extra=opt_plot,/normal,/noerase
+;     
+;     cgplot,x,alog10(median_arr[i,0]),pos=pos[i,0,*],xrange=xrange,color='black',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange,linestyle=0
+;     cgoplot,x,alog10(median_arr[i,1]),pos=pos[i,0,*],xrange=xrange,color='black',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange,linestyle=2
 
-   ;  cgoplot,x,alog10(average_arr[i,j]),xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
-     
-     
-;     cgplot,x,median_arr[i,0],pos=pos[i,0,*],xrange=xrange,color='red',/normal,/noerase,_extra=opt_plot,yrange=yrange
-;     cgoplot,x,median_arr[i,1],pos=pos[i,0,*],xrange=xrange,color='blue',/normal,/noerase,_extra=opt_plot,yrange=yrange
-;     ;
-;     cgoplot,x,average_arr[i,j],xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,yrange=yrange
-  
      labels_stamp,pos[i,0,*],title_arr[i],charsize=1.0,/left_right_center,/up_out
-    
+     
     endfor         
 
   
 ;  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal
 ;  cgtext,0.98,0.85,'average',alignment=0,charsize=1.0,font=0,color='royal blue',/normal 
-  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.559], $
+  cgLegend, Colors=['black', 'red'], linestyle=[0,0],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.75], $
        Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
        BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15]
   
-  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.25], $
+  cgLegend, Colors=['black', 'red'], linestyle=[0,0],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.35], $
        Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
        BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15] 
   cgps_close
