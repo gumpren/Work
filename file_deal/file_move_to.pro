@@ -1,6 +1,6 @@
 pro file_move_to
    
-   filename1=file_search('E:\mms4\*_2.cdf') 
+   filename1=file_search('E:\mms3\*_3.cdf') 
    file_delete,filename1
    
    
