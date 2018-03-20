@@ -1,4 +1,9 @@
 pro file_move_to
+   
+   filename1=file_search('E:\mms4\*_2.cdf') 
+   file_delete,filename1
+   
+   
    date='200'+strcompress(ii+1,/remove)
    
    
