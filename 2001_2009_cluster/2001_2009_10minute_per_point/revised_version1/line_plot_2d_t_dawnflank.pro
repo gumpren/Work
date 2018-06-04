@@ -2,7 +2,7 @@
 ; :Author: Gren
 ;-
 
-pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
+pro line_plot_2d_t_dawnflank
   h_Factor=1.0/(6.371^2*1.0e3)
 
   ;1W/m^2=6.371^2*1.0e3(1.0e15*erg/(Re^2*s))
@@ -18,18 +18,18 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version1\'
+  
   
   restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
-  vari_dawn=K_re  
+  vari_dawn=temperature
   tt_dawn=t_last
   
   restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
-  vari_dusk=K_re
-  vari_str='K!dy!n' ;H!dx!n
+  vari_dusk=temperature 
   tt_dusk=t_last
   
-  title_char=namestr+'smooth_2panel_plot_2d_median_'+vari_str+'_dawn_dusk_lasttime_10minute_per_point'
+  title_char=namestr+'line_plot_2d_t'+region_strs[1]
 
   x=10*(indgen(15))+5
   
@@ -42,61 +42,6 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
   average_vari_dawn_south=dblarr(15)
   average_vari_dusk_north=dblarr(15)
   average_vari_dusk_south=dblarr(15)
-
-
-  xrange=[0.0,150.0]
-  if (vari_str eq 'density' eq 1b)  then begin
-    yrange=[-1,0]
-  
-    unit_str='(cm!u-3!n)'
-
-    yticks=1
-    ytickname=['10!u-1!n','10!u-0!n'] ;n
-  endif
-  if (vari_str eq 'pressure' eq 1b)  then begin
-    yrange=[-2.0,0.0]
-    unit_str='(nPa)'
-    yticks=2
-    ytickname=['10!u-2!n','10!u-1!n','10!u0!n'];['10!u-3!n','10!u-2!n','10!u-1!n','10!u0!n','10!u1!n'] ;p
-  endif
-  if (vari_str eq 'temperature' eq 1b)  then begin
-    yrange=[0,1]
-    unit_str='(KeV)'
-    
-    yticks=1
-    ytickname=['10!u0!n','10!u1!n']
-  endif
-  if (vari_str eq 'E!dy!n' eq 1b)  then begin
-    yrange=[-0.5,0.5] ; ey
-    unit_str='(mV/m)'
-  endif
-
-  if (vari_str eq 'H!dy!n' eq 1b)   then begin
-   ; yrange=[-0.1,0.15]  ;Hy no log
-    
-    yrange=[-2,0]
-    yticks=2
-    ytickname=['10!u-2!n','10!u-1!n','10!u0!n']; hx
-    unit_str='(10!u16!nerg/(Re!u2!ns))'
-  endif
-
-  if (vari_str eq 'K!dy!n' eq 1b)  then begin
-    yrange=[-5,-3]
-    yticks=2
-    ytickname=['10!u-5!n','10!u-4!n','10!u-3!n']; hx
-    unit_str='(10!u16!nerg/(Re!u2!ns))'
-  endif
-
-  if (vari_str eq 'H_K_x' eq 1b)  then begin
-    yrange=[-2,0]
-    ytickname=['10!u-2!n','10!u-1!n','10!u0!n']; hkx
-    unit_str='(10!u16!nerg/(Re!u2!ns))'
-  endif
-
-  if(vari_str eq 'v_x' eq 1b) then begin
-    yrange=[-400,400]
-    unit_str='(km/s)'
-  endif
   
   
  ; restore,filename='C:\__Data\Datasave\2001_2009_10minute_per_point\earthward_flow_index.sav'
@@ -111,10 +56,10 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
     endif
     
     if ( (size(vari_dusk[i]))[0] eq 2)  then begin
-      vari_dawn_north=get_varii((vari_dawn[i])[*,1],log=0)
-      vari_dawn_south=get_varii((vari_dawn[i+15])[*,1],log=0)
-      vari_dusk_north=get_varii((vari_dusk[i])[*,1],log=0)
-      vari_dusk_south=get_varii((vari_dusk[i+15])[*,1],log=0)
+      vari_dawn_north=get_varii((vari_dawn[i])[*,0],log=0)
+      vari_dawn_south=get_varii((vari_dawn[i+15])[*,0],log=0)
+      vari_dusk_north=get_varii((vari_dusk[i])[*,0],log=0)
+      vari_dusk_south=get_varii((vari_dusk[i+15])[*,0],log=0)
     endif
     
     
@@ -166,7 +111,7 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
  
 ;  title_arr=[['N-IMF Dawnflank','N-IMF Duskflank'],$
 ;             ['S-IMF Dawnflank','S-IMF Duskflank']]
-  title_arr=['Dawnflank','Duskflank']
+
   
   median_smooth_arr=smooth_hkx_line_data(median_Arr) ;,/nan_12
                                  ; if keywordset nan_12  the 12th vaule in duskflank would be nan
@@ -176,27 +121,35 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
  ;cgdisplay
 
   str_element,opt_plot,'charsize',1.0,/add
+  str_element,opt_plot,'color',black,/add
   str_element,opt_plot,'yticks',yticks,/add
-  str_element,opt_plot,'ytickname',ytickname,/add
-  str_element,opt_plot,'ytitle',vari_str+unit_str,/add
- ; str_element,opt_plot,'xtitle','Time(minutes)',/add                                                     
+ ; str_element,opt_plot,'ytickname',ytickname,/add
+ ; str_element,opt_plot,'xtitle',cgsymbol('Delta')+'t '+'(minutes)',/add 
+  str_element,opt_plot,'ytitle','T (KeV)',/add
+  str_element,opt_plot,'xtickformat','(a1)',/add
+                                                     
   str_element,opt_plot,'xminor',2,/add
-  str_element,opt_plot,'yminor',5,/add
+  str_element,opt_plot,'yminor',9,/add
   str_element,opt_plot,'thick',4,/add
+
+  str_element,opt_plot,'ylog',1,/add
+  str_element,opt_plot,'xrange',[0.0,150.0],/add
+  str_element,opt_plot,'yrange',[1.0,10.0],/add
   ;
-  for i=0,1 do begin
-       
-      if i ne 1 then begin
-        str_element,opt_plot,'xtickformat','(a1)',/add
-        str_element,opt_plot,'xtitle',/delete
-      endif else begin
-        str_element,opt_plot,'xtickformat',/delete
-        str_element,opt_plot,'xtitle','Time(minutes)',/add
-      endelse
+  title_arr=['Dawnflank','duskflank'] 
+  
+;  for i=0,1 do begin    
+;      if i ne 1 then begin
+;        str_element,opt_plot,'xtickformat','(a1)',/add
+;        str_element,opt_plot,'xtitle',/delete
+;      endif else begin
+;        str_element,opt_plot,'xtickformat',/delete
+;        str_element,opt_plot,'xtitle',cgsymbol('Delta')+'t '+'(minutes)',/add 
+;      endelse
      
    ;  cgplot,tt_arr[i,j],alog(vari_arr[i,j]),pos=pos[i,j,*],color='grey',psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
-     cgplot,x,alog10(median_smooth_arr[i,0]),pos=pos[i,0,*],xrange=xrange,color='black',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange,linestyle=0
-     cgoplot,x,alog10(median_smooth_arr[i,1]),pos=pos[i,0,*],xrange=xrange,color='black',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange,linestyle=2
+     cgplot,x,median_smooth_arr[0,0],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
+     cgoplot,x,median_smooth_arr[0,1],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
 
    ;  cgoplot,x,alog10(average_arr[i,j]),xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
           
@@ -205,19 +158,20 @@ pro line_plot_2d_variable_lasttime_10minute_per_point_2panel
 ;     ;
 ;     cgoplot,x,average_arr[i,j],xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,yrange=yrange
   
-     labels_stamp,pos[i,0,*],title_arr[i],charsize=1.0,/left_right_center,/up_out
-    
-    endfor         
+    ; labels_stamp,pos[0,0,*],title_arr[0],charsize=1.0,/left_right_center,/up_out
+   
+;   endfor        
   
 ;  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal
 ;  cgtext,0.98,0.85,'average',alignment=0,charsize=1.0,font=0,color='royal blue',/normal 
-  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.559], $
+  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.55], $
        Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
        BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15]
-  
-  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.25], $
-       Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
-       BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15] 
+;  
+;  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.25], $
+;       Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
+;       BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15] 
+ 
   cgps_close
   
   

@@ -21,8 +21,8 @@ pro scatter_plot_2d_H_K_X_Earthward_Tailward_lasttime_10minute_per_point
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\'
     
   restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
-  vari=K_re
-  vari_str='K_x'
+  vari=density
+  vari_str='density'
   
   title_char=namestr+'scatter_plot_2d_'+vari_str+'_Earthward_Tailward_lasttime_10minute_per_point'+region_str
   
@@ -81,11 +81,10 @@ pro scatter_plot_2d_H_K_X_Earthward_Tailward_lasttime_10minute_per_point
   endif
   
   if (vari_str eq 'V_x' eq 1b)  then begin
-   ; yrange=[-3,1]
+    ;yrange=[1e0,1e2]
    ; ytickname=['10!u-3!n','10!u-2!n','10!u-1!n','10!u0!n','10!u1!n']; hx
     unit_str='(Km/s)'
   endif
- 
    
    
   for i=0,14 do begin
@@ -160,12 +159,15 @@ pro scatter_plot_2d_H_K_X_Earthward_Tailward_lasttime_10minute_per_point
    pos=set_plot_position(2,2,left=0.07,right=0.95,xgap=0.06,ygap=0.06,low=0.05,high=0.90)
    ;cgdisplay
    
-   str_element,opt_plot,'charsize',1.2,/add  
+   str_element,opt_plot,'charsize',0.8,/add  
    str_element,opt_plot,'yticks',yticks,/add
    str_element,opt_plot,'ytickname',ytickname,/add
    str_element,opt_plot,'xminor',2,/add
-   str_element,opt_plot,'yminor',5,/add
-                                                  ;there is something wrong about density's ytickname
+   str_element,opt_plot,'yminor',9,/add
+   str_element,opt_plot,'ylog',1,/add
+   str_element,opt_plot,'xrange',[0.0,150.0],/add
+;   str_element,opt_plot,'yrange',[1,100],/add
+                                               ;there is something wrong about density's ytickname
       
    for i=0,1 do begin
     for j=0,1 do begin
@@ -190,10 +192,10 @@ pro scatter_plot_2d_H_K_X_Earthward_Tailward_lasttime_10minute_per_point
       if j eq 1 then color_scatter='grey'
       
       
-     cgplot,tt_arr[i,j],vari_arr[i,j],pos=pos[i,j,*],color=color_scatter,psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
-     cgoplot,x,average_arr[i,j],xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
-     cgoplot,x,median_arr[i,j],xrange=xrange,color='red',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
-
+     cgplot,tt_arr[i,j],vari_arr[i,j],pos=pos[i,j,*],color=color_scatter,psym=3,/normal,/noerase,_extra=opt_plot
+     cgoplot,x,average_arr[i,j],color='royal blue',/normal,/noerase,_extra=opt_plot
+     cgoplot,x,median_arr[i,j],color='red',/normal,/noerase,_extra=opt_plot
+     
      labels_stamp,pos[i,j,*],title_arr[i,j],charsize=1.0,/left_right_center,/up_out
     endfor
    endfor

@@ -1,7 +1,7 @@
 pro plot_line_hx_lasttime_halfhour_per_point
   
   namestr='full_'
-  suffix_str='_add_time_after_8hours_dawn_3_3re'
+  suffix_str='_add_time_after_8hours_duskflank'
   
   Re=6371.0
   reverse_gap=5.0/5.0
@@ -11,7 +11,7 @@ pro plot_line_hx_lasttime_halfhour_per_point
   filename=root_dir+namestr+'raw_data'+save_str+'_list_halfhour_per_point'+suffix_str+'.sav'
   
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_halfhour_per_point\'
-  title_char='line_hx_lasttime_halfhour_per_point'+suffix_str
+  title_char='1line_hx_lasttime_halfhour_per_point'+suffix_str
    
   if (strmatch(filename,'*full*') eq 1b) then begin
     output_dir=output_dir+'full\'
