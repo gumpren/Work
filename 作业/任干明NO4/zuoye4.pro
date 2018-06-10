@@ -1,5 +1,5 @@
 Pro zuoye4
-  openr,lun,filepath('TC1_20050824_Magnetic Field.TXT',root_dir='E:\OneDrive\IDLworks\作业\任干明NO4'),/get_lun
+  openr,lun,filepath('TC1_20050824_Magnetic Field.TXT',root_dir='E:\OneDrive\IDLworks\Work\作业\任干明NO4'),/get_lun
   tc1Bdat=dBlarr(13,19494)
   readf,lun,tc1Bdat
   free_lun,lun
@@ -25,26 +25,21 @@ Pro zuoye4
     if (Bzgse[j] le -300) then Begin
       Bzgse(j)=Bzgse[j-1]
     endif
-  
-   
+    
   endfor
-
 
   
   B=dblarr(19494)
   gBgsm=dBlarr(3,19494)
 
   for i=0,19493 do Begin
-
     geopack_recalc,2005,236,tc1Bdat[0,i],tc1Bdat[1,i],tc1Bdat[2,i]
     geopack_conv_coord,Bxgse[i],Bygse[i],Bzgse[i],Bxgsm,Bygsm,Bzgsm,/from_gse,/to_gsm
-
 
     gBgsm(0,i)=Bxgsm
     gBgsm(1,i)=Bygsm
     gBgsm(2,i)=Bzgsm
-    B[i]=sqrt(Bxgse[i]^2+Bygse[i]^2+Bzgse[i]^2)
-    
+    B[i]=sqrt(Bxgse[i]^2+Bygse[i]^2+Bzgse[i]^2)    
   endfor
 
   Bx=gBgsm[0,5375:6713]
@@ -90,7 +85,7 @@ Pro zuoye4
   set_plot,'ps'
   device,/color,Bits_per_pixel=8
   TVLCT, r, g, B, /Get
-  output_dir='E:\OneDrive\IDLworks\作业\任干明NO4\'
+  output_dir='E:\OneDrive\IDLworks\浣��\浠诲共��O4\'
   device,filename=output_dir+'fft_wavelet1.ps',xsize=5.5,ysize=6.5,xoffset=1,yoffset=2,/inches,/encapsulated
   !p.multi=[0,1,4,0,0]
   loadct,38

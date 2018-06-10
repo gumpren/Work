@@ -11,9 +11,9 @@ Function read_data,file,maxrec=maxrec
 
   
 
-  
-  fmt = '(11x,i2,1x,i2,1x,i2,1x,i3,122x,i4,31x,i3)'
-  record={hr:0L,min:0L,sec:0L,msec:0L,AE:0L,DST:0L} ;defining the 'record' structure
+  fmt = '(2x,a22,5x,f10.7,5x,f10.7,4x,f11.7,4x,f10.7,4x,f10.7,2x,a3)'
+  ;fmt = '(11x,i2,1x,i2,1x,i2,1x,i3,122x,i4,31x,i3)'
+  record={date_time:1000L,mlt:0L,maglat:0L,IMF_clang:0L,IMF_By:0L,IMF_Bz:0L,SPCR:0L} ;defining the 'record' structure
 
   isldata=replicate(record,maxrec)
 
