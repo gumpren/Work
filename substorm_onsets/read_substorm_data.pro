@@ -9,8 +9,8 @@ pro read_substorm_data
   readf,lun,data_all
   free_lun,lun
   
-  time=dblarr(lines)
-  mlt=dblarr(lines)
+  onset_time=dblarr(lines)
+  mltime=dblarr(lines)
   maglat=dblarr(lines)
   IMF_clang=dblarr(lines)
   IMF_By=dblarr(lines)
@@ -21,20 +21,37 @@ pro read_substorm_data
     strs=strsplit(data_all[i],' ',/EXTRACT)
     str1=strsplit(strs[0],'_',/EXTRACT)
     instru=str1[0]
-    time[i]=str1[1]+'-'+strmid(str1[2],0,2)+'-'+strmid(str1[2],2,2)+'/'+str1[3]
-    mlt[i]=double(strs[1])
+    onset_time[i]=time_double(str1[1]+'-'+strmid(str1[2],0,2)+'-'+strmid(str1[2],2,2)+'/'+str1[3])
+    mltime[i]=double(strs[1])
     maglat[i]=double(strs[2])
     IMF_clang[i]=double(strs[3])
     IMF_By[i]=double(strs[4])
     IMF_Bz[i]=double(strs[5])
     SPCR[i]=strs[6]
   endfor
+ 
+  store_Data,'onset_mlt',data={x:onset_time,y:mltime}
+  store_Data,'onset_maglat',data={x:onset_time,y:maglat}
+  store_Data,'IMF_Bz',data={x:onset_time,y:IMF_Bz}
   
-  
-  
-  store_Data,'onset_bz',data={x:t,y:density}
 
-
+  restore,'C:\__Data\Datasave\omni_imf_bz.sav'
+  store_data,'All_Bz',data={x:time,y:bz_gsm}
+  
+  tinterpol_mxn,'All_Bz','IMF_Bz',/NEAREST_NEIGHBOR,/IGNORE_NANS
+  
+  get_data,'All_Bz_interp',time_interp,All_Bz_interp
+  
+  cgps_open,output_dir+'bz_compare'+'.ps',xsize=6.0,ysize=7.0
+  
+  cgplot,time_interp,All_Bz_interp,color='black'
+  cgoplot,time_interp,IMF_Bz,color='red'
+  
+  cgps_close
+  
+  gap1=time_interp-onset_time
+  gap2=IMF_Bz-All_Bz_interp
+  
   stop
 
 
