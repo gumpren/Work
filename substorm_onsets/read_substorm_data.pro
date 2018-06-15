@@ -29,12 +29,14 @@ pro read_substorm_data
     IMF_Bz[i]=double(strs[5])
     SPCR[i]=strs[6]
   endfor
- 
+  
+  save,onset_time,mltime,maglat,filename=root_Dir+'substorm_onsets_location.sav'
+  
   store_Data,'onset_mlt',data={x:onset_time,y:mltime}
   store_Data,'onset_maglat',data={x:onset_time,y:maglat}
   store_Data,'IMF_Bz',data={x:onset_time,y:IMF_Bz}
   
-
+  
   restore,'C:\__Data\Datasave\omni_imf_bz.sav'
   store_data,'All_Bz',data={x:time,y:bz_gsm}
   
@@ -42,18 +44,15 @@ pro read_substorm_data
   
   get_data,'All_Bz_interp',time_interp,All_Bz_interp
   
-  cgps_open,output_dir+'bz_compare'+'.ps',xsize=6.0,ysize=7.0
-  
-  cgplot,time_interp,All_Bz_interp,color='black'
-  cgoplot,time_interp,IMF_Bz,color='red'
-  
-  cgps_close
   
   gap1=time_interp-onset_time
   gap2=IMF_Bz-All_Bz_interp
   
+  
+  
+  
   stop
 
-
+  
 
 end
