@@ -1,5 +1,5 @@
 Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
-  
+
   root_Dir='C:\__Data\Datasave\substorm_onsets\2000_2005\'
   output_dir='E:\OneDrive\IDLworks\PS\substorm_onsets\2000_2005\'
   restore,root_dir+'substorm_onsets_location.sav'
@@ -24,138 +24,91 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
 
     names[kk]=bz+tb+'_'+te
   endfor
-  
-  
-  
-  
-  
-  for ii=0,5 do begin   ;2000_2005
-    year='200'+strcompress(ii,/remove)  
-    index_target=strfilter(time_string(onset_time,pre=-5),year,count=count_target,/index)
-    
-    for jj=0,count_target-1 do begin
-      for kk=0,29 do begin
-        tbeg=t_beg[jj]
-        tend=t_end[jj]
-        index_terval=strfilter(time_string(tend,pre=-5),year,count=count_terval,/index)
-        indexx=where(onset_time[index_target[jj]] gt tbeg[index_terval] and onset_time[index_target[jj]] lt tend[index_terval])
-        
-        if indexx ne -1 then break 
-                
-      endfor
-      
-      if indexx ne -1 then stop
-      
-    endfor
 
-    
-    
-    
-  
- 
+
+
+
+  ;
+  ;  for ii=0,5 do begin   ;2000_2005
+  ;    year='200'+strcompress(ii,/remove)
+  ;    index_target=strfilter(time_string(onset_time,pre=-5),year,count=count_target,/index)
+  ;
+  ;    for jj=0,count_target-1 do begin
+  ;      for kk=0,29 do begin
+  ;        tbeg=t_beg[kk]
+  ;        tend=t_end[kk]
+  ;        index_terval=strfilter(time_string(tend,pre=-5),year,count=count_terval,/index)
+  ;        indexx=where(onset_time[index_target[jj]] gt tbeg[index_terval] and onset_time[index_target[jj]] lt tend[index_terval])
+  ;
+  ;        if indexx ne -1 then break
+  ;
+  ;      endfor
+  ;
+  ;      if indexx ne -1 then stop
+  ;
+  ;    endfor
+  ;
+  ;
+  ;
+  ;
+  ;
+  ;
+  ;  endfor
+  ;
+  ;  stop
+
+  onset_t=list(length=30)
+  onset_last_time=list(length=30)
+  t_last_beg=list(length=30)
+  for ii = 0, 29 do begin
+    if (ii ge 0) and (ii le 14)  then t_last_beg[ii]=(ii*10)
+    if (ii ge 15) and (ii le 29)  then t_last_beg[ii]=((ii-15)*10)
   endfor
-  
-  stop
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
-  for kk=29,0,-1 do begin     ;
-    tbeg=t_beg[kk]
-    tend=t_end[kk]
 
-    for ii=0,5 do begin   ;2000_2005
-      year='200'+strcompress(ii,/remove)
+  for ii=29,0,-1 do begin     ;
+    tbeg=t_beg[ii]
+    tend=t_end[ii]
+
+    for jj=0,5 do begin   ;2000_2005
+      year='200'+strcompress(jj,/remove)
       
-      index_target=strfilter(time_string(onset_time,pre=-5),year,count=count,/index)
-      index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
+      index_target=strfilter(time_string(onset_time,pre=-5),year,count=count_target,/index)
+      index_terval=strfilter(time_string(tend,pre=-5),year,count=count_interval,/index)
+      
+      for kk =0, count_target-1 do begin
+       indexx=where(onset_time[index_target[kk]] gt tbeg[index_terval]+t_last_beg[ii]   $
+                and onset_time[index_target[kk]] lt tend[index_terval])
+       if (indexx ne -1) then  begin
+        append_array,onset_t1,onset_time[index_target[kk]]
+        append_array,onset_last_time1,onset_time[index_target[kk]]-(tbeg[index_terval])[indexx]
+        
+       endif
+      endfor
+
 
       for jj=0,count-1 do begin
-        tic
-
-        B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-        B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-        pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-        ;attention!!!selcet bbf  change this tplot variable
-
-        if is_array(B_gsm_temp) then begin
-          t_last_temp=(t_c3fgm_temp-tbeg[(index_terval[jj])])/60.0;+last_time_beg[kk]
-          append_Array,t_last,TEMPORARY(t_last_temp)
-          append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
-          append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
-          append_Array,B_gsm,TEMPORARY(B_gsm_temp)
+        
           append_Array,B_total,TEMPORARY(B_total_temp)
-
-        endif
-
-
-        density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-        velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-        temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-        pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-        Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-
-        if is_array(density_temp) then begin
-          append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
-          append_Array,density,TEMPORARY(density_temp)
-          append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
-          append_Array,temperature,TEMPORARY(temperature_temp)
-          append_Array,pressure,TEMPORARY(pressure_temp)
-          append_Array,Beta,TEMPORARY(Beta_temp)
-        endif
-
-        E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
-        if is_array(E_gsm_temp) then begin
-          append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
-          append_Array,E_gsm,TEMPORARY(E_gsm_temp)
-        endif
-
-        print,jj
-        toc
-
+   
       endfor
 
       print,(systime(1)-start)/60.
       print,'break1'
 
-      if is_array(t_last) then begin
+      append_Array,E_gsm1,TEMPORARY(E_gsm)
 
-        append_Array,t_last1,TEMPORARY(t_last)
-        append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
-        append_Array,pos_gsm1,TEMPORARY(pos_gsm)
-        append_Array,B_gsm1,TEMPORARY(B_gsm)
-        append_Array,B_total1,TEMPORARY(B_total)
-
-        append_Array,t_c3cis1,TEMPORARY(t_c3cis)
-        append_Array,density1,TEMPORARY(density)
-        append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
-        append_Array,temperature1,TEMPORARY(temperature)
-        append_Array,pressure1,TEMPORARY(pressure)
-        append_Array,Beta1,TEMPORARY(Beta)
-
-        append_Array,t_c3efw1,TEMPORARY(t_c3efw)
-        append_Array,E_gsm1,TEMPORARY(E_gsm)
-
-      endif
       del_data,'*'
       print,ii
 
     endfor
 
-    if is_array(t_c3cis1) then begin
-      save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-        filename=root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'.sav'
+    save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
+      filename=root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[ii]+'.sav'
 
-      undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
-      undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
-    endif
+    undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
+    undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
+  
     print,(systime(1)-start)/60.
     print,jj
   endfor
@@ -164,11 +117,6 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
   print,'save_time ',save_time_c3fgmcis,' hour'
 
   stop
-
-
-
-
-
 
 
 
