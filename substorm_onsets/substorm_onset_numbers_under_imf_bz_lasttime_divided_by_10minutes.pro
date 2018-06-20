@@ -1,5 +1,6 @@
 Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
-
+  
+  start=systime(1)
   root_Dir='C:\__Data\Datasave\substorm_onsets\2000_2005\'
   output_dir='E:\OneDrive\IDLworks\PS\substorm_onsets\2000_2005\'
   restore,root_dir+'substorm_onsets_location.sav'
@@ -25,8 +26,19 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
     names[kk]=bz+tb+'_'+te
   endfor
 
-
-
+ 
+  
+  onset_list=list(length=n_elements(onset_time))
+  for i=0,n_elements(onset_time)-1 do begin
+    onset_list[i]=onset_time[i]
+  endfor
+  
+  onset_list.remove,2752
+  
+  gapt=dblarr(n_elements(onset_list)-1)
+  for i=0,n_elements(onset_list)-2 do begin
+    gapt[i]=(onset_list[i+1]-onset_list[i])/60.0
+  endfor
 
   ;
   ;  for ii=0,5 do begin   ;2000_2005
@@ -77,37 +89,20 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
       index_terval=strfilter(time_string(tend,pre=-5),year,count=count_interval,/index)
       
       for kk =0, count_target-1 do begin
-       indexx=where(onset_time[index_target[kk]] gt tbeg[index_terval]+t_last_beg[ii]   $
+       indexx=where(onset_time[index_target[kk]] ge tbeg[index_terval]+t_last_beg[ii]   $
                 and onset_time[index_target[kk]] lt tend[index_terval])
        if (indexx ne -1) then  begin
         append_array,onset_t1,onset_time[index_target[kk]]
-        append_array,onset_last_time1,onset_time[index_target[kk]]-(tbeg[index_terval])[indexx]
-        
+        append_array,onset_last_time1,onset_time[index_target[kk]]-(tbeg[index_terval])[indexx]        
        endif
       endfor
-
-
-      for jj=0,count-1 do begin
-        
-          append_Array,B_total,TEMPORARY(B_total_temp)
-   
-      endfor
-
-      print,(systime(1)-start)/60.
-      print,'break1'
-
-      append_Array,E_gsm1,TEMPORARY(E_gsm)
-
-      del_data,'*'
-      print,ii
-
+      
+      
     endfor
-
-    save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-      filename=root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[ii]+'.sav'
-
-    undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
-    undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
+    
+    onset_t[ii]=onset_t1
+    onset_last_time[ii]=onset_last_time1
+    undefine,onset_t1,onset_last_time1
   
     print,(systime(1)-start)/60.
     print,jj
