@@ -25,20 +25,18 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
 
     names[kk]=bz+tb+'_'+te
   endfor
-
- 
   
-  onset_list=list(length=n_elements(onset_time))
-  for i=0,n_elements(onset_time)-1 do begin
-    onset_list[i]=onset_time[i]
-  endfor
-  
-  onset_list.remove,2752
-  
-  gapt=dblarr(n_elements(onset_list)-1)
-  for i=0,n_elements(onset_list)-2 do begin
-    gapt[i]=(onset_list[i+1]-onset_list[i])/60.0
-  endfor
+;  onset_list=list(length=n_elements(onset_time))
+;  for i=0,n_elements(onset_time)-1 do begin
+;    onset_list[i]=onset_time[i]
+;  endfor
+;  
+;  onset_list.remove,2752
+;  
+;  gapt=dblarr(n_elements(onset_list)-1)
+;  for i=0,n_elements(onset_list)-2 do begin
+;    gapt[i]=(onset_list[i+1]-onset_list[i])/60.0
+;  endfor
 
   ;
   ;  for ii=0,5 do begin   ;2000_2005
@@ -68,7 +66,7 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
   ;  endfor
   ;
   ;  stop
-
+  
   onset_t=list(length=30)
   onset_last_time=list(length=30)
   t_last_beg=list(length=30)
@@ -91,9 +89,9 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
       for kk =0, count_target-1 do begin
        indexx=where(onset_time[index_target[kk]] ge tbeg[index_terval]+t_last_beg[ii]   $
                 and onset_time[index_target[kk]] lt tend[index_terval])
-       if (indexx ne -1) then  begin
+       if (indexx[0] ne -1) then  begin
         append_array,onset_t1,onset_time[index_target[kk]]
-        append_array,onset_last_time1,onset_time[index_target[kk]]-(tbeg[index_terval])[indexx]        
+        append_array,onset_last_time1,onset_time[index_target[kk]]-(tbeg[index_terval])[indexx[0]]        
        endif
       endfor
       
@@ -107,7 +105,7 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
     print,(systime(1)-start)/60.
     print,jj
   endfor
-
+  
   save_time_c3fgmcis=(systime(1)-start)/3600.0
   print,'save_time ',save_time_c3fgmcis,' hour'
 
