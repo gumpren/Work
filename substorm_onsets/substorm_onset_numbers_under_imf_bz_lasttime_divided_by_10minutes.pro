@@ -72,14 +72,14 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
   t_last_beg=list(length=30)
   for ii = 0, 29 do begin
     if (ii ge 0) and (ii le 14)  then t_last_beg[ii]=(ii*10)
-    if (ii ge 15) and (ii le 29)  then t_last_beg[ii]=((ii-15)*10)
+    if (ii ge 15) and (ii le 29 )  then t_last_beg[ii]=((ii-15)*10)
   endfor
 
-
+  total=0
   for ii=29,0,-1 do begin     ;
     tbeg=t_beg[ii]
     tend=t_end[ii]
-
+    
     for jj=0,5 do begin   ;2000_2005
       year='200'+strcompress(jj,/remove)
       
@@ -87,14 +87,14 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
       index_terval=strfilter(time_string(tend,pre=-5),year,count=count_interval,/index)
       
       for kk =0, count_target-1 do begin
-       indexx=where(onset_time[index_target[kk]] ge tbeg[index_terval]+t_last_beg[ii]   $
+       indexx=where(onset_time[index_target[kk]] ge  b   $
                 and onset_time[index_target[kk]] lt tend[index_terval])
-       if (indexx[0] ne -1) then  begin
+       if (n_elements(indexx) gt 1) then  begin
+        total=total+1
         append_array,onset_t1,onset_time[index_target[kk]]
         append_array,onset_last_time1,onset_time[index_target[kk]]-(tbeg[index_terval])[indexx[0]]        
        endif
       endfor
-      
       
     endfor
     
@@ -103,14 +103,22 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
     undefine,onset_t1,onset_last_time1
   
     print,(systime(1)-start)/60.
-    print,jj
+    print,ii
   endfor
   
+  stop
+  
+  save,onset_t,onset_last_time,filename=root_dir+'substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes.sav'
   save_time_c3fgmcis=(systime(1)-start)/3600.0
   print,'save_time ',save_time_c3fgmcis,' hour'
 
   stop
-
-
-
+  
+  total=0
+  for ii=0,29 do begin
+    ad=n_elements(onset_t[ii])
+    total=total+ad
+  endfor
+  
+  stop
 end
