@@ -25,7 +25,22 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
 
     names[kk]=bz+tb+'_'+te
   endfor
+    
+  tbeg=t_beg[0]
+  tend=t_end[0]
+
+  tb=tbeg[sort(tbeg)]
+  te=tend[sort(tend)]
+  t_gap=shift(te,-1)-te 
+  inde=where(t_gap eq 0)
   
+  
+  
+   stop
+  
+     
+    
+    
 ;  onset_list=list(length=n_elements(onset_time))
 ;  for i=0,n_elements(onset_time)-1 do begin
 ;    onset_list[i]=onset_time[i]
@@ -87,9 +102,9 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
       index_terval=strfilter(time_string(tend,pre=-5),year,count=count_interval,/index)
       
       for kk =0, count_target-1 do begin
-       indexx=where(onset_time[index_target[kk]] ge  b   $
+       indexx=where(onset_time[index_target[kk]] gt tbeg[index_terval]+t_last_beg[ii]*60.0   $
                 and onset_time[index_target[kk]] lt tend[index_terval])
-       if (n_elements(indexx) gt 1) then  begin
+       if (n_elements(indexx) gt 2) then  begin
         total=total+1
         append_array,onset_t1,onset_time[index_target[kk]]
         append_array,onset_last_time1,onset_time[index_target[kk]]-(tbeg[index_terval])[indexx[0]]        
@@ -108,17 +123,19 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
   
   stop
   
+  at=0
+  for ii=0,29 do begin
+    ad=n_elements(onset_t[ii])
+    at=at+ad
+  endfor
+
+   stop
+  
   save,onset_t,onset_last_time,filename=root_dir+'substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes.sav'
   save_time_c3fgmcis=(systime(1)-start)/3600.0
   print,'save_time ',save_time_c3fgmcis,' hour'
 
   stop
   
-  total=0
-  for ii=0,29 do begin
-    ad=n_elements(onset_t[ii])
-    total=total+ad
-  endfor
   
-  stop
 end
