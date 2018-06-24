@@ -26,17 +26,17 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
     names[kk]=bz+tb+'_'+te
   endfor
     
-  tbeg=t_beg[0]
-  tend=t_end[0]
-
-  tb=tbeg[sort(tbeg)]
-  te=tend[sort(tend)]
-  t_gap=shift(te,-1)-te 
-  inde=where(t_gap eq 0)
-  
-  
-  
-   stop
+;  tbeg=t_beg[0]
+;  tend=t_end[0]
+;
+;  tb=tbeg[sort(tbeg)]
+;  te=tend[sort(tend)]
+;  t_gap=shift(te,-1)-te 
+;  inde=where(t_gap eq 0)
+;  
+;  
+;  
+;   stop
   
      
     
