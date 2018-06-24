@@ -27,8 +27,9 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
   endfor
     
   tbeg=t_beg[0]
-  tend=t_end[0]
-
+  tend=t_end[0] 
+  
+  
   tb=tbeg[sort(tbeg)]
   te=tend[sort(tend)]
   t_gap=shift(te,-1)-te 
@@ -86,7 +87,7 @@ Pro substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes
   onset_last_time=list(length=30)
   t_last_beg=list(length=30)
   for ii = 0, 29 do begin
-    if (ii ge 0) and (ii le 14)  then t_last_beg[ii]=(ii*10)
+    if (ii ge 0)  and (ii le 14)   then t_last_beg[ii]=(ii*10)
     if (ii ge 15) and (ii le 29 )  then t_last_beg[ii]=((ii-15)*10)
   endfor
 
