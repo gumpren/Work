@@ -79,9 +79,8 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'
 ;    stop
 ;
-
  
-;    ;part1.2   add time after 150 minutes
+;    ;part1.2   calc time after 150 minutes
 ;    tt_beg=list(length=2)
 ;    tt_end=list(length=2) 
 ; 
@@ -131,10 +130,33 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      print,jj
 ;    endfor
 ;    save,tt_beg,tt_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav' 
-
-     
-;   ;part1.3
-;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'
+ 
+;    ;part1.3   revised 'append_array,t_end29,tt_beg[1]+150.0*60' remove duplicate points (when tt_beg[1]+150.0*60 eq tend29)
+;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav' 
+;    t_last_end=list(length=30)
+;    for jj = 0, 29 do begin
+;      if (jj ge 0) and (jj le 14)  then t_last_end[jj]=((jj+1)*10)
+;      if (jj ge 15) and (jj le 29)  then t_last_end[jj]=((jj-15+1)*10)
+;    endfor
+;    
+;    for i=0,29 do begin
+;      tbeg=t_beg[i]
+;      tend=t_end[i]
+;      
+;      indexx=where(tend-tbeg ne t_last_end[i]*60)
+;      
+;      tbeg1=tbeg[indexx]
+;      tend1=tend[indexx]
+;      
+;      t_beg[i]=tbeg1
+;      t_end[i]=tend1
+;    endfor
+;    
+;    save,t_beg,t_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
+;    
+    
+;    ;part1.4    add time after 150 minutes
+;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav'  
 ;
 ;    t_beg14=t_beg[14]
@@ -279,9 +301,32 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    
 ;    save_time=(systime(1)-start)/60.0
 ;    save,t_beg,t_end,save_time,  $
-;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
-; 
+;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
+;    
     
+        
+;    ;part 1.5    revised t_beg[0]
+;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
+;   
+;    tbeg=t_beg[0]
+;    tend=t_end[0]
+;    
+;    tbeg=list(tbeg,/ex)
+;    tend=list(tend,/ex)
+;    
+;    for i=0,n_elements(tbeg)-1 do begin
+;      indexx=where(tbeg[i] eq tbeg)
+;      if n_elements(indexx) gt 1  then begin                                                     ; b eq duplicate begin
+;        if is_equal(tend[indexx[0]],tend[indexx[1]]) then begin
+;           tbeg.remove,[indexx[0]]
+;           tend.remove,[indexx[0]]
+;           i=i-1
+;           print,'i', i
+;        endif
+;      endif
+;    endfor
+;    stop
+;    
   ;; ________________________________part2________________________________________
      
     
@@ -366,7 +411,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 
     
      ;part2.2
-     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes.sav'
+     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
                 
      names=strarr(30)
      for kk=0,29 do begin
@@ -390,7 +435,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
      endfor
     
     
-     for kk=0,29 do begin     ;
+     for kk=29,0,-1 do begin     ;
        tbeg=t_beg[kk]
        tend=t_end[kk]
     
@@ -485,7 +530,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     
        if is_array(t_c3cis1) then begin
          save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-           filename=root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'.sav'
+           filename=root_dir+'remove_duplicate_points_c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'.sav'
     
          undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
          undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
