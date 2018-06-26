@@ -303,31 +303,42 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    save,t_beg,t_end,save_time,  $
 ;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
 ;    
-    
-        
+            
 ;    ;part 1.5    revised t_beg[0]
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
-;   
-;    tbeg=t_beg[0]
-;    tend=t_end[0]
 ;    
-;    tbeg=list(tbeg,/ex)
-;    tend=list(tend,/ex)
-;    
-;    for i=0,n_elements(tbeg)-1 do begin
-;      indexx=where(tbeg[i] eq tbeg)
-;      if n_elements(indexx) gt 1  then begin                                                     ; b eq duplicate begin
-;        if is_equal(tend[indexx[0]],tend[indexx[1]]) then begin
-;           tbeg.remove,[indexx[0]]
-;           tend.remove,[indexx[0]]
-;           i=i-1
-;           print,'i', i
+;    maxn=[64221,63818]
+;    for j=0,1 do begin
+;      tbeg=t_beg[15*j]
+;      tend=t_end[15*j]
+;      a=0
+;      tic
+;      for i=0,n_elements(tbeg)-1 do begin
+;        if i eq maxn[j] then break
+;        toc
+;        indexx=where(tbeg[i] eq tbeg)
+;        if n_elements(indexx) gt 1  then begin                                      ; b eq duplicate begin
+;          if is_equal(tend[indexx[0]],tend[indexx[1]]) then begin
+;            a=a+1
+;            cc=indgen(n_elements(tbeg),/long)-indexx[0]
+;            indexw=where(cc ne 0)
+;            tbeg=tbeg[indexw]
+;            tend=tend[indexw]
+;            i=i-1
+;            print,'i', i
+;          endif
 ;        endif
-;      endif
+;      endfor
+;      ;stop
+;      t_beg[15*j]=tbeg
+;      t_end[15*j]=tend
 ;    endfor
+;
+;    save,t_beg,t_end,  $
+;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points_revised_tbeg0.sav'
 ;    stop
-;    
-  ;; ________________________________part2________________________________________
+  
+  ; ________________________________part2________________________________________
      
     
 ;     ;part2.1
@@ -409,9 +420,9 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    
 ;     stop
 
-    
+     tic
      ;part2.2
-     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
+     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points_revised_tbeg0.sav'
                 
      names=strarr(30)
      for kk=0,29 do begin
@@ -435,7 +446,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
      endfor
     
     
-     for kk=29,0,-1 do begin     ;
+     for kk=15,15 do begin     ;
        tbeg=t_beg[kk]
        tend=t_end[kk]
     
@@ -530,8 +541,8 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     
        if is_array(t_c3cis1) then begin
          save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-           filename=root_dir+'remove_duplicate_points_c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'.sav'
-    
+           filename=root_dir+'remove_duplicate_points_c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'_revised_tbeg0.sav'
+         ; only tbeg[0] and tbeg[15] need to be revised
          undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
          undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
        endif
@@ -541,7 +552,8 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     
      save_time_c3fgmcis=(systime(1)-start)/3600.0
      print,'save_time ',save_time_c3fgmcis,' hour'
-    
+     
+     toc
      stop
 
 
