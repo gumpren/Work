@@ -15,9 +15,10 @@ pro plot_status_new
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_median_old\2001_2009_median_new\'
 
   restore,filepath('OMNI_2001_2009_Bz_Vxyz_p_AE_SYMH.sav',root_dir='C:\__Data\Datasave\2001_2009_median_old\2001_2009_median')
-  restore,filepath('eventimes'+save_str+'.sav',root_dir=root_dir)
-
-  cgps_open,output_dir+'cluster_status'+save_str+'.ps',xsize=6.0,ysize=7.0
+;  restore,filepath('eventimes'+save_str+'.sav',root_dir=root_dir)
+  
+  cgdisplay
+  ;cgps_open,output_dir+'cluster_status'+save_str+'.ps',xsize=6.0,ysize=7.0
   cgloadct,39
   pos0=set_plot_position(3,4,left=0.05,right=0.725,xgap=0.025,ygap=0.05,low=0.05,high=0.48)
   xrange=[[0,12],[0,12],[2,8]]

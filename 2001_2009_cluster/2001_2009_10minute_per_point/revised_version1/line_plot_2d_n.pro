@@ -2,7 +2,7 @@
 ; :Author: Gren
 ;-
 
-pro line_plot_2d_n_dawnflank
+pro line_plot_2d_n
   h_Factor=1.0/(6.371^2*1.0e3)
 
   ;1W/m^2=6.371^2*1.0e3(1.0e15*erg/(Re^2*s))
@@ -18,18 +18,18 @@ pro line_plot_2d_n_dawnflank
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version1\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version2_remove_duplicate_points\'
   
   
-  restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
+  restore,filename=root_dir+namestr+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
   vari_dawn=density
   tt_dawn=t_last
   
-  restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
+  restore,filename=root_dir+namestr+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
   vari_dusk=density 
   tt_dusk=t_last
   
-  title_char=namestr+'line_plot_2d_n'+region_strs[1]+'_no_log'
+  title_char=namestr+'line_plot_2d_n_remove_duplicate_points'
 
   x=10*(indgen(15))+5
   
@@ -128,27 +128,27 @@ pro line_plot_2d_n_dawnflank
   str_element,opt_plot,'xtickformat','(a1)',/add
                                                      
   str_element,opt_plot,'xminor',2,/add
-  str_element,opt_plot,'yminor',4,/add
+  str_element,opt_plot,'yminor',9,/add
   str_element,opt_plot,'thick',4,/add
 
-  str_element,opt_plot,'ylog',0,/add
+  str_element,opt_plot,'ylog',1,/add
   str_element,opt_plot,'xrange',[0.0,150.0],/add
-  str_element,opt_plot,'yrange',[0.0,0.4],/add
+  str_element,opt_plot,'yrange',[0.1,1],/add
   ;
   title_arr=['Dawnflank','Duskflank'] 
 
-;  for i=0,1 do begin    
-;      if i ne 1 then begin
-;        str_element,opt_plot,'xtickformat','(a1)',/add
-;        str_element,opt_plot,'xtitle',/delete
-;      endif else begin
-;        str_element,opt_plot,'xtickformat',/delete
-;        str_element,opt_plot,'xtitle',cgsymbol('Delta')+'t '+'(minutes)',/add 
-;      endelse
+  for i=0,1 do begin    
+      if i ne 1 then begin
+        str_element,opt_plot,'xtickformat','(a1)',/add
+        str_element,opt_plot,'xtitle',/delete
+      endif else begin
+        str_element,opt_plot,'xtickformat',/delete
+        str_element,opt_plot,'xtitle',cgsymbol('Delta')+'t '+'(minutes)',/add 
+      endelse
      
    ;  cgplot,tt_arr[i,j],alog(vari_arr[i,j]),pos=pos[i,j,*],color='grey',psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
-     cgplot,x,median_smooth_arr[0,0],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
-     cgoplot,x,median_smooth_arr[0,1],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
+     cgplot,x,median_smooth_arr[i,0],pos=pos[i,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
+     cgoplot,x,median_smooth_arr[i,1],pos=pos[i,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
 
    ;  cgoplot,x,alog10(average_arr[i,j]),xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
           
@@ -157,9 +157,9 @@ pro line_plot_2d_n_dawnflank
 ;     ;
 ;     cgoplot,x,average_arr[i,j],xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,yrange=yrange
   
-     labels_stamp,pos[0,0,*],title_arr[0],charsize=1.0,/left_right_center,/up_out
+     labels_stamp,pos[i,0,*],title_arr[i],charsize=1.0,/left_right_center,/up_out
    
-;   endfor        
+   endfor        
   
 ;  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal
 ;  cgtext,0.98,0.85,'average',alignment=0,charsize=1.0,font=0,color='royal blue',/normal         Location=[0.48, 0.409],
@@ -167,9 +167,9 @@ pro line_plot_2d_n_dawnflank
        Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
        BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15]
   
-;  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.25], $
-;       Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
-;       BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15] 
+  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.25], $
+       Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
+       BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15] 
   
   cgps_close
   

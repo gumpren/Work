@@ -1,9 +1,12 @@
 pro test_duplicate_points
-  strr='_add_time_after_150_minutes_remove_duplicate_points' ;
+ 
   ; strr=''
-  restore,'C:\__Data\Datasave\2001_2009_10minute_per_point\'+    $
-    'time_interval_divided_by_Bz_yearly_normal_10minute_per_point'+strr+'.sav'
-  g=15
+;  restore,'C:\__Data\Datasave\substorm_onsets\2000_2005\'+    $
+;    'time_interval_divided_by_Bz_2000_2010_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
+  restore,'C:\__Data\Datasave\2001_2009_10minute_per_point\'+ $
+    'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
+  
+  g=0
   tbeg=t_beg[g]
   tend=t_end[g]
 
@@ -17,11 +20,10 @@ pro test_duplicate_points
 ;    endif
 ;
 ;  endfor
-
-
+  
   a=0
   b=0
-  gap=dblarr(2872)
+  gap=dblarr(2872) 
   for i=0,n_elements(tbeg)-1 do begin
     indexx=where(tbeg[i] eq tbeg)
     if n_elements(indexx) gt 1  then begin

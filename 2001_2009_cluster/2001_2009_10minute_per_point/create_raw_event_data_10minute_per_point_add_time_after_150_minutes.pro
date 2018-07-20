@@ -1,5 +1,6 @@
 ;cerated by G.M. Ren   2017.11.23
 
+
 pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
   
    Re=6371.0
@@ -131,29 +132,33 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    endfor
 ;    save,tt_beg,tt_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav' 
  
-;    ;part1.3   revised 'append_array,t_end29,tt_beg[1]+150.0*60' remove duplicate points (when tt_beg[1]+150.0*60 eq tend29)
-;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav' 
-;    t_last_end=list(length=30)
-;    for jj = 0, 29 do begin
-;      if (jj ge 0) and (jj le 14)  then t_last_end[jj]=((jj+1)*10)
-;      if (jj ge 15) and (jj le 29)  then t_last_end[jj]=((jj-15+1)*10)
-;    endfor
-;    
-;    for i=0,29 do begin
-;      tbeg=t_beg[i]
-;      tend=t_end[i]
-;      
-;      indexx=where(tend-tbeg ne t_last_end[i]*60)
-;      
-;      tbeg1=tbeg[indexx]
-;      tend1=tend[indexx]
-;      
-;      t_beg[i]=tbeg1
-;      t_end[i]=tend1
-;    endfor
-;    
-;    save,t_beg,t_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
-;    
+    ;part1.3  
+    ;
+    ; (first version I may think it wrong)revised 'append_array,t_end29,tt_beg[1]+150.0*60' remove duplicate points (when tt_beg[1]+150.0*60 eq tend29)
+    ; (2nd version I may think it right)  revised 'find_coti_interval.pro' ss=where(dura ge duration[0] and dura le duration[1],nss)   remove duplicate points (when duration[1] eq another duration[0])
+    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav' 
+    t_last_end=list(length=30)
+    for jj = 0, 29 do begin
+      if (jj ge 0)  and (jj le 14)  then t_last_end[jj]=((jj+1)*10)
+      if (jj ge 15) and (jj le 29)  then t_last_end[jj]=((jj-15+1)*10)
+    endfor
+    
+    for i=29,0,-1 do begin
+      tbeg=t_beg[i]
+      tend=t_end[i]
+      
+      indexx=where(tend-tbeg ne t_last_end[i]*60)
+      
+      tbeg1=tbeg[indexx]
+      tend1=tend[indexx]
+      
+      t_beg[i]=tbeg1
+      t_end[i]=tend1
+      stop
+    endfor
+   
+    save,t_beg,t_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
+    
     
 ;    ;part1.4    add time after 150 minutes
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
@@ -420,141 +425,142 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    
 ;     stop
 
-     tic
-     ;part2.2
-     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points_revised_tbeg0.sav'
-                
-     names=strarr(30)
-     for kk=0,29 do begin
-       if kk le 14 then begin
-         bz='_BZgt0_'
-         te=strcompress((kk+1)*10,/remove)
-       endif else begin
-         bz='_BZle0_'
-         te=strcompress((kk+1-15)*10,/remove)
-       endelse
     
-       if kk lt 1 then tb='00'+strcompress(kk*10,/remove)
-       if kk ge 1 and kk lt 10 then tb='0'+strcompress(kk*10,/remove)
-       if kk ge 10 and kk le 14  then tb=strcompress(kk*10,/remove)
-    
-       if kk ge 15 and kk lt 15+1 then tb='00'+strcompress((kk-15)*10,/remove)
-       if kk ge 15+1 and kk lt 15+10 then tb='0'+strcompress((kk-15)*10,/remove)
-       if kk ge 15+10 and kk le 15+14 then tb=strcompress((kk-15)*10,/remove)
-    
-       names[kk]=bz+tb+'_'+te
-     endfor
-    
-    
-     for kk=15,15 do begin     ;
-       tbeg=t_beg[kk]
-       tend=t_end[kk]
-    
-       for ii=0,8 do begin   ;0-8
-         year='200'+strcompress(ii+1,/remove)
-    
-         restore,filename='C:\__Data\Datasave\variables_fgm_cis_efw'+year+'.sav'      ;if using tplot_restore, the efficiency of code runnig is too low because of too many superfluous variables
-         store_Data,'pos_gsm_interp',data={x:time_all,y:pos_gsm_interp}
-         store_Data,'velocity_gsm_interp',data={x:time_all,y:velocity_gsm_interp}
-         store_Data,'B_total_interp',data={x:time_all,y:B_total_interp}
-         store_Data,'B_gsm_interp',data={x:time_all,y:B_gsm_interp}
-         store_Data,'density_interp',data={x:time_all,y:density_interp}
-         store_Data,'temperature_interp',data={x:time_all,y:temperature_interp}
-         store_Data,'pressure_interp',data={x:time_all,y:pressure_interp}
-         store_Data,'Beta_clip_deflag_interp',data={x:time_all,y:Beta_clip_deflag_interp}
-         store_Data,'E_gsm_interp',data={x:time_all,y:E_gsm_interp}
-    
-         index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
-    
-         for jj=0,count-1 do begin
-           tic
-    
-           B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-           B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-           pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
-           ;attention!!!selcet bbf  change this tplot variable
-    
-    
-           if is_array(B_gsm_temp) then begin
-             t_last_temp=(t_c3fgm_temp-tbeg[(index_terval[jj])])/60.0;+last_time_beg[kk]
-             append_Array,t_last,TEMPORARY(t_last_temp)
-             append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
-             append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
-             append_Array,B_gsm,TEMPORARY(B_gsm_temp)
-             append_Array,B_total,TEMPORARY(B_total_temp)
-          
-           endif
-           
-              
-           density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-           velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-           temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-           pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-           Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
-    
-           if is_array(density_temp) then begin
-             append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
-             append_Array,density,TEMPORARY(density_temp)
-             append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
-             append_Array,temperature,TEMPORARY(temperature_temp)
-             append_Array,pressure,TEMPORARY(pressure_temp)
-             append_Array,Beta,TEMPORARY(Beta_temp)
-           endif
-    
-           E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
-           if is_array(E_gsm_temp) then begin
-             append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
-             append_Array,E_gsm,TEMPORARY(E_gsm_temp)
-           endif
-    
-           print,jj
-           toc
-    
-         endfor
-    
-         print,(systime(1)-start)/60.
-         print,'break1'
-    
-         if is_array(t_last) then begin
-    
-           append_Array,t_last1,TEMPORARY(t_last)
-           append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
-           append_Array,pos_gsm1,TEMPORARY(pos_gsm)
-           append_Array,B_gsm1,TEMPORARY(B_gsm)
-           append_Array,B_total1,TEMPORARY(B_total)
-    
-           append_Array,t_c3cis1,TEMPORARY(t_c3cis)
-           append_Array,density1,TEMPORARY(density)
-           append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
-           append_Array,temperature1,TEMPORARY(temperature)
-           append_Array,pressure1,TEMPORARY(pressure)
-           append_Array,Beta1,TEMPORARY(Beta)
-    
-           append_Array,t_c3efw1,TEMPORARY(t_c3efw)
-           append_Array,E_gsm1,TEMPORARY(E_gsm)
-           
-         endif
-         del_data,'*'
-         print,ii
-    
-       endfor
-    
-       if is_array(t_c3cis1) then begin
-         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
-           filename=root_dir+'remove_duplicate_points_c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'_revised_tbeg0.sav'
-         ; only tbeg[0] and tbeg[15] need to be revised
-         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
-         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
-       endif
-        print,(systime(1)-start)/60.
-       print,jj
-     endfor
-    
-     save_time_c3fgmcis=(systime(1)-start)/3600.0
-     print,'save_time ',save_time_c3fgmcis,' hour'
-     
-     toc
-     stop
+;     ;part2.2
+;     restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points_revised_tbeg0.sav'
+;     
+;     tic            
+;     names=strarr(30)
+;     for kk=0,29 do begin
+;       if kk le 14 then begin
+;         bz='_BZgt0_'
+;         te=strcompress((kk+1)*10,/remove)
+;       endif else begin
+;         bz='_BZle0_'
+;         te=strcompress((kk+1-15)*10,/remove)
+;       endelse
+;    
+;       if kk lt 1 then tb='00'+strcompress(kk*10,/remove)
+;       if kk ge 1 and kk lt 10 then tb='0'+strcompress(kk*10,/remove)
+;       if kk ge 10 and kk le 14  then tb=strcompress(kk*10,/remove)
+;    
+;       if kk ge 15 and kk lt 15+1 then tb='00'+strcompress((kk-15)*10,/remove)
+;       if kk ge 15+1 and kk lt 15+10 then tb='0'+strcompress((kk-15)*10,/remove)
+;       if kk ge 15+10 and kk le 15+14 then tb=strcompress((kk-15)*10,/remove)
+;    
+;       names[kk]=bz+tb+'_'+te
+;     endfor
+;    
+;    
+;     for kk=15,15 do begin     ;
+;       tbeg=t_beg[kk]
+;       tend=t_end[kk]
+;    
+;       for ii=0,8 do begin   ;0-8
+;         year='200'+strcompress(ii+1,/remove)
+;    
+;         restore,filename='C:\__Data\Datasave\variables_fgm_cis_efw'+year+'.sav'      ;if using tplot_restore, the efficiency of code runnig is too low because of too many superfluous variables
+;         store_Data,'pos_gsm_interp',data={x:time_all,y:pos_gsm_interp}
+;         store_Data,'velocity_gsm_interp',data={x:time_all,y:velocity_gsm_interp}
+;         store_Data,'B_total_interp',data={x:time_all,y:B_total_interp}
+;         store_Data,'B_gsm_interp',data={x:time_all,y:B_gsm_interp}
+;         store_Data,'density_interp',data={x:time_all,y:density_interp}
+;         store_Data,'temperature_interp',data={x:time_all,y:temperature_interp}
+;         store_Data,'pressure_interp',data={x:time_all,y:pressure_interp}
+;         store_Data,'Beta_clip_deflag_interp',data={x:time_all,y:Beta_clip_deflag_interp}
+;         store_Data,'E_gsm_interp',data={x:time_all,y:E_gsm_interp}
+;    
+;         index_terval=strfilter(time_string(tend,pre=-5),year,count=count,/index)
+;    
+;         for jj=0,count-1 do begin
+;           tic
+;    
+;           B_total_temp=tsample('B_total_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;           B_gsm_temp=tsample('B_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;           pos_gsm_temp=tsample('pos_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3fgm_temp)
+;           ;attention!!!selcet bbf  change this tplot variable
+;    
+;    
+;           if is_array(B_gsm_temp) then begin
+;             t_last_temp=(t_c3fgm_temp-tbeg[(index_terval[jj])])/60.0;+last_time_beg[kk]
+;             append_Array,t_last,TEMPORARY(t_last_temp)
+;             append_Array,t_c3fgm,TEMPORARY(t_c3fgm_temp)
+;             append_Array,pos_gsm,TEMPORARY(pos_gsm_temp)
+;             append_Array,B_gsm,TEMPORARY(B_gsm_temp)
+;             append_Array,B_total,TEMPORARY(B_total_temp)
+;          
+;           endif
+;           
+;              
+;           density_temp=tsample('density_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;           velocity_gsm_temp=tsample('velocity_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;           temperature_temp=tsample('temperature_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;           pressure_temp=tsample('pressure_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;           Beta_temp=tsample('Beta_clip_deflag_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3cis_temp)
+;    
+;           if is_array(density_temp) then begin
+;             append_Array,t_c3cis,TEMPORARY(t_c3cis_temp)
+;             append_Array,density,TEMPORARY(density_temp)
+;             append_Array,velocity_gsm,TEMPORARY(velocity_gsm_temp)
+;             append_Array,temperature,TEMPORARY(temperature_temp)
+;             append_Array,pressure,TEMPORARY(pressure_temp)
+;             append_Array,Beta,TEMPORARY(Beta_temp)
+;           endif
+;    
+;           E_gsm_temp=tsample('E_gsm_interp',[tbeg[(index_terval[jj])],tend[(index_terval[jj])]],times=t_c3efw_temp)
+;           if is_array(E_gsm_temp) then begin
+;             append_Array,t_c3efw,TEMPORARY(t_c3efw_temp)
+;             append_Array,E_gsm,TEMPORARY(E_gsm_temp)
+;           endif
+;    
+;           print,jj
+;           toc
+;    
+;         endfor
+;    
+;         print,(systime(1)-start)/60.
+;         print,'break1'
+;    
+;         if is_array(t_last) then begin
+;    
+;           append_Array,t_last1,TEMPORARY(t_last)
+;           append_Array,t_c3fgm1,TEMPORARY(t_c3fgm)
+;           append_Array,pos_gsm1,TEMPORARY(pos_gsm)
+;           append_Array,B_gsm1,TEMPORARY(B_gsm)
+;           append_Array,B_total1,TEMPORARY(B_total)
+;    
+;           append_Array,t_c3cis1,TEMPORARY(t_c3cis)
+;           append_Array,density1,TEMPORARY(density)
+;           append_Array,velocity_gsm1,TEMPORARY(velocity_gsm)
+;           append_Array,temperature1,TEMPORARY(temperature)
+;           append_Array,pressure1,TEMPORARY(pressure)
+;           append_Array,Beta1,TEMPORARY(Beta)
+;    
+;           append_Array,t_c3efw1,TEMPORARY(t_c3efw)
+;           append_Array,E_gsm1,TEMPORARY(E_gsm)
+;           
+;         endif
+;         del_data,'*'
+;         print,ii
+;    
+;       endfor
+;    
+;       if is_array(t_c3cis1) then begin
+;         save,t_c3cis1,t_last1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,Beta1,E_gsm1,$;$
+;           filename=root_dir+'remove_duplicate_points_c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+names[kk]+'_revised_tbeg0.sav'
+;         ; only tbeg[0] and tbeg[15] need to be revised
+;         undefine,t_c3cis1,B_total1,B_gsm1,pos_gsm1,density1,velocity_gsm1,temperature1,pressure1,beta1
+;         undefine,E_gsm1,t_last1,t_last_ture1;,tt_bbf_save
+;       endif
+;        print,(systime(1)-start)/60.
+;       print,jj
+;     endfor
+;    
+;     save_time_c3fgmcis=(systime(1)-start)/3600.0
+;     print,'save_time ',save_time_c3fgmcis,' hour'
+;     
+;     toc
+;     stop
 
 
 ; ; ________________________________part3_______________________
@@ -562,7 +568,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 
     reverse_gap=5.0/5.0
     save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
-    filename=file_search(root_dir+'c3_fgmcisefw_data_selected_10minute_per_point_add_time_after_150_minutes'+'*.sav')
+    filename=file_search(root_dir+'remove_duplicate_points_c3_fgmcisefw_data_selected'+'*.sav')
     counts=n_elements(filename)
          
     a=findgen(counts)
@@ -679,10 +685,10 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     endfor
     
     save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
-      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
+      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'remove_duplicate_points_event_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
    
 ;     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-;      filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
+;      filename=root_dir+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
     stop
       
   

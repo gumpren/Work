@@ -5,12 +5,14 @@ pro revised_two_dimensional_plot_hx_dawnflank_10_minute_per_point_less_panel
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version1\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version2_remove_duplicate_points\'
   
-  title_char='N_two_dimensional_plot_hx_dawnflank_less_panel'
-  bbindex=0
+  title_char='S_two_dimensional_plot_hx_dawnflank_less_panel_remove_duplicate_points'
+  bbindex=15
+  rrow=1 ;(southward)
+  ;rrow=0 ;(northward)
   
-  restore,filename=root_dir+'raw_data'+save_str+'_list_10minute_per_point.sav'
+  restore,filename=root_dir+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point.sav'
   Hx=list(length=10)
   posx=list(length=10)
   posy=list(length=10)
@@ -131,7 +133,7 @@ pro revised_two_dimensional_plot_hx_dawnflank_10_minute_per_point_less_panel
   tvlct,r,g,b
 
 
-  for i=0,0 do begin
+  for i=rrow,rrow do begin
     str_element,opt_bar,'title',bar_title[i],/add
     for j=0,4 do begin
       ;str_element,opt_plot,'title',title0[j,i],/add

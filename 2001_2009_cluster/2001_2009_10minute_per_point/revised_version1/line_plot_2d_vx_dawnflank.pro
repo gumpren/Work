@@ -29,7 +29,7 @@ pro line_plot_2d_vx_dawnflank
   vari_dusk=velocity_gsm 
   tt_dusk=t_last
   
-  title_char=namestr+'line_plot_2d_vx'+region_strs[1]
+  title_char=namestr+'line_plot_2d_vx'+region_strs[1]+'_no_log'
 
   x=10*(indgen(15))+5
   
@@ -128,12 +128,12 @@ pro line_plot_2d_vx_dawnflank
   str_element,opt_plot,'ytitle','V'+cgsymbol('down')+'x'+'!n  (km/s)',/add
                                                      
   str_element,opt_plot,'xminor',2,/add
-  str_element,opt_plot,'yminor',9,/add
+  str_element,opt_plot,'yminor',4,/add
   str_element,opt_plot,'thick',4,/add
 
-  str_element,opt_plot,'ylog',1,/add
+  str_element,opt_plot,'ylog',0,/add
   str_element,opt_plot,'xrange',[0.0,150.0],/add
-  str_element,opt_plot,'yrange',[1,100],/add
+  str_element,opt_plot,'yrange',[0,40],/add
   ;
 ;  for i=0,1 do begin      
 ;      if i ne 1 then begin
@@ -160,7 +160,7 @@ pro line_plot_2d_vx_dawnflank
   
 ;  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal
 ;  cgtext,0.98,0.85,'average',alignment=0,charsize=1.0,font=0,color='royal blue',/normal 
-  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.409], $
+  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.55], $
        Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
        BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15]
 ;  

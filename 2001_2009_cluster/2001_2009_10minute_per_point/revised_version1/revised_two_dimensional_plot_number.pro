@@ -5,13 +5,13 @@ pro revised_two_dimensional_plot_number
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version1\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version2_remove_duplicate_points\'
   
-  title_char='revised_two_dimensional_plot_number_Bz_norhward_delete_less_10'
-  panel_title='B!dz!n!x>0'
-  bbindex=0
+  title_char='two_dimensional_plot_number_Bz_southward_delete_less_10_remove_duplicate_points'
+  panel_title='B!dz!n!x<0'
+  bbindex=15
   
-  restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
+  restore,filename=root_dir+'remove_duplicate_points_event_data'+save_str+'_list_10minute_per_point.sav'
   
   for i=0,29 do begin    
     eventimes_temp=reform(eventimes[i],10*30*reverse_gap^2)

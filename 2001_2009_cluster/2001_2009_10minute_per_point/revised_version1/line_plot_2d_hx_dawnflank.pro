@@ -18,18 +18,18 @@ pro line_plot_2d_hx_dawnflank
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version1\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version2_remove_duplicate_points\'
   
   
-  restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
+  restore,filename=root_dir+namestr+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
   vari_dawn=H_Re
   tt_dawn=t_last
   
-  restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
+  restore,filename=root_dir+namestr+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
   vari_dusk=H_Re 
   tt_dusk=t_last
   
-  title_char=namestr+'line_plot_2d_hx'+region_strs[1]
+  title_char=namestr+'line_plot_2d_hx'+region_strs[1]+'_remove_duplicate_points'
 
   x=10*(indgen(15))+5
   

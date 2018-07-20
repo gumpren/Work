@@ -5,13 +5,13 @@ pro revised_two_dimensional_plot_n
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version1\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version2_remove_duplicate_points\'
   
-  title_char='revised_two_dimensional_plot_n_Bz_northward'
+  title_char='two_dimensional_plot_n_Bz_northward_remove_duplicate_points_'
   panel_title='B!dz!n!x>0'
   bbindex=0
   
-  restore,filename=root_dir+'event_data'+save_str+'_list_10minute_per_point.sav'
+  restore,filename=root_dir+'remove_duplicate_points_event_data'+save_str+'_list_10minute_per_point.sav'
 
   ;cgdisplay
   cgps_open,output_dir+title_char+'.ps',xsize=6.0,ysize=7.0
