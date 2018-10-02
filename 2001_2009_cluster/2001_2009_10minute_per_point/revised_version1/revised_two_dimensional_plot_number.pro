@@ -7,7 +7,7 @@ pro revised_two_dimensional_plot_number
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
   output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version2_remove_duplicate_points\'
   
-  title_char='two_dimensional_plot_number_Bz_southward_delete_less_10_remove_duplicate_points'
+  title_char='S_two_dimensional_plot_number_less_panel_remove_duplicate_points_Delete_less_25'
   panel_title='B!dz!n!x<0'
   bbindex=15
   
@@ -15,7 +15,7 @@ pro revised_two_dimensional_plot_number
   
   for i=0,29 do begin    
     eventimes_temp=reform(eventimes[i],10*30*reverse_gap^2)
-    id=where(eventimes_temp lt 10)
+    id=where(eventimes_temp lt 25 and eventimes_temp gt 0)
     eventimes_temp[id]=0
     eventimes[i]=reform(eventimes_temp,10*reverse_gap,30*reverse_gap)                 
   endfor

@@ -11,6 +11,19 @@ pro line_plot_2d_n_dawnflank
 
   ;region_str=region_strs[4]
   namestr=''
+  ;typee=1; dawn
+  typee=2; dusk
+  case (typee) of
+    1: begin
+         aa=0
+         region_s=region_strs[1]
+       end
+    2: begin
+         aa=1
+         region_s=region_strs[2]
+       end
+  endcase
+
   
   
   Re=6371.0
@@ -18,18 +31,18 @@ pro line_plot_2d_n_dawnflank
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version1\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version2_remove_duplicate_points\'
   
   
-  restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
+  restore,filename=root_dir+namestr+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
   vari_dawn=density
   tt_dawn=t_last
   
-  restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
+  restore,filename=root_dir+namestr+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
   vari_dusk=density 
   tt_dusk=t_last
   
-  title_char=namestr+'line_plot_2d_n'+region_strs[1]+'_no_log'
+  title_char=namestr+'n'+region_s+'_remove_duplicate_points_line_plot_2d'
 
   x=10*(indgen(15))+5
   
@@ -128,15 +141,15 @@ pro line_plot_2d_n_dawnflank
   str_element,opt_plot,'xtickformat','(a1)',/add
                                                      
   str_element,opt_plot,'xminor',2,/add
-  str_element,opt_plot,'yminor',4,/add
+  str_element,opt_plot,'yminor',9,/add
   str_element,opt_plot,'thick',4,/add
 
-  str_element,opt_plot,'ylog',0,/add
+  str_element,opt_plot,'ylog',1,/add
   str_element,opt_plot,'xrange',[0.0,150.0],/add
-  str_element,opt_plot,'yrange',[0.0,0.4],/add
+  str_element,opt_plot,'yrange',[0.1,1.0],/add
   ;
-  title_arr=['Dawnflank','Duskflank'] 
-
+  title_arr=['Post-midnight','Pre-midnight'] 
+     ;       dawn     ,      dusk
 ;  for i=0,1 do begin    
 ;      if i ne 1 then begin
 ;        str_element,opt_plot,'xtickformat','(a1)',/add
@@ -147,8 +160,8 @@ pro line_plot_2d_n_dawnflank
 ;      endelse
      
    ;  cgplot,tt_arr[i,j],alog(vari_arr[i,j]),pos=pos[i,j,*],color='grey',psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
-     cgplot,x,median_smooth_arr[0,0],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
-     cgoplot,x,median_smooth_arr[0,1],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
+     cgplot,x,median_smooth_arr[aa,0],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
+     cgoplot,x,median_smooth_arr[aa,1],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
 
    ;  cgoplot,x,alog10(average_arr[i,j]),xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
           
@@ -157,7 +170,7 @@ pro line_plot_2d_n_dawnflank
 ;     ;
 ;     cgoplot,x,average_arr[i,j],xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,yrange=yrange
   
-     labels_stamp,pos[0,0,*],title_arr[0],charsize=1.0,/left_right_center,/up_out
+     labels_stamp,pos[0,0,*],title_arr[aa],charsize=1.0,/left_right_center,/up_out
    
 ;   endfor        
   

@@ -11,25 +11,36 @@ pro line_plot_2d_t_dawnflank
 
   ;region_str=region_strs[4]
   namestr=''
-  
+  ;typee=1; dawn
+  typee=2; dusk
+  case (typee) of
+    1: begin
+      aa=0
+      region_s=region_strs[1]
+    end
+    2: begin
+      aa=1
+      region_s=region_strs[2]
+    end
+  endcase
   
   Re=6371.0
   reverse_gap=5.0/5.0
   save_str='_2001_2009_gap'+string(1/reverse_gap,format='(f5.3)')+'Re'
   ;string(1/reverse_gap,format='(f5.3)')   STRCOMPRESS(1/reverse_gap,/remove)
   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
-  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version1\'
+  output_dir='E:\OneDrive\IDLworks\PS\cluster_statistics\2001_2009_10minute_per_point\revised_version2_remove_duplicate_points\'
   
   
-  restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
+  restore,filename=root_dir+namestr+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_strs[1]+'.sav'
   vari_dawn=temperature
   tt_dawn=t_last
   
-  restore,filename=root_dir+namestr+'raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
+  restore,filename=root_dir+namestr+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_strs[2]+'.sav'
   vari_dusk=temperature 
   tt_dusk=t_last
   
-  title_char=namestr+'line_plot_2d_t'+region_strs[1]+'_no_log'
+  title_char=namestr+'t'+region_s+'_remove_duplicate_points_line_plot_2d'
 
   x=10*(indgen(15))+5
   
@@ -43,8 +54,6 @@ pro line_plot_2d_t_dawnflank
   average_vari_dusk_north=dblarr(15)
   average_vari_dusk_south=dblarr(15)
   
-  
- ; restore,filename='C:\__Data\Datasave\2001_2009_10minute_per_point\earthward_flow_index.sav'
   
   for i=0,14 do begin
 
@@ -61,14 +70,7 @@ pro line_plot_2d_t_dawnflank
       vari_dusk_north=get_varii((vari_dusk[i])[*,0],log=0)
       vari_dusk_south=get_varii((vari_dusk[i+15])[*,0],log=0)
     endif
-    
-    
-;    vari_dawn_north=vari_dawn_north[(idx_dawn_north_gt0[i])]
-;    vari_dawn_south=vari_dawn_south[(idx_dawn_south_gt0[i])]
-;    vari_dusk_north=vari_dusk_north[(idx_dusk_north_gt0[i])]
-;    vari_dusk_south=vari_dusk_south[(idx_dusk_south_gt0[i])]
-;    
-        
+             
     median_vari_dawn_north[i]=median(vari_dawn_north)
     median_vari_dawn_south[i]=median(vari_dawn_south)
     median_vari_dusk_north[i]=median(vari_dusk_north)   
@@ -125,18 +127,19 @@ pro line_plot_2d_t_dawnflank
   str_element,opt_plot,'yticks',yticks,/add
  ; str_element,opt_plot,'ytickname',ytickname,/add
  ; str_element,opt_plot,'xtitle',cgsymbol('Delta')+'t '+'(minutes)',/add 
-  str_element,opt_plot,'ytitle','T (KeV)',/add
+  str_element,opt_plot,'ytitle','T (keV)',/add
   str_element,opt_plot,'xtickformat','(a1)',/add
                                                      
   str_element,opt_plot,'xminor',2,/add
-  str_element,opt_plot,'yminor',4,/add
+  str_element,opt_plot,'yminor',9,/add
   str_element,opt_plot,'thick',4,/add
 
-  str_element,opt_plot,'ylog',0,/add
+  str_element,opt_plot,'ylog',1,/add
   str_element,opt_plot,'xrange',[0.0,150.0],/add
-  str_element,opt_plot,'yrange',[0.0,5.0],/add
+  str_element,opt_plot,'yrange',[1.0,10.0],/add
   ;
-  title_arr=['Dawnflank','duskflank'] 
+  title_arr=['Post-midnight','Pre-midnight'] 
+          ;'Dawnflank','duskflank'
   
 ;  for i=0,1 do begin    
 ;      if i ne 1 then begin
@@ -148,8 +151,8 @@ pro line_plot_2d_t_dawnflank
 ;      endelse
      
    ;  cgplot,tt_arr[i,j],alog(vari_arr[i,j]),pos=pos[i,j,*],color='grey',psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
-     cgplot,x,median_smooth_arr[0,0],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
-     cgoplot,x,median_smooth_arr[0,1],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
+     cgplot,x,median_smooth_arr[aa,0],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
+     cgoplot,x,median_smooth_arr[aa,1],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
 
    ;  cgoplot,x,alog10(average_arr[i,j]),xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
           
@@ -164,7 +167,7 @@ pro line_plot_2d_t_dawnflank
   
 ;  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal
 ;  cgtext,0.98,0.85,'average',alignment=0,charsize=1.0,font=0,color='royal blue',/normal 
-  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.409], $
+  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.55], $
        Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
        BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15]
 ;  

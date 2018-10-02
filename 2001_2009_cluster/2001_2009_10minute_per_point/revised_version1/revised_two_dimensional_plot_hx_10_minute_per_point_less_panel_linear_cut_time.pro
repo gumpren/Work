@@ -1,4 +1,4 @@
-pro revised_two_dimensional_plot_hx_10_minute_per_point_less_panel
+pro revised_two_dimensional_plot_hx_10_minute_per_point_less_panel_linear_cut_time
 
   Re=6371.0
   reverse_gap=5.0/5.0

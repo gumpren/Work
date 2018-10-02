@@ -11,7 +11,7 @@ pro ions_3d_moments_compare
   init_crib_colors
   time_stamp,/off
     
-  data_dir='C:\Users\ccvok\Desktop\[=AQ 0987\'
+  data_dir='C:\Users\ccvok\Desktop\CSA_Download_20161019_1340\'
   filename=data_dir+'C1_CP_CIS-HIA_HS_MAG_IONS_PSD\C1_CP_CIS-HIA_HS_MAG_IONS_PSD__20020730_174500_20020730_181000_V070905.cdf'
   filename1=data_dir+'C1_CP_CIS-HIA_ONBOARD_MOMENTS\C1_CP_CIS-HIA_ONBOARD_MOMENTS__20020730_174500_20020730_181000_V161018.cdf'
   filename2=data_dir+'C1_CP_FGM_SPIN\C1_CP_FGM_SPIN__20020730_174500_20020730_181000_V140305.cdf'

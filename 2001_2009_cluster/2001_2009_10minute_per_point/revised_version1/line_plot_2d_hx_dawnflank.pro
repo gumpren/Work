@@ -11,7 +11,18 @@ pro line_plot_2d_hx_dawnflank
 
   ;region_str=region_strs[4]
   namestr=''
-  
+  ;typee=1; dawn
+  typee=2; dusk
+  case (typee) of
+    1: begin
+      aa=0
+      region_s=region_strs[1]
+    end
+    2: begin
+      aa=1
+      region_s=region_strs[2]
+    end
+  endcase
   
   Re=6371.0
   reverse_gap=5.0/5.0
@@ -29,7 +40,7 @@ pro line_plot_2d_hx_dawnflank
   vari_dusk=H_Re 
   tt_dusk=t_last
   
-  title_char=namestr+'line_plot_2d_hx'+region_strs[1]+'_remove_duplicate_points'
+  title_char=namestr+'hx'+region_s+'_remove_duplicate_points_line_plot_2d'
 
   x=10*(indgen(15))+5
   
@@ -111,8 +122,8 @@ pro line_plot_2d_hx_dawnflank
  
 ;  title_arr=[['N-IMF Dawnflank','N-IMF Duskflank'],$
 ;             ['S-IMF Dawnflank','S-IMF Duskflank']]
-  title_arr=['Dawnflank','Duskflank']
-  
+
+  title_arr=['Post-midnight','Pre-midnight']  
   median_smooth_arr=smooth_hkx_line_data(median_Arr) ;,/nan_12
                                  ; if keywordset nan_12  the 12th vaule in duskflank would be nan
                                  
@@ -147,8 +158,8 @@ pro line_plot_2d_hx_dawnflank
 ;      endelse
      
    ;  cgplot,tt_arr[i,j],alog(vari_arr[i,j]),pos=pos[i,j,*],color='grey',psym=3,ylog=ylog,xrange=xrange,yrange=yrange,/normal,/noerase,_extra=opt_plot
-     cgplot,x,median_smooth_arr[0,0],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
-     cgoplot,x,median_smooth_arr[0,1],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
+     cgplot,x,median_smooth_arr[aa,0],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=0
+     cgoplot,x,median_smooth_arr[aa,1],pos=pos[0,0,*],/normal,/noerase,_extra=opt_plot,linestyle=2
 
    ;  cgoplot,x,alog10(average_arr[i,j]),xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,ylog=ylog,yrange=yrange
           
@@ -157,7 +168,7 @@ pro line_plot_2d_hx_dawnflank
 ;     ;
 ;     cgoplot,x,average_arr[i,j],xrange=xrange,color='royal blue',/normal,/noerase,_extra=opt_plot,yrange=yrange
   
-     labels_stamp,pos[0,0,*],title_arr[0],charsize=1.0,/left_right_center,/up_out
+     labels_stamp,pos[0,0,*],title_arr[aa],charsize=1.0,/left_right_center,/up_out
 ;   endfor        
   
 ;  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal

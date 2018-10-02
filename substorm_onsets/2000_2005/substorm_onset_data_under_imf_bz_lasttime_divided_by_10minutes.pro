@@ -3,7 +3,7 @@ Pro substorm_onset_data_under_IMF_bz_lasttime_divided_by_10minutes
   start=systime(1)
   root_Dir='C:\__Data\Datasave\substorm_onsets\2000_2005\'
   output_dir='E:\OneDrive\IDLworks\PS\substorm_onsets\2000_2005\'
-  restore,root_dir+'substorm_onsets_location.sav'
+  restore,root_dir+'substorm_onsets_location_modified_timing.sav'
   restore,root_dir+'time_interval_divided_by_Bz_2000_2010_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points_revised_tbeg0.sav'
   names=strarr(30)
   for kk=0,29 do begin
@@ -25,7 +25,14 @@ Pro substorm_onset_data_under_IMF_bz_lasttime_divided_by_10minutes
 
     names[kk]=bz+tb+'_'+te
   endfor
-    
+  
+  ; remove dupilacte onset time
+;  tindex=uniq(onset_time)
+;  onset_time=onset_time[tindex]
+;  mltime=mltime[tindex]
+;  maglat=maglat[tindex]
+  
+      
   onset_t=list(length=30)
   onset_last_time=list(length=30)
   t_last_beg=list(length=30)
@@ -83,8 +90,7 @@ Pro substorm_onset_data_under_IMF_bz_lasttime_divided_by_10minutes
 ;    stop
   
 
-  ;
- 
+
   total=0
   for ii=29,0,-1 do begin     ;
     tbeg=t_beg[ii]
@@ -104,10 +110,10 @@ Pro substorm_onset_data_under_IMF_bz_lasttime_divided_by_10minutes
          tb_str=time_string(tb,precision=-4,format=2)
          
          if kk lt count_target-1 then begin
-          te=min([onset_time[index_target[kk]]+2*60*60,onset_time[index_target[kk+1]]])
+          te=min([onset_time[index_target[kk]]+2*60*60,onset_time[index_target[kk+1]]]); 2 hours long but no interaction with next substorm
          endif else begin
-          te=onset_time[index_target[kk]]
-         endelse
+          te=onset_time[index_target[kk]]+2*60*60
+         endelse  
          te_str=time_string(te,precision=-4,format=2)
          
          filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')
@@ -122,7 +128,7 @@ Pro substorm_onset_data_under_IMF_bz_lasttime_divided_by_10minutes
          AU_temp=tsample('AU_INDEX',[tb,te],times=t_omni_temp)      
          AL_temp=tsample('AL_INDEX',[tb,te],times=t_omni_temp)
 
-       
+        
         total=total+1
         append_array,onset_t1,onset_time[index_target[kk]]
         append_array,onset_last_time1,onset_time[index_target[kk]]-(tbeg[index_terval])[indexx[0]] 
@@ -131,9 +137,10 @@ Pro substorm_onset_data_under_IMF_bz_lasttime_divided_by_10minutes
         append_array,AE_max1,max(AE_temp)  
         append_array,AU_max1,max(AU_temp)
         append_array,AL_min1,min(AL_temp)  
-        ;stop
+     ;   if total eq 40 then stop
        endif
       endfor
+    ;  stop
       
     endfor
     
@@ -165,7 +172,7 @@ Pro substorm_onset_data_under_IMF_bz_lasttime_divided_by_10minutes
   'substorm_onset_numbers_under_IMF_bz_lasttime_divided_by_10minutes_add_time_after_150_minutes_remove_duplicate_points_revised_tbeg0_add_AE_AU_AL.sav'
   save_time_c3fgmcis=(systime(1)-start)/3600.0
   print,'save_time ',save_time_c3fgmcis,' hour'
-
+  
   stop
   
   
