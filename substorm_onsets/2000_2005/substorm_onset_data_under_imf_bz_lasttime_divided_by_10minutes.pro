@@ -150,8 +150,8 @@ Pro substorm_onset_data_under_IMF_bz_lasttime_divided_by_10minutes
     
   endfor
   
- 
-  ;stop
+  print,(systime(1)-start)/60.0
+   stop
   
   at=0
   for ii=0,29 do begin
