@@ -132,33 +132,33 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    endfor
 ;    save,tt_beg,tt_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav' 
  
-    ;part1.3  
-    ;
-    ; (first version I may think it wrong)revised 'append_array,t_end29,tt_beg[1]+150.0*60' remove duplicate points (when tt_beg[1]+150.0*60 eq tend29)
-    ; (2nd version I may think it right)  revised 'find_coti_interval.pro' ss=where(dura ge duration[0] and dura le duration[1],nss)   remove duplicate points (when duration[1] eq another duration[0])
-    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav' 
-    t_last_end=list(length=30)
-    for jj = 0, 29 do begin
-      if (jj ge 0)  and (jj le 14)  then t_last_end[jj]=((jj+1)*10)
-      if (jj ge 15) and (jj le 29)  then t_last_end[jj]=((jj-15+1)*10)
-    endfor
-    
-    for i=29,0,-1 do begin
-      tbeg=t_beg[i]
-      tend=t_end[i]
-      
-      indexx=where(tend-tbeg ne t_last_end[i]*60)
-      
-      tbeg1=tbeg[indexx]
-      tend1=tend[indexx]
-      
-      t_beg[i]=tbeg1
-      t_end[i]=tend1
-      stop
-    endfor
-   
-    save,t_beg,t_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
-    
+;    ;part1.3  
+;    ;
+;    ; (first version I may think it wrong)revised 'append_array,t_end29,tt_beg[1]+150.0*60' remove duplicate points (when tt_beg[1]+150.0*60 eq tend29)
+;    ; (2nd version I may think it right)  revised 'find_coti_interval.pro' ss=where(dura ge duration[0] and dura le duration[1],nss)   remove duplicate points (when duration[1] eq another duration[0])
+;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav' 
+;    t_last_end=list(length=30)
+;    for jj = 0, 29 do begin
+;      if (jj ge 0)  and (jj le 14)  then t_last_end[jj]=((jj+1)*10)
+;      if (jj ge 15) and (jj le 29)  then t_last_end[jj]=((jj-15+1)*10)
+;    endfor
+;    
+;    for i=29,0,-1 do begin
+;      tbeg=t_beg[i]
+;      tend=t_end[i]
+;      
+;      indexx=where(tend-tbeg ne t_last_end[i]*60)
+;      
+;      tbeg1=tbeg[indexx]
+;      tend1=tend[indexx]
+;      
+;      t_beg[i]=tbeg1
+;      t_end[i]=tend1
+;      stop
+;    endfor
+;   
+;    save,t_beg,t_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
+;    
     
 ;    ;part1.4    add time after 150 minutes
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
@@ -590,6 +590,8 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
     
     E_gsm_y=list(a,/ex)
     event_ey=list(a,/ex)
+    v_X_b_y=list(a,/ex)
+    event_evy=list(a,/ex)
     
     t_c3cis=list(a,/ex)
     B_gsm=list(a,/ex)
@@ -622,7 +624,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
       index_all=(index_all)[indextl]
       region_Str=''
 
-;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 ) & region_str='_duskflank'
+      index_pos=where(pos_gsm1[index_all,1] gt 0.0 ) & region_str='_duskflank'
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  ) & region_str='_dawnflank'
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0) & region_str='_far_dawnflank'
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0) & region_str='_far_duskflank'
@@ -632,7 +634,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;                  and pos_gsm1[index_all,1] gt  3.0  and pos_gsm1[index_all,1] le 6.0) & region_str='_dusk_3_3re'
 ;      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
 ;                   and pos_gsm1[index_all,1] gt -6.0  and pos_gsm1[index_all,1] le -3.0) & region_str='_dawn_3_3re'
-;      index_all=(index_all)[index_pos]
+      index_all=(index_all)[index_pos]
     
       t_c3cis[i]=t_c3cis1[index_all]
       t_last[i]=t_last1[index_all]
@@ -656,6 +658,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
       pos_gsm[i]=[[pos_gsm_x],[pos_gsm_y],[pos_gsm_z]]
     
       E_gsm_y[i]=E_gsm1[index_all,1]
+      v_X_b_y[i]=1.0e-3*(velocity_x*B_gsm_z-B_gsm_x*velocity_z)
       
       H_Re[i]=return_thermal_energy_flow_density(pressure[i],(velocity_gsm[i])[*,0],(velocity_gsm[i])[*,1],(velocity_gsm[i])[*,2],2)
       K_Re[i]=return_kinetic_energy_flow_density(density[i],(velocity_gsm[i])[*,0],(velocity_gsm[i])[*,1],(velocity_gsm[i])[*,2],2)
@@ -671,6 +674,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
       event_vx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,0],reverse_gap)
       event_vy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(velocity_gsm[i])[*,1],reverse_gap)
       event_ey[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],E_gsm_y[i],reverse_gap)
+      event_evy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],v_X_b_y[i],reverse_gap)
 
       event_hx[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,0],reverse_gap)
       event_hy[i]=return_vari_event((pos_gsm[i])[*,0],(pos_gsm[i])[*,1],(H_Re[i])[*,1],reverse_gap)
@@ -684,11 +688,11 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
       print,i
     endfor
     
-    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,     $
-      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'remove_duplicate_points_event_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
+;    save,t_last,eventimes,event_n,event_t,event_p,event_vx,event_vy,event_ey,event_evy,     $
+;      event_hx,event_kx,event_h_k_x,event_hy,event_ky,event_h_k_y,filename=root_dir+'remove_duplicate_points_event_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
    
-;     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,H_Re,K_Re,H_K_Re,    $
-;      filename=root_dir+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
+     save,t_c3cis,t_last,density,temperature,pressure,velocity_gsm,B_gsm,pos_gsm,E_gsm_y,v_X_b_y,H_Re,K_Re,H_K_Re,    $
+      filename=root_dir+'remove_duplicate_points_raw_data'+save_str+'_list_10minute_per_point'+region_str+'.sav'
     stop
       
   
