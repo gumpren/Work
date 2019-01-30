@@ -162,9 +162,9 @@ pro line_plot_2d_p_dawnflank
   
 ;  cgtext,0.98,0.88,'median',alignment=0,charsize=1.0,font=0,color='red',/normal
 ;  cgtext,0.98,0.85,'average',alignment=0,charsize=1.0,font=0,color='royal blue',/normal 
-  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.409], $
-       Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
-       BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15]
+;  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.109], $
+;       Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $
+;       BG_Color='white',visible=1, /AddCmd   ;, /Box, PSyms=[6,15]
 ;  
 ;  cgLegend, Colors=['black', 'black'], linestyle=[0,2],alignment=1,charsize=0.8, Symsize=0.4, Location=[0.48, 0.25], $
 ;       Titles=['N-IMF','S-IMF'], Length=0.075, VSpace=1.0, /Background, $

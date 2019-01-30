@@ -624,7 +624,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
       index_all=(index_all)[indextl]
       region_Str=''
 
-      index_pos=where(pos_gsm1[index_all,1] gt 0.0 ) & region_str='_duskflank'
+;      index_pos=where(pos_gsm1[index_all,1] gt 0.0 ) & region_str='_duskflank'
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  ) & region_str='_dawnflank'
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] lt -15.0) & region_str='_far_dawnflank'
 ;      index_pos=where(pos_gsm1[index_all,1] gt 0.0  and pos_gsm1[index_all,0] lt -15.0) & region_str='_far_duskflank'
@@ -632,8 +632,8 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      index_pos=where(pos_gsm1[index_all,1] le 0.0  and pos_gsm1[index_all,0] ge -15.0) & region_str='_near_dawnflank'
 ;      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
 ;                  and pos_gsm1[index_all,1] gt  3.0  and pos_gsm1[index_all,1] le 6.0) & region_str='_dusk_3_3re'
-;      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
-;                   and pos_gsm1[index_all,1] gt -6.0  and pos_gsm1[index_all,1] le -3.0) & region_str='_dawn_3_3re'
+      index_pos=where(pos_gsm1[index_all,0] gt -19.0 and pos_gsm1[index_all,0] le -16.0 $
+                   and pos_gsm1[index_all,1] gt -6.0  and pos_gsm1[index_all,1] le -3.0) & region_str='_dawn_3_3re'
       index_all=(index_all)[index_pos]
     
       t_c3cis[i]=t_c3cis1[index_all]
