@@ -1,10 +1,10 @@
 ;cerated by G.M. Ren   2017.11.23
 
 
-pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
+pro a2001_2012_create_raw_event_data_10minute_per_point_add_time_after_150_minutes
   
    Re=6371.0
-   root_dir='C:\__Data\Datasave\2001_2009_10minute_per_point\'
+   root_dir='C:\__Data\Datasave\2001_2012_10minute_per_point\'
    start=systime(1)
    compile_opt idl2    
     
@@ -43,13 +43,13 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      if (jj eq 2 or jj eq 17) then error_point[jj]=5
 ;      if ((jj ge 3) and (jj le 14) or (jj ge 18) and (jj le 29)) then error_point[jj]=8  ;error_point
 ;       
-;     for ii=0,106 do begin             ;divided by year
+;     for ii=0,143 do begin             ;divided by year
 ;       cdf2tplot,filename0[ii],varformat='BZ_GSM'
 ;       get_data,'BZ_GSM',time0,BZ_GSM0
 ;       append_array,time,time0
 ;       append_array,BZ_GSM,BZ_GSM0
 ;
-;       if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
+;       if (((ii+1) mod 12) eq 0) or (ii eq 143) then begin
 ;        store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
 ;        find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=marg[jj],duration=duration[jj],nint=nint,tbeg=tbeg0,tend=tend0
 ;                
@@ -79,7 +79,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      save,t_beg,t_end,savetime_t,$
 ;      filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'
 ;    stop
-;
+
  
 ;    ;part1.2   calc time after 150 minutes
 ;    tt_beg=list(length=2)
@@ -100,13 +100,13 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;
 ;      error_point=8  ;error_point
 ;
-;      for ii=0,106 do begin             ;divided by year
+;      for ii=0,143 do begin             ;divided by year
 ;        cdf2tplot,filename0[ii],varformat='BZ_GSM'
 ;        get_data,'BZ_GSM',time0,BZ_GSM0
 ;        append_array,time,time0
 ;        append_array,BZ_GSM,BZ_GSM0
 ;
-;        if (((ii+1) mod 12) eq 0) or (ii eq 106) then begin
+;        if (((ii+1) mod 12) eq 0) or (ii eq 143) then begin
 ;          store_Data,'BZ_GSM1',data={x:time,y:BZ_GSM}
 ;          find_conti_intervals,'BZ_GSM1',minvalue,maxvalue,margin=marg,duration=duration,nint=nint,tbeg=tbeg0,tend=tend0
 ;
@@ -131,7 +131,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      print,jj
 ;    endfor
 ;    save,tt_beg,tt_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_tt.sav' 
- 
+; 
 ;    ;part1.3  
 ;    ;
 ;    ; (first version I may think it wrong)revised 'append_array,t_end29,tt_beg[1]+150.0*60' remove duplicate points (when tt_beg[1]+150.0*60 eq tend29)
@@ -154,7 +154,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;      
 ;      t_beg[i]=tbeg1
 ;      t_end[i]=tend1
-;      stop
+;     ; stop
 ;    endfor
 ;   
 ;    save,t_beg,t_end,filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_remove_duplicate_points.sav'
@@ -307,7 +307,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    save_time=(systime(1)-start)/60.0
 ;    save,t_beg,t_end,save_time,  $
 ;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
-;    
+    
             
 ;    ;part 1.5    revised t_beg[0]
 ;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points.sav'
@@ -342,38 +342,38 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
 ;    save,t_beg,t_end,  $
 ;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_time_after_150_minutes_remove_duplicate_points_revised_tbeg0.sav'
 ;    stop
-  
+;  
   ; ________________________________part2________________________________________
      
     
      ;part2.1
-     for ii=8,8 do begin
-       year='200'+strcompress(ii+1,/remove)
+     for ii=9,10 do begin
+       year='20'+strcompress(ii+1,/remove)
     
        filename1=file_search('C:\__Data\Cluster\CP_FGM_SPIN\*__'+year+'*.cdf')
-       cdf2tplot,filename1,varformat=['B_mag__C3_CP_FGM_SPIN','B_vec_xyz_gse__C3_CP_FGM_SPIN','sc_pos_xyz_gse__C3_CP_FGM_SPIN']
+       cdf2tplot,filename1,varformat='*';['B_mag__C1_CP_FGM_SPIN','B_vec_xyz_gse__C1_CP_FGM_SPIN','sc_pos_xyz_gse__C1_CP_FGM_SPIN']
        ; newname=['B_mag','B_gse','pos_gse']
     
     
        filename2=file_search('C:\__Data\Cluster\CIS\CSA_Download_20161216_0640\C3_CP_CIS-HIA_ONBOARD_MOMENTS\*__'+year+'*.cdf')
-       cdf2tplot,filename2,varformat=['density__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS',$
-         'temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS','pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS']
+       cdf2tplot,filename2,varformat='*';['density__C1_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gse__C1_CP_CIS-HIA_ONBOARD_MOMENTS',$
+        ; 'temperature__C1_CP_CIS-HIA_ONBOARD_MOMENTS','pressure__C1_CP_CIS-HIA_ONBOARD_MOMENTS']
     
        filename3=file_search('C:\__Data\Cluster\EFW\C3_CP_EFW_L3_E3D_GSE\*__'+year+'*.cdf')
-       cdf2tplot,filename3,varformat=['E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE']
+       cdf2tplot,filename3,varformat='*';['E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE']
     
        factor_to_kev=1.0e6/(1000.0*11600)
-       calc,'"temperature"="temperature__C3_CP_CIS-HIA_ONBOARD_MOMENTS"*factor_to_kev'
+       calc,'"temperature"="temperature__C1_CP_CIS-HIA_ONBOARD_MOMENTS"*factor_to_kev'
        calc,'"pos_gse"="sc_pos_xyz_gse__C3_CP_FGM_SPIN"/Re'
        calc,'"B_total"="B_mag__C3_CP_FGM_SPIN"/1.0'
     
        cotrans,'B_vec_xyz_gse__C3_CP_FGM_SPIN','B_gsm',/gse2gsm
        cotrans,'pos_gse','pos_gsm',/gse2gsm
-       cotrans,'velocity_gse__C3_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gsm',/gse2gsm
+       cotrans,'velocity_gse__C1_CP_CIS-HIA_ONBOARD_MOMENTS','velocity_gsm',/gse2gsm
        cotrans,'E_Vec_xyz_GSE__C3_CP_EFW_L3_E3D_GSE','E_gsm',/gse2gsm
     
-       calc,'"density"="density__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
-       calc,'"pressure"="pressure__C3_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
+       calc,'"density"="density__C1_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
+       calc,'"pressure"="pressure__C1_CP_CIS-HIA_ONBOARD_MOMENTS"/1.0'
     
        ;clean_spikes,'pressure',nsmooth=10
     
@@ -422,7 +422,7 @@ pro create_raw_event_data_10minute_per_point_add_time_after_150_minutes
        help,a
      endfor
      print,(systime(1)-start)/60.0
-    
+     
      stop
 
     

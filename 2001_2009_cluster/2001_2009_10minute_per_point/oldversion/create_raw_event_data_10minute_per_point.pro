@@ -80,144 +80,144 @@ pro create_raw_event_data_10minute_per_point
 ;    stop
   
    
-;    ;part1.2
-;    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'  
-;;    t_b=t_beg
-;;    t_e=t_end
-;    
-;    aa=fltarr(30)
-;    for i=0,29 do begin
-;      aa[i]=N_ELEMENTS(t_end[i])
-;    endfor
-;     
-;    time_array=(10*findgen(14)+10)*60.0 
-;    
-;    for i=14,4,-1 do begin
-;      tb1=t_beg[i]
-;      te1=t_end[i]
-;      tb2=t_beg[i-1]
-;      te2=t_end[i-1]
-;      append_array,tb2,tb1
-;      append_array,te2,tb1+time_array[i-1]   
-;      t_beg[i-1]=tb2
-;      t_end[i-1]=te2
-;    
-;      tb11=t_beg[i+15]
-;      te11=t_end[i+15]
-;      tb22=t_beg[i+14]
-;      te22=t_end[i+14]
-;      append_array,tb22,tb11
-;      append_array,te22,tb11+time_array[i-1]
-;      t_beg[i+14]=tb22
-;      t_end[i+14]=te22
-;  
-;      print,i
-;    endfor
-;     
-;   ; eliminate error point 
-;;    restore,'C:\__Data\Datasave\omni_imf_bz.sav'
-;;    store_data,'BZ_GSM1',time,bz_gsm
-;     
-;    error_p=[2,3,5]  
-;    for i=3,1,-1 do begin
-;      tb1=t_beg[i]
-;      te1=t_end[i]
-;      tb2=t_beg[i-1]
-;      te2=t_end[i-1]
-;      
-;      for j=0,n_elements(tb1)-1 do begin ;
-;        tic               
-;       
-;        tb_str=time_string(tb1[j],precision=-4,format=2)             
-;        te_str=time_string(tb1[j]+time_array[i-1],precision=-4,format=2)       
-;        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
-;        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
-;        if ( (filename1 eq filename2) eq 1b) then begin
-;          filename=filename1
+    ;part1.2
+    restore,root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point.sav'  
+;    t_b=t_beg
+;    t_e=t_end
+    
+    aa=fltarr(30)
+    for i=0,29 do begin
+      aa[i]=N_ELEMENTS(t_end[i])
+    endfor
+     
+    time_array=(10*findgen(14)+10)*60.0 
+    
+    for i=14,4,-1 do begin
+      tb1=t_beg[i]
+      te1=t_end[i]
+      tb2=t_beg[i-1]
+      te2=t_end[i-1]
+      append_array,tb2,tb1
+      append_array,te2,tb1+time_array[i-1]   
+      t_beg[i-1]=tb2
+      t_end[i-1]=te2
+    
+      tb11=t_beg[i+15]
+      te11=t_end[i+15]
+      tb22=t_beg[i+14]
+      te22=t_end[i+14]
+      append_array,tb22,tb11
+      append_array,te22,tb11+time_array[i-1]
+      t_beg[i+14]=tb22
+      t_end[i+14]=te22
+  
+      print,i
+    endfor
+     
+   ; eliminate error point 
+;    restore,'C:\__Data\Datasave\omni_imf_bz.sav'
+;    store_data,'BZ_GSM1',time,bz_gsm
+     
+    error_p=[2,3,5]  
+    for i=3,1,-1 do begin
+      tb1=t_beg[i]
+      te1=t_end[i]
+      tb2=t_beg[i-1]
+      te2=t_end[i-1]
+      
+      for j=0,n_elements(tb1)-1 do begin ;
+        tic               
+       
+        tb_str=time_string(tb1[j],precision=-4,format=2)             
+        te_str=time_string(tb1[j]+time_array[i-1],precision=-4,format=2)       
+        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
+        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
+        if ( (filename1 eq filename2) eq 1b) then begin
+          filename=filename1
+        endif else begin
+          filename=[filename1,filename2]
+        endelse  
+                
+;        if(n_elements(filename) eq 1) then begin
+;          loadcdf,filename[0],'Epoch',time
+;          loadcdf,filename[0],'BZ_GSM',BZ_GSM
 ;        endif else begin
-;          filename=[filename1,filename2]
-;        endelse  
-;                
-;;        if(n_elements(filename) eq 1) then begin
-;;          loadcdf,filename[0],'Epoch',time
-;;          loadcdf,filename[0],'BZ_GSM',BZ_GSM
-;;        endif else begin
-;;          loadcdf,filename[0],'Epoch',time0
-;;          loadcdf,filename[1],'Epoch',time1
-;;          loadcdf,filename[0],'BZ_GSM',BZ_GSM0
-;;          loadcdf,filename[1],'BZ_GSM',BZ_GSM1
-;;          
-;;          time=[time0,time1]
-;;          BZ_GSM=[BZ_GSM0,BZ_GSM1]
-;;        endelse
-;;        
-;;        store_data,'BZ_GSM',time,BZ_GSM
-;                  
-;        cdf2tplot,filename,varformat=['BZ_GSM'] 
-;                
-;                     
-;        bz_temp=tsample('BZ_GSM',[tb1[j],tb1[j]+time_array[i-1]],times=t_omni_temp)
-;        indices=where(bz_temp lt 0)
-;                
-;        if ( N_ELEMENTS(indices) le error_p[i-1] ) then begin   ;
-;          append_Array,tb2,tb1[j]
-;          append_Array,te2,tb1[j]+time_array[i-1]
-;        endif
-;        
-;        toc
-;      endfor
-;     
-;      t_beg[i-1]=tb2
-;      t_end[i-1]=te2
-;
-;
-;      ;bz south
-;      tb11=t_beg[i+15]
-;      te11=t_end[i+15]
-;      tb22=t_beg[i+14]
-;      te22=t_end[i+14]      
-;      for j=0,n_elements(tb11)-1 do begin
-;        
-;        tb_str=time_string(tb11[j],precision=-4,format=2)             
-;        te_str=time_string(tb11[j]+time_array[i-1],precision=-4,format=2)       
-;        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
-;        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
-;        if ( (filename1 eq filename2) eq 1b) then begin
-;          filename=filename1
-;        endif else begin
-;          filename=[filename1,filename2]
+;          loadcdf,filename[0],'Epoch',time0
+;          loadcdf,filename[1],'Epoch',time1
+;          loadcdf,filename[0],'BZ_GSM',BZ_GSM0
+;          loadcdf,filename[1],'BZ_GSM',BZ_GSM1
+;          
+;          time=[time0,time1]
+;          BZ_GSM=[BZ_GSM0,BZ_GSM1]
 ;        endelse
-;        cdf2tplot,filename,varformat=['BZ_GSM']
-;
 ;        
-;        bz_temp=tsample('BZ_GSM',[tb11[j],tb11[j]+time_array[i-1]],times=t_omni_temp)
-;        indices=where(bz_temp gt 0)
-;
-;        if ( N_ELEMENTS(indices) le error_p[i-1] ) then begin   ;
-;          append_Array,tb22,tb11[j]
-;          append_Array,te22,tb11[j]+time_array[i-1]
-;        endif
-;      endfor
-;      t_beg[i+14]=tb22
-;      t_end[i+14]=te22
-;
-;      print,i
-;    endfor      
-;      
-;      
-;    bb=fltarr(30)
-;    for i=0,29 do begin
-;      bb[i]=N_ELEMENTS(t_end[i])
-;    endfor
-;    
-;    save_time=(systime(1)-start)/60.0
-;    save,t_beg,t_end,save_time,  $
-;          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_former_time.sav'
-; 
-;    stop
-;  
-;
-;   
+;        store_data,'BZ_GSM',time,BZ_GSM
+                  
+        cdf2tplot,filename,varformat=['BZ_GSM'] 
+                
+                     
+        bz_temp=tsample('BZ_GSM',[tb1[j],tb1[j]+time_array[i-1]],times=t_omni_temp)
+        indices=where(bz_temp lt 0)
+                
+        if ( N_ELEMENTS(indices) le error_p[i-1] ) then begin   ;
+          append_Array,tb2,tb1[j]
+          append_Array,te2,tb1[j]+time_array[i-1]
+        endif
+        
+        toc
+      endfor
+     
+      t_beg[i-1]=tb2
+      t_end[i-1]=te2
+
+
+      ;bz south
+      tb11=t_beg[i+15]
+      te11=t_end[i+15]
+      tb22=t_beg[i+14]
+      te22=t_end[i+14]      
+      for j=0,n_elements(tb11)-1 do begin
+        
+        tb_str=time_string(tb11[j],precision=-4,format=2)             
+        te_str=time_string(tb11[j]+time_array[i-1],precision=-4,format=2)       
+        filename1=file_search('C:\__Data\OMNI\*'+tb_str+'*.cdf')        
+        filename2=file_search('C:\__Data\OMNI\*'+te_str+'*.cdf')
+        if ( (filename1 eq filename2) eq 1b) then begin
+          filename=filename1
+        endif else begin
+          filename=[filename1,filename2]
+        endelse
+        cdf2tplot,filename,varformat=['BZ_GSM']
+
+        
+        bz_temp=tsample('BZ_GSM',[tb11[j],tb11[j]+time_array[i-1]],times=t_omni_temp)
+        indices=where(bz_temp gt 0)
+
+        if ( N_ELEMENTS(indices) le error_p[i-1] ) then begin   ;
+          append_Array,tb22,tb11[j]
+          append_Array,te22,tb11[j]+time_array[i-1]
+        endif
+      endfor
+      t_beg[i+14]=tb22
+      t_end[i+14]=te22
+
+      print,i
+    endfor      
+      
+      
+    bb=fltarr(30)
+    for i=0,29 do begin
+      bb[i]=N_ELEMENTS(t_end[i])
+    endfor
+    
+    save_time=(systime(1)-start)/60.0
+    save,t_beg,t_end,save_time,  $
+          filename=root_dir+'time_interval_divided_by_Bz_yearly_normal_10minute_per_point_add_former_time.sav'
+ 
+    stop
+  
+
+   
 
 
   ;; ________________________________part2________________________________________
